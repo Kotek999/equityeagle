@@ -7,7 +7,7 @@ import { JSX } from "../../../types";
 export default function Gradient({ children }: ChildProps): JSX {
   return (
     <LinearGradient
-      colors={["#263238", "#0AD42E"]}
+      colors={["#263238", "#3cd7b4"]}
       style={styles.gradient}
       start={{ x: 0.8, y: 0.8 }}
       end={{ x: 0.6, y: 1 }}
@@ -16,7 +16,7 @@ export default function Gradient({ children }: ChildProps): JSX {
     </LinearGradient>
   );
 }
-
+// #263238
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
