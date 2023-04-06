@@ -6,7 +6,7 @@ type RootStackParamList = {
   Main: undefined;
 };
 
-export type HomeScreenProps = {
+export type HomeProps = {
   navigation: NativeStackNavigationProp<RootStackParamList, SCREEN.Home>;
 };
 

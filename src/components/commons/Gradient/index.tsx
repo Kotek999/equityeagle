@@ -16,7 +16,6 @@ export default function Gradient({ children }: ChildProps): JSX {
     </LinearGradient>
   );
 }
-// #263238
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
