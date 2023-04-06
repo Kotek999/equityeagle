@@ -2,12 +2,12 @@ import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { JSX } from "./src/types";
-import HomeScreen from "./src/components/screens/HomeScreen";
-import MainScreen from "./src/components/screens/MainScreen";
+import { HomeScreen } from "./src/screens/HomeScreen";
+import { MainScreen } from "./src/screens/MainScreen";
 
 const Stack = createNativeStackNavigator();
 
-export default function RootStack(): JSX {
+export const RootStack = (): JSX => {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -35,4 +35,4 @@ export default function RootStack(): JSX {
       </Stack.Navigator>
     </NavigationContainer>
   );
-}
+};

@@ -1,10 +1,11 @@
 import * as React from "react";
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet } from "react-native";
 import { ButtonProps } from "../../../types";
+import { screenWidth } from "../../../helpers/dimensions";
 import { Button } from "@react-native-material/core";
 import { JSX } from "../../../types";
 
-export default function CustomButton({ title, onPress }: ButtonProps): JSX {
+export const CustomButton = ({ title, onPress }: ButtonProps): JSX => {
   return (
     <Button
       titleStyle={{ fontSize: 15 }}
@@ -15,13 +16,11 @@ export default function CustomButton({ title, onPress }: ButtonProps): JSX {
       onPress={onPress}
     />
   );
-}
-
-const windowWidth: number = Dimensions.get("window").width;
+};
 
 const styles = StyleSheet.create({
   button: {
-    width: windowWidth / 2,
+    width: screenWidth / 2,
     backgroundColor: "#b6843a",
   },
 });

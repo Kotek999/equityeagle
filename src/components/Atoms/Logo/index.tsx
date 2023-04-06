@@ -1,10 +1,10 @@
 import * as React from "react";
 import { View, StyleSheet, Image } from "react-native";
 import { JSX } from "../../../types";
-import { screenWidth } from "../Dimensions";
-import { logo, logoTitle } from "../ImageRequirements";
+import { screenWidth } from "../../../helpers/dimensions";
+import { logo, logoTitle } from "../../../helpers/imageRequirements";
 
-export default function Logo(): JSX {
+export const Logo = (): JSX => {
   return (
     <View>
       <Image style={styles.img} source={logo} alt="logo" />
@@ -16,7 +16,7 @@ export default function Logo(): JSX {
       />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   img: {

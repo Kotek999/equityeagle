@@ -1,15 +1,15 @@
 import * as React from "react";
-import Logo from "../../commons/Logo";
-import Slogan from "../../commons/Slogan";
-import CustomButton from "../../commons/Button";
 import { View, StyleSheet } from "react-native";
 import { HomeProps } from "../../../../rootTypeList";
 import { SCREEN } from "../../../../routes";
 import { Stack } from "@react-native-material/core";
 import { JSX } from "../../../types";
-import { screenWidth, screenHeight } from "../../commons/Dimensions";
+import { screenWidth, screenHeight } from "../../../helpers/dimensions";
+import { Slogan } from "../../Atoms/Slogan";
+import { Logo } from "../../Atoms/Logo";
+import { CustomButton } from "../../Atoms/Button";
 
-export default function Home({ navigation }: HomeProps): JSX {
+export const Home = ({ navigation }: HomeProps): JSX => {
   return (
     <View style={styles.container}>
       <Stack center style={styles.imgWithSloganContainer}>
@@ -24,7 +24,7 @@ export default function Home({ navigation }: HomeProps): JSX {
       </View>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {

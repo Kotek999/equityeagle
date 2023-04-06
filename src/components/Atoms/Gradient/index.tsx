@@ -4,7 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { ChildProps } from "../../../interfaces";
 import { JSX } from "../../../types";
 
-export default function Gradient({ children }: ChildProps): JSX {
+export const Gradient = ({ children }: ChildProps): JSX => {
   return (
     <LinearGradient
       colors={["#263238", "#3cd7b4"]}
@@ -15,7 +15,7 @@ export default function Gradient({ children }: ChildProps): JSX {
       {children}
     </LinearGradient>
   );
-}
+};
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,

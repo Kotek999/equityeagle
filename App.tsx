@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { Text } from "@react-native-material/core";
 import * as Font from "expo-font";
-import RootStack from "./root";
+import { Spinner } from "./src/components/Atoms/Spinner";
+import { RootStack } from "./root";
 import { JSX } from "./src/types";
 
 export default function App(): JSX {
@@ -9,10 +9,10 @@ export default function App(): JSX {
   useEffect(() => {
     (async () => {
       await Font.loadAsync({
-        Lato: require("./assets/fonts/Lato-Light.ttf"),
+        Lato: require("./src/assets/fonts/Lato-Light.ttf"),
       });
       setLoading(false);
     })();
   }, []);
-  return loading ? <Text>{"loading"}</Text> : <RootStack />;
+  return loading ? <Spinner /> : <RootStack />;
 }
