@@ -4,8 +4,9 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { JSX } from "./src/types";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { MainScreen } from "./src/screens/MainScreen";
+import { RootStackParamList } from "./rootTypeList";
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const RootStack = (): JSX => {
   return (
