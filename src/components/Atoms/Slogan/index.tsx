@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   sloganTitle: {
     textAlign: "center",
     justifyContent: "flex-start",
-    fontWeight: "bold",
+    fontWeight: "600",
     fontFamily: "Lato",
     color: "white",
   },
