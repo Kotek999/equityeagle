@@ -11,6 +11,67 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
   const insets = useSafeAreaInsets();
 
+  async function fetchData(symbol: string, apiKey: string): Promise<any> {
+    const apiUrl = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=${apiKey}`;
+
+    try {
+      const response = await fetch(apiUrl);
+
+      if (!response.ok) {
+        throw new Error(
+          `An error occurred while retrieving data from the ALPHA VANTAGE website, error status code: ${response.status}.`
+        );
+      }
+
+      // Status Codes:
+
+      //1XX - Informational
+      //2XX - Success   - (good)
+      //3XX - Redirection
+      //4XX - Client Error (bad)
+      //5XX - Server Error
+
+      // General Data -->
+
+      // const data = await response.json();
+      // return data;
+
+      // Information about the symbol -->
+
+      // const data = await response.json();
+      // const stockData = data["Meta Data"];
+      // for (let key in stockData) {
+      //   if (key === "2. Symbol") {
+      //     console.log(stockData[key]);
+      //   }
+      // }
+      // return stockData;
+
+      // Main Information -->
+
+      const data = await response.json();
+      const timeSeriesData = data["Time Series (5min)"];
+      for (let key in timeSeriesData) {
+        if (key === "2023-04-06 11:35:00") {
+          console.log(timeSeriesData[key]);
+          console.log(response.status);
+        }
+      }
+      return timeSeriesData;
+    } catch (error) {
+      console.error("An error occurred while displaying the symbol.");
+      throw error;
+    }
+  }
+
+  // const symbol = "AAPL";
+  // const apiKey = "SNJTSSXQOWN6LMN8";
+
+  // fetchData(symbol, apiKey)
+  //   .catch((error) => {
+  //     console.error("An error occurred while fetching the data.", error);
+  //   });
+
   return (
     <View
       style={{
