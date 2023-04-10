@@ -29,6 +29,7 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
         "5. volume": string;
       };
     };
+    [key: string]: any;
   }
 
   const StockData = () => {
@@ -36,6 +37,28 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
     const [maxOpen, setMaxOpen] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const mountedRef = useRef<boolean>(false);
+    const [trend, setTrend] = useState<string>("");
+
+    const trendUpdate = (data: any): string => {
+      let prevHighValue: number | null = null;
+      let prevLowValue: number | null = null;
+
+      for (let key in data) {
+        const high: number = parseFloat(data[key]["2. high"]);
+        const low: number = parseFloat(data[key]["3. low"]);
+
+        if (prevHighValue !== null && high > prevHighValue) {
+          return "high";
+        } else if (prevLowValue !== null && low < prevLowValue) {
+          return "low";
+        }
+
+        prevHighValue = high;
+        prevLowValue = low;
+      }
+
+      return "No change";
+    };
 
     const apiUrl: string =
       "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo";
@@ -49,8 +72,21 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
             const response = await fetch(apiUrl);
             const data: Data = await response.json();
             setSymbol(data["Meta Data"]["2. Symbol"]);
-            const timeSeriesData: Record<string, { "1. open": string }> =
-              data["Time Series (5min)"];
+            const timeSeriesData: Record<
+              string,
+              { "1. open": string; "2. high": string; "3. low": string }
+            > = data["Time Series (5min)"];
+
+            const date = "2023-04-06 20:00:00";
+            const dataForDate: any =
+              data["Time Series (5min)"][date] ?? undefined;
+
+            if (dataForDate) {
+              console.log(dataForDate);
+            } else {
+              console.log(`No data found for the date ${date}`);
+            }
+
             let maxOpen: number | null = null;
             for (let key in timeSeriesData) {
               const open: number = parseFloat(timeSeriesData[key]["1. open"]);
@@ -58,16 +94,30 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
                 maxOpen = open;
               }
             }
+
+            const newTrend = trendUpdate(data["Time Series (5min)"]);
+            setTrend(newTrend);
+
             setMaxOpen(maxOpen);
+
             setIsLoading(false);
-            console.log(data);
+            // console.log(data);
+            // console.log(symbol);
+            // console.log(maxOpen);
           } catch (error) {
             console.error("An error occurred while fetching the data.", error);
           }
         };
         fetchData();
+        // let interval = setInterval(() => {
+        //   fetchData();
+        //   console.log("data refreshed")
+        // }, 300000);
+        // fetchData();
+        // return () => clearInterval(interval);
       }
     }, []);
+    console.log("Trend:", trend);
 
     return (
       <View>
@@ -75,8 +125,9 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
           <Text>Loading...</Text>
         ) : (
           <View>
-            <Text>Symbol: {symbol}</Text>
-            <Text>Max Open: {maxOpen}</Text>
+            <Text>Name: {symbol}</Text>
+            <Text>Max Open (value): {maxOpen}</Text>
+            <Text>Trend: {trend}</Text>
           </View>
         )}
       </View>
@@ -92,7 +143,6 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
   //5XX - Server Error
 
   // const symbol = "AAPL";
-  // const apiKey = "SNJTSSXQOWN6LMN8";
 
   return (
     <View
