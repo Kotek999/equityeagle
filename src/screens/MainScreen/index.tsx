@@ -12,6 +12,7 @@ import { screenWidth } from "../../helpers/dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { LinearGradient } from "expo-linear-gradient";
 
 export const MainScreen = (): JSX => {
   const insets = useSafeAreaInsets();
@@ -100,7 +101,8 @@ export const MainScreen = (): JSX => {
           }
         };
 
-        fetchData();
+        // fetchData();
+
         // let interval = setInterval(() => {
         //   fetchData();
         //   console.log("data refreshed")
@@ -109,6 +111,33 @@ export const MainScreen = (): JSX => {
         // return () => clearInterval(interval);
       }
     }, [symbol]);
+
+    const symbolChecker = (symbol: string) => {
+      switch (symbol) {
+        case "AAPL":
+          return "Apple Inc.";
+        case "MSFT":
+          return "Microsoft Corporation";
+        case "GOOGL":
+          return "Alphabet Inc.";
+        case "TSLA":
+          return "Tesla, Inc.";
+        case "JPM":
+          return "JPMorgan Chase";
+        case "DPZ":
+          return "Domino's Pizza";
+        case "CAT":
+          return "Caterpillar Inc.";
+        case "EA":
+          return "Electronic Arts Inc.";
+        case "NFLX":
+          return "Netflix, Inc.";
+        case "BA":
+          return "Boeing Co";
+        default:
+          return "N/A";
+      }
+    };
 
     return (
       <View>
@@ -121,8 +150,30 @@ export const MainScreen = (): JSX => {
               alignContent: "center",
             }}
           >
-            <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text>
-            <ActivityIndicator size="small" color="#b6843a" />
+            {/* <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text> */}
+            {/* <ActivityIndicator size="small" color="#b6843a" /> */}
+            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
+              1.
+            </Text>
+            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
+              Icon
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                textAlign: "center",
+                color: "white",
+                textTransform: "uppercase",
+              }}
+            >
+              symbol
+            </Text>
+            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
+              N/A
+            </Text>
+            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
+              N/A
+            </Text>
           </View>
         ) : (
           <>
@@ -135,7 +186,9 @@ export const MainScreen = (): JSX => {
               }}
             >
               <Text style={{ flex: 1, textAlign: "center" }}>1.</Text>
-              <Text style={{ flex: 1, textAlign: "center" }}>Icon</Text>
+              <Text style={{ flex: 1, textAlign: "center" }}>
+                {symbolChecker(symbol)}
+              </Text>
               <Text style={{ flex: 1, textAlign: "center" }}>{symbol}</Text>
               <Text style={{ flex: 1, textAlign: "center" }}>
                 {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
@@ -148,8 +201,18 @@ export const MainScreen = (): JSX => {
     );
   };
 
-  const symbols = ["AAPL", "MSFT", "GOOGL", "TSLA"];
-
+  const symbols = [
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "TSLA",
+    "JPM",
+    "DPZ",
+    "CAT",
+    "EA",
+    "NFLX",
+    "BA",
+  ];
   return (
     <View
       style={{
