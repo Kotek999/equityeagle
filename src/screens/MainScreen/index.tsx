@@ -1,14 +1,19 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, ScrollView } from "react-native";
-import { MainScreenProps } from "../../../rootTypeList";
-import { SCREEN } from "../../../routes";
+import {
+  View,
+  Text,
+  ScrollView,
+  BackHandler,
+  Alert,
+  ActivityIndicator,
+} from "react-native";
 import { JSX } from "../../types";
 import { screenWidth } from "../../helpers/dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Box } from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 
-export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
+export const MainScreen = (): JSX => {
   const insets = useSafeAreaInsets();
 
   interface Data {
@@ -20,24 +25,28 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
       "5. Output Size": string;
       "6. Time Zone": string;
     };
-    "Time Series (5min)": {
-      [date: string]: {
-        "1. open": string;
-        "2. high": string;
-        "3. low": string;
-        "4. close": string;
-        "5. volume": string;
-      };
-    };
-    [key: string]: any;
+    "Time Series (5min)": Record<
+      string,
+      { "1. open": string; "2. high": string; "3. low": string }
+    >;
   }
 
-  const StockData = () => {
-    const [symbol, setSymbol] = useState<string>("");
+  const StockData: React.FC<{ symbol: string }> = ({ symbol }) => {
     const [maxOpen, setMaxOpen] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
-    const mountedRef = useRef<boolean>(false);
     const [trend, setTrend] = useState<string>("");
+    const mountedRef = useRef<boolean>(false);
+
+    const maxOpenUpdate = (timeSeriesData: Data["Time Series (5min)"]) => {
+      let maxOpen: number | null = null;
+      for (let key in timeSeriesData) {
+        const open: number = parseFloat(timeSeriesData[key]["1. open"]);
+        if (maxOpen === null || open > maxOpen) {
+          maxOpen = open;
+        }
+      }
+      return maxOpen;
+    };
 
     const trendUpdate = (data: any): string => {
       let prevHighValue: number | null = null;
@@ -57,57 +66,40 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
         prevLowValue = low;
       }
 
-      return "No change";
+      return "N/A";
     };
 
-    const apiUrl: string =
-      "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=IBM&interval=5min&apikey=demo";
+    // Status Codes:
+
+    //1XX - Informational
+    //2XX - Success   - (good)
+    //3XX - Redirection
+    //4XX - Client Error (bad)
+    //5XX - Server Error
 
     useEffect(() => {
       if (!mountedRef.current) {
         mountedRef.current = true;
-        const fetchData = async () => {
+        // for MSFT we have values (because it's a demo), for the rest, you need to provide the key.
+        const fetchData = async (): Promise<any> => {
+          const apiUrl: string = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=demo`;
+
           try {
-            // for IBM we have values (because it's a demo), for the rest, you need to provide the key.
             const response = await fetch(apiUrl);
             const data: Data = await response.json();
-            setSymbol(data["Meta Data"]["2. Symbol"]);
-            const timeSeriesData: Record<
-              string,
-              { "1. open": string; "2. high": string; "3. low": string }
-            > = data["Time Series (5min)"];
-
-            const date = "2023-04-06 20:00:00";
-            const dataForDate: any =
-              data["Time Series (5min)"][date] ?? undefined;
-
-            if (dataForDate) {
-              console.log(dataForDate);
-            } else {
-              console.log(`No data found for the date ${date}`);
-            }
-
-            let maxOpen: number | null = null;
-            for (let key in timeSeriesData) {
-              const open: number = parseFloat(timeSeriesData[key]["1. open"]);
-              if (maxOpen === null || open > maxOpen) {
-                maxOpen = open;
-              }
-            }
-
-            const newTrend = trendUpdate(data["Time Series (5min)"]);
-            setTrend(newTrend);
-
-            setMaxOpen(maxOpen);
-
+            setMaxOpen(maxOpenUpdate(data["Time Series (5min)"]));
+            setTrend(trendUpdate(data["Time Series (5min)"]));
             setIsLoading(false);
             // console.log(data);
-            // console.log(symbol);
-            // console.log(maxOpen);
+            console.log(
+              `The current status of the ALPHA VANTAGE website is: ${response.status}. `
+            );
+            return data;
           } catch (error) {
             console.error("An error occurred while fetching the data.", error);
           }
         };
+
         fetchData();
         // let interval = setInterval(() => {
         //   fetchData();
@@ -116,33 +108,47 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
         // fetchData();
         // return () => clearInterval(interval);
       }
-    }, []);
-    console.log("Trend:", trend);
+    }, [symbol]);
 
     return (
       <View>
         {isLoading ? (
-          <Text>Loading...</Text>
-        ) : (
-          <View>
-            <Text>Name: {symbol}</Text>
-            <Text>Max Open (value): {maxOpen}</Text>
-            <Text>Trend: {trend}</Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+            }}
+          >
+            <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text>
+            <ActivityIndicator size="small" color="#b6843a" />
           </View>
+        ) : (
+          <>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center",
+                alignContent: "center",
+              }}
+            >
+              <Text style={{ flex: 1, textAlign: "center" }}>1.</Text>
+              <Text style={{ flex: 1, textAlign: "center" }}>Icon</Text>
+              <Text style={{ flex: 1, textAlign: "center" }}>{symbol}</Text>
+              <Text style={{ flex: 1, textAlign: "center" }}>
+                {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
+              </Text>
+              <Text style={{ flex: 1, textAlign: "center" }}>{trend}</Text>
+            </View>
+          </>
         )}
       </View>
     );
   };
 
-  // Status Codes:
-
-  //1XX - Informational
-  //2XX - Success   - (good)
-  //3XX - Redirection
-  //4XX - Client Error (bad)
-  //5XX - Server Error
-
-  // const symbol = "AAPL";
+  const symbols = ["AAPL", "MSFT", "GOOGL", "TSLA"];
 
   return (
     <View
@@ -161,24 +167,35 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
       <View
         style={{
           flexDirection: "row",
-          flexWrap: "wrap",
           justifyContent: "space-between",
-          alignItems: "flex-start",
-          width: screenWidth - 20,
           paddingTop: insets.top + 20,
-          backgroundColor: "#263238",
-          top: 0,
+          width: screenWidth - 24,
+          marginBottom: 10,
         }}
       >
-        <Text style={{ color: "white", fontSize: 23, marginBottom: 10 }}>
-          Main Screen
-        </Text>
-        <MaterialCommunityIcons
-          name="close"
-          size={32}
-          color="red"
-          onPress={() => navigation.push(SCREEN.Home)}
-        />
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Text style={{ color: "white", fontSize: 23, fontFamily: "Lato" }}>
+            Main Screen
+          </Text>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <MaterialCommunityIcons
+            name="logout"
+            size={32}
+            color="#d32f2f"
+            onPress={() => {
+              Alert.alert(
+                "Exit",
+                "Are you sure you want to exit the app?",
+                [
+                  { text: "Cancel", style: "cancel" },
+                  { text: "OK", onPress: () => BackHandler.exitApp() },
+                ],
+                { cancelable: false }
+              );
+            }}
+          />
+        </View>
       </View>
       <Box
         w={screenWidth - 20}
@@ -186,7 +203,8 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
         m={4}
         radius={14}
         style={{
-          backgroundColor: "#37d67a",
+          // backgroundColor: "#b6843a", the same color as button
+          backgroundColor: "#00d084",
           justifyContent: "center",
           marginBottom: 10,
         }}
@@ -199,29 +217,86 @@ export const MainScreen = ({ navigation }: MainScreenProps): JSX => {
             alignContent: "center",
           }}
         >
-          <Text>Position</Text>
-          <Text>Icon</Text>
-          <Text>Name</Text>
-          <Text>Value</Text>
-          <Text>Increase / Decrease</Text>
+          <Text
+            style={{
+              flex: 1,
+              textAlign: "center",
+              color: "white",
+              textTransform: "uppercase",
+              fontFamily: "Lato",
+            }}
+          >
+            Place
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              textAlign: "center",
+              color: "white",
+              textTransform: "uppercase",
+              fontFamily: "Lato",
+            }}
+          >
+            Icon
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              textAlign: "center",
+              color: "white",
+              textTransform: "uppercase",
+              fontFamily: "Lato",
+            }}
+          >
+            Name
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              textAlign: "center",
+              color: "white",
+              textTransform: "uppercase",
+              fontFamily: "Lato",
+            }}
+          >
+            Value
+          </Text>
+          <Text
+            style={{
+              flex: 1,
+              textAlign: "center",
+              color: "white",
+              textTransform: "uppercase",
+              fontFamily: "Lato",
+            }}
+          >
+            Trend
+          </Text>
         </View>
       </Box>
       <ScrollView
         style={{ bottom: 0, marginBottom: 40, marginTop: 0 }}
         contentContainerStyle={{ paddingBottom: 40 }}
       >
-        {Array.from(Array(1)).map((_, index) => (
-          <View key={index}>
+        <React.Fragment>
+          {symbols.map((symbol, i) => (
             <Box
+              key={`box-${i}`}
               w={screenWidth - 20}
               h={50}
               m={4}
               radius={14}
-              style={{ backgroundColor: "#455a64", top: 20, margin: 10 }}
-            />
-            <StockData />
-          </View>
-        ))}
+              style={{
+                backgroundColor: "#455a64",
+                justifyContent: "center",
+                marginBottom: 10,
+                top: 20,
+              }}
+            >
+              <StockData key={`stockData-${i}`} symbol={symbol} />
+            </Box>
+          ))}
+        </React.Fragment>
       </ScrollView>
     </View>
   );
