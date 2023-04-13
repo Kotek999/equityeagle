@@ -6,11 +6,12 @@ import {
   BackHandler,
   Alert,
   ActivityIndicator,
+  Image,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenWidth } from "../../helpers/dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Box } from "@react-native-material/core";
+import { Badge, Box } from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { LinearGradient } from "expo-linear-gradient";
 
@@ -32,7 +33,10 @@ export const MainScreen = (): JSX => {
     >;
   }
 
-  const StockData: React.FC<{ symbol: string }> = ({ symbol }) => {
+  const StockData: React.FC<{ symbol: string; place: number }> = ({
+    symbol,
+    place,
+  }) => {
     const [maxOpen, setMaxOpen] = useState<number | null>(null);
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [trend, setTrend] = useState<string>("");
@@ -92,9 +96,9 @@ export const MainScreen = (): JSX => {
             setTrend(trendUpdate(data["Time Series (5min)"]));
             setIsLoading(false);
             // console.log(data);
-            console.log(
-              `The current status of the ALPHA VANTAGE website is: ${response.status}. `
-            );
+            // console.log(
+            //   `The current status of the ALPHA VANTAGE website is: ${response.status}. `
+            // );
             return data;
           } catch (error) {
             console.error("An error occurred while fetching the data.", error);
@@ -112,10 +116,31 @@ export const MainScreen = (): JSX => {
       }
     }, [symbol]);
 
+    const logo = require("../../assets/icons/TSLA.png");
+
+    const Icon = () => {
+      return (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            alignContent: "center",
+          }}
+        >
+          <Image
+            source={logo}
+            resizeMode="contain"
+            style={{ width: "100%", height: 30 }}
+          />
+        </View>
+      );
+    };
+
     const symbolChecker = (symbol: string) => {
       switch (symbol) {
         case "AAPL":
-          return "Apple Inc.";
+          return <Icon />;
         case "MSFT":
           return "Microsoft Corporation";
         case "GOOGL":
@@ -139,6 +164,33 @@ export const MainScreen = (): JSX => {
       }
     };
 
+    // const symbolChecker = (symbol: string) => {
+    //   switch (symbol) {
+    //     case "AAPL":
+    //       return "Apple Inc.";
+    //     case "MSFT":
+    //       return "Microsoft Corporation";
+    //     case "GOOGL":
+    //       return "Alphabet Inc.";
+    //     case "TSLA":
+    //       return "Tesla, Inc.";
+    //     case "JPM":
+    //       return "JPMorgan Chase";
+    //     case "DPZ":
+    //       return "Domino's Pizza";
+    //     case "CAT":
+    //       return "Caterpillar Inc.";
+    //     case "EA":
+    //       return "Electronic Arts Inc.";
+    //     case "NFLX":
+    //       return "Netflix, Inc.";
+    //     case "BA":
+    //       return "Boeing Co";
+    //     default:
+    //       return "N/A";
+    //   }
+    // };
+
     return (
       <View>
         {isLoading ? (
@@ -152,7 +204,7 @@ export const MainScreen = (): JSX => {
           >
             {/* <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text> */}
             {/* <ActivityIndicator size="small" color="#b6843a" /> */}
-            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
+            {/* <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
               1.
             </Text>
             <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
@@ -173,7 +225,7 @@ export const MainScreen = (): JSX => {
             </Text>
             <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
               N/A
-            </Text>
+            </Text> */}
           </View>
         ) : (
           <>
@@ -185,7 +237,9 @@ export const MainScreen = (): JSX => {
                 alignContent: "center",
               }}
             >
-              <Text style={{ flex: 1, textAlign: "center" }}>1.</Text>
+              <Text
+                style={{ flex: 1, textAlign: "center" }}
+              >{`${place}.`}</Text>
               <Text style={{ flex: 1, textAlign: "center" }}>
                 {symbolChecker(symbol)}
               </Text>
@@ -193,7 +247,20 @@ export const MainScreen = (): JSX => {
               <Text style={{ flex: 1, textAlign: "center" }}>
                 {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
               </Text>
-              <Text style={{ flex: 1, textAlign: "center" }}>{trend}</Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  color:
+                    trend === "low"
+                      ? "red"
+                      : "lime" && trend === "N/A"
+                      ? "white"
+                      : "white",
+                }}
+              >
+                {trend}
+              </Text>
             </View>
           </>
         )}
@@ -337,6 +404,22 @@ export const MainScreen = (): JSX => {
           </Text>
         </View>
       </Box>
+      <View
+        style={{
+          flexDirection: "row",
+          alignItems: "flex-start",
+          alignContent: "center",
+          alignSelf: "flex-start",
+          marginBottom: 10,
+        }}
+      >
+        <Badge
+          style={{ marginLeft: 10 }}
+          labelStyle={{ color: "#abb8c3" }}
+          label="Data refreshed every 5 minutes"
+          color="#263238"
+        />
+      </View>
       <ScrollView
         style={{ bottom: 0, marginBottom: 40, marginTop: 0 }}
         contentContainerStyle={{ paddingBottom: 40 }}
@@ -353,10 +436,9 @@ export const MainScreen = (): JSX => {
                 backgroundColor: "#455a64",
                 justifyContent: "center",
                 marginBottom: 10,
-                top: 20,
               }}
             >
-              <StockData key={`stockData-${i}`} symbol={symbol} />
+              <StockData key={`stockData-${i}`} symbol={symbol} place={i + 1} />
             </Box>
           ))}
         </React.Fragment>
