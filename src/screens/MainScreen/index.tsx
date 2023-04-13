@@ -7,13 +7,15 @@ import {
   Alert,
   ActivityIndicator,
   Image,
+  ImageSourcePropType,
+  ImageURISource,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenWidth } from "../../helpers/dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Badge, Box } from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { LinearGradient } from "expo-linear-gradient";
+import isIOS from "../../helpers/rulesOfDevice/isIOS";
 
 export const MainScreen = (): JSX => {
   const insets = useSafeAreaInsets();
@@ -61,10 +63,18 @@ export const MainScreen = (): JSX => {
         const high: number = parseFloat(data[key]["2. high"]);
         const low: number = parseFloat(data[key]["3. low"]);
 
+        const up: any = () => (
+          <MaterialCommunityIcons name="trending-up" size={32} color="lime" />
+        );
+
+        const down: any = () => (
+          <MaterialCommunityIcons name="trending-down" size={32} color="red" />
+        );
+
         if (prevHighValue !== null && high > prevHighValue) {
-          return "high";
+          return up;
         } else if (prevLowValue !== null && low < prevLowValue) {
-          return "low";
+          return down;
         }
 
         prevHighValue = high;
@@ -116,9 +126,22 @@ export const MainScreen = (): JSX => {
       }
     }, [symbol]);
 
-    const logo = require("../../assets/icons/TSLA.png");
+    const iconAAPL = require("../../assets/icons/AAPL.png");
+    const iconMSFT = require("../../assets/icons/MSFT.png");
+    const iconGOOGL = require("../../assets/icons/GOOGL.png");
+    const iconTSLA = require("../../assets/icons/TSLA.png");
+    const iconJPM = require("../../assets/icons/JPM.png");
+    const iconDPZ = require("../../assets/icons/DPZ.png");
+    const iconCAT = require("../../assets/icons/CAT.png");
+    const iconEA = require("../../assets/icons/EA.png");
+    const iconNFLX = require("../../assets/icons/NFLX.png");
+    const iconBA = require("../../assets/icons/BA.png");
 
-    const Icon = () => {
+    interface IconProps {
+      source: ImageSourcePropType;
+    }
+
+    const Icon = ({ source }: IconProps): JSX => {
       return (
         <View
           style={{
@@ -129,67 +152,37 @@ export const MainScreen = (): JSX => {
           }}
         >
           <Image
-            source={logo}
+            source={source}
             resizeMode="contain"
-            style={{ width: "100%", height: 30 }}
+            resizeMethod="auto"
+            style={{ width: isIOS() ? "100%" : 50, height: 30 }}
           />
         </View>
       );
     };
 
-    const symbolChecker = (symbol: string) => {
-      switch (symbol) {
-        case "AAPL":
-          return <Icon />;
-        case "MSFT":
-          return "Microsoft Corporation";
-        case "GOOGL":
-          return "Alphabet Inc.";
-        case "TSLA":
-          return "Tesla, Inc.";
-        case "JPM":
-          return "JPMorgan Chase";
-        case "DPZ":
-          return "Domino's Pizza";
-        case "CAT":
-          return "Caterpillar Inc.";
-        case "EA":
-          return "Electronic Arts Inc.";
-        case "NFLX":
-          return "Netflix, Inc.";
-        case "BA":
-          return "Boeing Co";
-        default:
-          return "N/A";
-      }
+    type IconType = {
+      uri: string;
     };
 
-    // const symbolChecker = (symbol: string) => {
-    //   switch (symbol) {
-    //     case "AAPL":
-    //       return "Apple Inc.";
-    //     case "MSFT":
-    //       return "Microsoft Corporation";
-    //     case "GOOGL":
-    //       return "Alphabet Inc.";
-    //     case "TSLA":
-    //       return "Tesla, Inc.";
-    //     case "JPM":
-    //       return "JPMorgan Chase";
-    //     case "DPZ":
-    //       return "Domino's Pizza";
-    //     case "CAT":
-    //       return "Caterpillar Inc.";
-    //     case "EA":
-    //       return "Electronic Arts Inc.";
-    //     case "NFLX":
-    //       return "Netflix, Inc.";
-    //     case "BA":
-    //       return "Boeing Co";
-    //     default:
-    //       return "N/A";
-    //   }
-    // };
+    const symbolChecker = (symbol: string): JSX.Element | string => {
+      const iconMap: Record<string, IconType> = {
+        AAPL: iconAAPL,
+        MSFT: iconMSFT,
+        GOOGL: iconGOOGL,
+        TSLA: iconTSLA,
+        JPM: iconJPM,
+        DPZ: iconDPZ,
+        CAT: iconCAT,
+        EA: iconEA,
+        NFLX: iconNFLX,
+        BA: iconBA,
+      };
+
+      const source = iconMap[symbol];
+
+      return source ? <Icon source={source} /> : "N/A";
+    };
 
     return (
       <View>
@@ -238,13 +231,34 @@ export const MainScreen = (): JSX => {
               }}
             >
               <Text
-                style={{ flex: 1, textAlign: "center" }}
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily: "Lato",
+                }}
               >{`${place}.`}</Text>
               <Text style={{ flex: 1, textAlign: "center" }}>
                 {symbolChecker(symbol)}
               </Text>
-              <Text style={{ flex: 1, textAlign: "center" }}>{symbol}</Text>
-              <Text style={{ flex: 1, textAlign: "center" }}>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily: "Lato",
+                }}
+              >
+                {symbol}
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily: "Lato",
+                }}
+              >
                 {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
               </Text>
               <Text
