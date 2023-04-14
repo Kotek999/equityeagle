@@ -5,10 +5,12 @@ import {
   ScrollView,
   BackHandler,
   Alert,
+  Linking,
   ActivityIndicator,
   Image,
   ImageSourcePropType,
   ImageURISource,
+  Platform,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenWidth } from "../../helpers/dimensions";
@@ -16,6 +18,7 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Badge, Box } from "@react-native-material/core";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import isIOS from "../../helpers/rulesOfDevice/isIOS";
+import { logoTitle } from "../../helpers/imageRequirements";
 
 export const MainScreen = (): JSX => {
   const insets = useSafeAreaInsets();
@@ -130,12 +133,12 @@ export const MainScreen = (): JSX => {
     const iconMSFT = require("../../assets/icons/MSFT.png");
     const iconGOOGL = require("../../assets/icons/GOOGL.png");
     const iconTSLA = require("../../assets/icons/TSLA.png");
-    const iconJPM = require("../../assets/icons/JPM.png");
+    const iconNVDA = require("../../assets/icons/NVDA.png");
     const iconDPZ = require("../../assets/icons/DPZ.png");
     const iconCAT = require("../../assets/icons/CAT.png");
     const iconEA = require("../../assets/icons/EA.png");
     const iconNFLX = require("../../assets/icons/NFLX.png");
-    const iconBA = require("../../assets/icons/BA.png");
+    const iconSPCE = require("../../assets/icons/SPCE.png");
 
     interface IconProps {
       source: ImageSourcePropType;
@@ -155,7 +158,7 @@ export const MainScreen = (): JSX => {
             source={source}
             resizeMode="contain"
             resizeMethod="auto"
-            style={{ width: isIOS() ? "100%" : 50, height: 30 }}
+            style={{ width: isIOS() ? "100%" : 50, height: 35 }}
           />
         </View>
       );
@@ -171,12 +174,12 @@ export const MainScreen = (): JSX => {
         MSFT: iconMSFT,
         GOOGL: iconGOOGL,
         TSLA: iconTSLA,
-        JPM: iconJPM,
+        NVDA: iconNVDA,
         DPZ: iconDPZ,
         CAT: iconCAT,
         EA: iconEA,
         NFLX: iconNFLX,
-        BA: iconBA,
+        SPCE: iconSPCE,
       };
 
       const source = iconMap[symbol];
@@ -197,7 +200,7 @@ export const MainScreen = (): JSX => {
           >
             {/* <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text> */}
             {/* <ActivityIndicator size="small" color="#b6843a" /> */}
-            {/* <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
+            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
               1.
             </Text>
             <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
@@ -218,7 +221,7 @@ export const MainScreen = (): JSX => {
             </Text>
             <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
               N/A
-            </Text> */}
+            </Text>
           </View>
         ) : (
           <>
@@ -287,12 +290,12 @@ export const MainScreen = (): JSX => {
     "MSFT",
     "GOOGL",
     "TSLA",
-    "JPM",
+    "NVDA",
     "DPZ",
     "CAT",
     "EA",
     "NFLX",
-    "BA",
+    "SPCE",
   ];
   return (
     <View
@@ -318,9 +321,13 @@ export const MainScreen = (): JSX => {
         }}
       >
         <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Text style={{ color: "white", fontSize: 23, fontFamily: "Lato" }}>
-            Main Screen
-          </Text>
+          <Image
+            resizeMode="contain"
+            resizeMethod="auto"
+            style={{ width: screenWidth / 2, height: 40 }}
+            source={logoTitle}
+            alt="titleOfLogo"
+          />
         </View>
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <MaterialCommunityIcons
@@ -333,7 +340,16 @@ export const MainScreen = (): JSX => {
                 "Are you sure you want to exit the app?",
                 [
                   { text: "Cancel", style: "cancel" },
-                  { text: "OK", onPress: () => BackHandler.exitApp() },
+                  {
+                    text: "OK",
+                    onPress: () => {
+                      if (Platform.OS === "ios") {
+                        Linking.openURL("app-settings:");
+                      } else {
+                        BackHandler.exitApp();
+                      }
+                    },
+                  },
                 ],
                 { cancelable: false }
               );
@@ -436,7 +452,7 @@ export const MainScreen = (): JSX => {
       </View>
       <ScrollView
         style={{ bottom: 0, marginBottom: 40, marginTop: 0 }}
-        contentContainerStyle={{ paddingBottom: 40 }}
+        contentContainerStyle={{ paddingBottom: 40, width: screenWidth }}
       >
         <React.Fragment>
           {symbols.map((symbol, i) => (
@@ -450,6 +466,7 @@ export const MainScreen = (): JSX => {
                 backgroundColor: "#455a64",
                 justifyContent: "center",
                 marginBottom: 10,
+                left: 5,
               }}
             >
               <StockData key={`stockData-${i}`} symbol={symbol} place={i + 1} />
