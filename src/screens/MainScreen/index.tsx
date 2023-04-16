@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import isIOS from "../../helpers/rulesOfDevice/isIOS";
 import {
   View,
   Text,
@@ -9,15 +11,12 @@ import {
   ActivityIndicator,
   Image,
   ImageSourcePropType,
-  ImageURISource,
   Platform,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenWidth } from "../../helpers/dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Badge, Box } from "@react-native-material/core";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import isIOS from "../../helpers/rulesOfDevice/isIOS";
+import { Badge, Box, AppBar } from "@react-native-material/core";
 import { logoTitle } from "../../helpers/imageRequirements";
 
 export const MainScreen = (): JSX => {
@@ -118,7 +117,7 @@ export const MainScreen = (): JSX => {
           }
         };
 
-        // fetchData();
+        fetchData();
 
         // let interval = setInterval(() => {
         //   fetchData();
@@ -198,9 +197,9 @@ export const MainScreen = (): JSX => {
               alignContent: "center",
             }}
           >
-            {/* <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text> */}
-            {/* <ActivityIndicator size="small" color="#b6843a" /> */}
-            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
+            <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text>
+            <ActivityIndicator size="small" color="#b6843a" />
+            {/* <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
               1.
             </Text>
             <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
@@ -221,7 +220,7 @@ export const MainScreen = (): JSX => {
             </Text>
             <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
               N/A
-            </Text>
+            </Text> */}
           </View>
         ) : (
           <>
@@ -241,6 +240,12 @@ export const MainScreen = (): JSX => {
                   fontFamily: "Lato",
                 }}
               >{`${place}.`}</Text>
+              <MaterialCommunityIcons
+                name="information-outline"
+                size={20}
+                color="#b6843a"
+                onPress={() => console.log(`Clicked to info for: ${symbol}`)}
+              />
               <Text style={{ flex: 1, textAlign: "center" }}>
                 {symbolChecker(symbol)}
               </Text>
@@ -300,7 +305,6 @@ export const MainScreen = (): JSX => {
   return (
     <View
       style={{
-        alignItems: "center",
         position: "absolute",
         top: 0,
         bottom: 0,
@@ -313,127 +317,135 @@ export const MainScreen = (): JSX => {
     >
       <View
         style={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          paddingTop: insets.top + 20,
-          width: screenWidth - 24,
+          paddingTop: insets.top,
           marginBottom: 10,
+          alignItems: "center",
+          backgroundColor: "#263238",
         }}
       >
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <Image
-            resizeMode="contain"
-            resizeMethod="auto"
-            style={{ width: screenWidth / 2, height: 40 }}
-            source={logoTitle}
-            alt="titleOfLogo"
-          />
-        </View>
-        <View style={{ flexDirection: "row", alignItems: "center" }}>
-          <MaterialCommunityIcons
-            name="logout"
-            size={32}
-            color="#d32f2f"
-            onPress={() => {
-              Alert.alert(
-                "Exit",
-                "Are you sure you want to exit the app?",
-                [
-                  { text: "Cancel", style: "cancel" },
-                  {
-                    text: "OK",
-                    onPress: () => {
-                      if (Platform.OS === "ios") {
-                        Linking.openURL("app-settings:");
-                      } else {
-                        BackHandler.exitApp();
-                      }
-                    },
-                  },
-                ],
-                { cancelable: false }
-              );
-            }}
-          />
-        </View>
+        <AppBar
+          style={{ backgroundColor: "#152127", width: screenWidth }}
+          leading={() => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <Image
+                resizeMode="contain"
+                resizeMethod="scale"
+                style={{ width: "75%", height: 50 }}
+                source={logoTitle}
+                alt="titleOfLogo"
+              />
+            </View>
+          )}
+          trailing={() => (
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <MaterialCommunityIcons
+                name="logout"
+                size={32}
+                color="#d32f2f"
+                onPress={() => {
+                  Alert.alert(
+                    "Exit",
+                    "Are you sure you want to exit the app?",
+                    [
+                      { text: "Cancel", style: "cancel" },
+                      {
+                        text: "OK",
+                        onPress: () => {
+                          if (Platform.OS === "ios") {
+                            Linking.openURL("app-settings:");
+                          } else {
+                            BackHandler.exitApp();
+                          }
+                        },
+                      },
+                    ],
+                    { cancelable: false }
+                  );
+                }}
+              />
+            </View>
+          )}
+        />
       </View>
-      <Box
-        w={screenWidth - 20}
-        h={50}
-        m={4}
-        radius={14}
-        style={{
-          // backgroundColor: "#b6843a", the same color as button
-          backgroundColor: "#00d084",
-          justifyContent: "center",
-          marginBottom: 10,
-        }}
-      >
-        <View
+      <View style={{ alignItems: "center" }}>
+        <Box
+          w={screenWidth - 20}
+          h={50}
+          m={4}
+          radius={14}
           style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-            alignContent: "center",
+            // backgroundColor: "#b6843a", the same color as button
+            backgroundColor: "#00d084",
+            justifyContent: "center",
+            marginBottom: 10,
           }}
         >
-          <Text
+          <View
             style={{
-              flex: 1,
-              textAlign: "center",
-              color: "white",
-              textTransform: "uppercase",
-              fontFamily: "Lato",
+              flexDirection: "row",
+              justifyContent: "space-around",
+              alignItems: "center",
+              alignContent: "center",
             }}
           >
-            Place
-          </Text>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "center",
-              color: "white",
-              textTransform: "uppercase",
-              fontFamily: "Lato",
-            }}
-          >
-            Icon
-          </Text>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "center",
-              color: "white",
-              textTransform: "uppercase",
-              fontFamily: "Lato",
-            }}
-          >
-            Name
-          </Text>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "center",
-              color: "white",
-              textTransform: "uppercase",
-              fontFamily: "Lato",
-            }}
-          >
-            Value
-          </Text>
-          <Text
-            style={{
-              flex: 1,
-              textAlign: "center",
-              color: "white",
-              textTransform: "uppercase",
-              fontFamily: "Lato",
-            }}
-          >
-            Trend
-          </Text>
-        </View>
-      </Box>
+            <Text
+              style={{
+                flex: 1,
+                textAlign: "center",
+                color: "white",
+                textTransform: "uppercase",
+                fontFamily: "Lato",
+              }}
+            >
+              Place
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                textAlign: "center",
+                color: "white",
+                textTransform: "uppercase",
+                fontFamily: "Lato",
+              }}
+            >
+              Icon
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                textAlign: "center",
+                color: "white",
+                textTransform: "uppercase",
+                fontFamily: "Lato",
+              }}
+            >
+              Name
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                textAlign: "center",
+                color: "white",
+                textTransform: "uppercase",
+                fontFamily: "Lato",
+              }}
+            >
+              Value
+            </Text>
+            <Text
+              style={{
+                flex: 1,
+                textAlign: "center",
+                color: "white",
+                textTransform: "uppercase",
+                fontFamily: "Lato",
+              }}
+            >
+              Trend
+            </Text>
+          </View>
+        </Box>
+      </View>
       <View
         style={{
           flexDirection: "row",
@@ -445,7 +457,7 @@ export const MainScreen = (): JSX => {
       >
         <Badge
           style={{ marginLeft: 10 }}
-          labelStyle={{ color: "#abb8c3" }}
+          labelStyle={{ color: "#abb8c3", fontFamily: "Lato" }}
           label="Data refreshed every 5 minutes"
           color="#263238"
         />
