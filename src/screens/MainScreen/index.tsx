@@ -1,6 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import isIOS from "../../helpers/rulesOfDevice/isIOS";
+import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import {
+  BottomSheetModal,
+  BottomSheetModalProvider,
+} from "@gorhom/bottom-sheet";
 import {
   View,
   Text,
@@ -14,12 +19,81 @@ import {
   Platform,
 } from "react-native";
 import { JSX } from "../../types";
-import { screenWidth } from "../../helpers/dimensions";
+import { screenHeight, screenWidth } from "../../helpers/dimensions";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Badge, Box, AppBar } from "@react-native-material/core";
+import { Badge, Box, AppBar, IconButton } from "@react-native-material/core";
 import { logoTitle } from "../../helpers/imageRequirements";
 
 export const MainScreen = (): JSX => {
+  const iconAAPL = require("../../assets/icons/AAPL.png");
+  const iconMSFT = require("../../assets/icons/MSFT.png");
+  const iconGOOGL = require("../../assets/icons/GOOGL.png");
+  const iconTSLA = require("../../assets/icons/TSLA.png");
+  const iconNVDA = require("../../assets/icons/NVDA.png");
+  const iconDPZ = require("../../assets/icons/DPZ.png");
+  const iconCAT = require("../../assets/icons/CAT.png");
+  const iconEA = require("../../assets/icons/EA.png");
+  const iconNFLX = require("../../assets/icons/NFLX.png");
+  const iconSPCE = require("../../assets/icons/SPCE.png");
+
+  interface IconProps {
+    source: ImageSourcePropType;
+  }
+
+  const SymbolIcon = ({ source }: IconProps): JSX => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
+        <Image
+          source={source}
+          resizeMode="contain"
+          resizeMethod="auto"
+          style={{ width: isIOS() ? "100%" : 50, height: 35 }}
+        />
+      </View>
+    );
+  };
+
+  type IconType = {
+    uri: string;
+  };
+
+  const symbolChecker = (symbol: string): JSX.Element | string => {
+    const iconMap: Record<string, IconType> = {
+      AAPL: iconAAPL,
+      MSFT: iconMSFT,
+      GOOGL: iconGOOGL,
+      TSLA: iconTSLA,
+      NVDA: iconNVDA,
+      DPZ: iconDPZ,
+      CAT: iconCAT,
+      EA: iconEA,
+      NFLX: iconNFLX,
+      SPCE: iconSPCE,
+    };
+
+    const source = iconMap[symbol];
+
+    return source ? <SymbolIcon source={source} /> : "N/A";
+  };
+
+  const placeRef = useRef(0);
+  const symbolRef = useRef("");
+  const maxOpenRef = useRef(0);
+  const trendRef = useRef("");
+
+  const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+
+  const onClickOpenModal = () => {
+    bottomSheetModalRef.current?.present();
+  };
+
   const insets = useSafeAreaInsets();
 
   interface Data {
@@ -36,6 +110,56 @@ export const MainScreen = (): JSX => {
       { "1. open": string; "2. high": string; "3. low": string }
     >;
   }
+
+  const ModalData: React.FC = () => {
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+      setIsLoading(false);
+    }, [
+      placeRef.current,
+      symbolRef.current,
+      maxOpenRef.current,
+      trendRef.current,
+    ]);
+
+    return (
+      <View style={{ alignItems: "center", alignContent: "center" }}>
+        {isLoading ? (
+          <Text style={{ color: "white" }}>Loading...</Text>
+        ) : (
+          <View>
+            <Text style={{ color: "white", marginBottom: 10 }}>
+              {placeRef.current}
+            </Text>
+            <Text style={{ color: "white", marginBottom: 10 }}>
+              {symbolRef.current}
+            </Text>
+            {symbolChecker(symbolRef.current)}
+            <Text style={{ color: "white", marginBottom: 10 }}>
+              {maxOpenRef.current !== null
+                ? maxOpenRef.current.toFixed(2)
+                : "N/A"}
+            </Text>
+            <Text style={{ color: "white" }}>{trendRef.current}</Text>
+          </View>
+        )}
+      </View>
+    );
+  };
+
+  const onModalOpened = (
+    symbol: string,
+    place: number,
+    maxOpen: number | null,
+    trend: string
+  ) => {
+    placeRef.current = place;
+    symbolRef.current = symbol;
+    maxOpenRef.current = maxOpen != null ? maxOpen : 0;
+    trendRef.current = trend;
+    onClickOpenModal();
+  };
 
   const StockData: React.FC<{ symbol: string; place: number }> = ({
     symbol,
@@ -128,64 +252,6 @@ export const MainScreen = (): JSX => {
       }
     }, [symbol]);
 
-    const iconAAPL = require("../../assets/icons/AAPL.png");
-    const iconMSFT = require("../../assets/icons/MSFT.png");
-    const iconGOOGL = require("../../assets/icons/GOOGL.png");
-    const iconTSLA = require("../../assets/icons/TSLA.png");
-    const iconNVDA = require("../../assets/icons/NVDA.png");
-    const iconDPZ = require("../../assets/icons/DPZ.png");
-    const iconCAT = require("../../assets/icons/CAT.png");
-    const iconEA = require("../../assets/icons/EA.png");
-    const iconNFLX = require("../../assets/icons/NFLX.png");
-    const iconSPCE = require("../../assets/icons/SPCE.png");
-
-    interface IconProps {
-      source: ImageSourcePropType;
-    }
-
-    const Icon = ({ source }: IconProps): JSX => {
-      return (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            alignContent: "center",
-          }}
-        >
-          <Image
-            source={source}
-            resizeMode="contain"
-            resizeMethod="auto"
-            style={{ width: isIOS() ? "100%" : 50, height: 35 }}
-          />
-        </View>
-      );
-    };
-
-    type IconType = {
-      uri: string;
-    };
-
-    const symbolChecker = (symbol: string): JSX.Element | string => {
-      const iconMap: Record<string, IconType> = {
-        AAPL: iconAAPL,
-        MSFT: iconMSFT,
-        GOOGL: iconGOOGL,
-        TSLA: iconTSLA,
-        NVDA: iconNVDA,
-        DPZ: iconDPZ,
-        CAT: iconCAT,
-        EA: iconEA,
-        NFLX: iconNFLX,
-        SPCE: iconSPCE,
-      };
-
-      const source = iconMap[symbol];
-
-      return source ? <Icon source={source} /> : "N/A";
-    };
-
     return (
       <View>
         {isLoading ? (
@@ -244,7 +310,9 @@ export const MainScreen = (): JSX => {
                 name="information-outline"
                 size={20}
                 color="#b6843a"
-                onPress={() => console.log(`Clicked to info for: ${symbol}`)}
+                onPress={() => {
+                  onModalOpened(symbol, place, maxOpen, trend);
+                }}
               />
               <Text style={{ flex: 1, textAlign: "center" }}>
                 {symbolChecker(symbol)}
@@ -486,6 +554,39 @@ export const MainScreen = (): JSX => {
           ))}
         </React.Fragment>
       </ScrollView>
+      <BottomSheetModalProvider>
+        <View
+          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        >
+          <BottomSheetModal
+            enablePanDownToClose={true}
+            ref={bottomSheetModalRef}
+            index={0}
+            snapPoints={[screenHeight / 2, 500, "80%"]}
+            handleIndicatorStyle={{ backgroundColor: "#152127", opacity: 0.5 }}
+            backgroundStyle={{ backgroundColor: "#152127" }}
+            enableDismissOnClose={true}
+          >
+            <ModalData />
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "flex-end",
+                alignContent: "flex-end",
+                height: screenHeight / 4,
+              }}
+            >
+              <IconButton
+                icon={(props): any => <Icon name="close" {...props} />}
+                color="white"
+                style={{ width: 40, height: 40, backgroundColor: "#00d084" }}
+                onPress={() => bottomSheetModalRef.current?.close()}
+              />
+            </View>
+          </BottomSheetModal>
+        </View>
+      </BottomSheetModalProvider>
     </View>
   );
 };
