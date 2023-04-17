@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import isIOS from "../../helpers/rulesOfDevice/isIOS";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
+import Toast from "react-native-toast-message";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -9,6 +10,7 @@ import {
 import {
   View,
   Text,
+  Button,
   ScrollView,
   BackHandler,
   Alert,
@@ -25,7 +27,16 @@ import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Badge, Box, AppBar, IconButton } from "@react-native-material/core";
 import { logoTitle } from "../../helpers/imageRequirements";
 
+// TODO --> powerfull refactor
+
 export const MainScreen = (): JSX => {
+  const showToast = () => {
+    Toast.show({
+      type: "success",
+      text1: "Data downloaded",
+    });
+  };
+
   const iconAAPL = require("../../assets/icons/AAPL.png");
   const iconMSFT = require("../../assets/icons/MSFT.png");
   const iconGOOGL = require("../../assets/icons/GOOGL.png");
@@ -36,6 +47,8 @@ export const MainScreen = (): JSX => {
   const iconEA = require("../../assets/icons/EA.png");
   const iconNFLX = require("../../assets/icons/NFLX.png");
   const iconSPCE = require("../../assets/icons/SPCE.png");
+
+  const contentImg = require("../../assets/companiesImg/content.png");
 
   interface IconProps {
     source: ImageSourcePropType;
@@ -85,6 +98,7 @@ export const MainScreen = (): JSX => {
   };
 
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const placeRef = useRef(0);
   const symbolRef = useRef("");
@@ -247,6 +261,7 @@ export const MainScreen = (): JSX => {
             //   `The current status of the ALPHA VANTAGE website is: ${response.status}. `
             // );
             // console.log("DANE");
+
             return data;
           } catch (error) {
             console.error("An error occurred while fetching the data.", error);
@@ -257,6 +272,7 @@ export const MainScreen = (): JSX => {
           setData(null);
         } else {
           setData(fetchData());
+          showToast();
         }
         // setData(fetchData());
 
@@ -391,6 +407,7 @@ export const MainScreen = (): JSX => {
     "NFLX",
     "SPCE",
   ];
+
   return (
     <View
       style={{
@@ -401,7 +418,7 @@ export const MainScreen = (): JSX => {
         right: 0,
         paddingTop: 0,
         width: "100%",
-        backgroundColor: "#263238",
+        backgroundColor: "#152127",
       }}
     >
       <View
@@ -535,6 +552,7 @@ export const MainScreen = (): JSX => {
           </View>
         </Box>
       </View>
+      <Toast position="top" visibilityTime={2000} />
       <View
         style={{
           flexDirection: "row",
@@ -548,92 +566,131 @@ export const MainScreen = (): JSX => {
           style={{ marginLeft: 10 }}
           labelStyle={{ color: "#abb8c3", fontFamily: "Lato" }}
           label="Data refreshed every 5 minutes"
-          color="#263238"
+          color="#152127"
         />
+        <MaterialCommunityIcons name="database-eye" size={20} color="lime" />
       </View>
       {!isOverlayVisible ? (
-        <ScrollView
-          style={{
-            bottom: 0,
-            marginBottom: 40,
-            marginTop: 0,
-            backgroundColor: "#263238",
-          }}
-          contentContainerStyle={{ paddingBottom: 40, width: screenWidth }}
-        >
-          <View
-            style={[
-              StyleSheet.absoluteFillObject,
-              {
-                backgroundColor: isOverlayVisible
-                  ? "rgba(0, 0, 0, 0.5)"
-                  : "#263238",
-                zIndex: isOverlayVisible ? 1 : -1,
-              },
-            ]}
-          />
-          <React.Fragment>
-            {symbols.map((symbol, i) => (
-              <Box
-                key={`box-${i}`}
-                w={screenWidth - 20}
-                h={50}
-                m={4}
-                radius={14}
-                style={{
-                  backgroundColor: "#455a64",
-                  justifyContent: "center",
-                  marginBottom: 10,
-                  left: 5,
-                }}
-              >
-                <StockData
-                  key={`stockData-${i}`}
-                  symbol={symbol}
-                  place={i + 1}
-                />
-              </Box>
-            ))}
-          </React.Fragment>
-        </ScrollView>
-      ) : (
-        <View style={{flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        alignContent: 'center'}}>
-        <Box
-          w={screenWidth - 20}
-          radius={14}
-          h={screenHeight / 4}
-          style={{
-            flexDirection: "row",
-            justifyContent: "space-around",
-            alignItems: "center",
-            alignContent: "center",
-            backgroundColor: "#152127",
-          }}
-        >
-          <MaterialCommunityIcons
-            name="database-eye-off"
-            size={32}
-            color="red"
-          />
-          <Text
+        <>
+          <ScrollView
             style={{
-              textAlign: "center",
-              color: "white",
-              fontFamily: "Lato",
-              fontSize: 16,
+              bottom: 0,
+              marginBottom: 40,
+              marginTop: 0,
+              backgroundColor: "#263238",
+            }}
+            contentContainerStyle={{ paddingBottom: 40, width: screenWidth }}
+          >
+            <View
+              style={[
+                StyleSheet.absoluteFillObject,
+                {
+                  backgroundColor: isOverlayVisible
+                    ? "rgba(0, 0, 0, 0.5)"
+                    : "#263238",
+                  zIndex: isOverlayVisible ? 1 : -1,
+                },
+              ]}
+            />
+            <React.Fragment>
+              {symbols.map((symbol, i) => (
+                <Box
+                  key={`box-${i}`}
+                  w={screenWidth - 20}
+                  h={50}
+                  m={4}
+                  radius={14}
+                  style={{
+                    backgroundColor: "#455a64",
+                    justifyContent: "center",
+                    top: 12,
+                    marginBottom: 12,
+                    left: 5,
+                  }}
+                >
+                  <StockData
+                    key={`stockData-${i}`}
+                    symbol={symbol}
+                    place={i + 1}
+                  />
+                </Box>
+              ))}
+            </React.Fragment>
+          </ScrollView>
+          <View
+            style={{
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
             }}
           >
-            No data to display.
-          </Text>
-          <MaterialCommunityIcons
-            name="database-eye-off"
-            size={32}
-            color="red"
-          />
-        </Box>
+            <Text
+              style={{
+                top: -20,
+                color: "#90a4ae",
+                fontFamily: "Lato",
+                fontSize: 16,
+              }}
+            >
+              &copy; Equity Eagle 2023 &copy;
+            </Text>
+          </View>
+        </>
+      ) : (
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            alignContent: "center",
+          }}
+        >
+          <Box
+            w={screenWidth - 20}
+            radius={14}
+            h={screenHeight / 4}
+            style={{
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+              backgroundColor: "#263238",
+            }}
+          >
+            {isLoading && (
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  alignContent: "center",
+                }}
+              >
+                <Text
+                  style={{
+                    textAlign: "center",
+                    color: "white",
+                    marginRight: 20,
+                  }}
+                >
+                  Loading...
+                </Text>
+                <ActivityIndicator size="small" color="#b6843a" />
+              </View>
+            )}
+            <Image
+              resizeMode="contain"
+              resizeMethod="resize"
+              style={{
+                width: screenWidth,
+                height: screenHeight / 2,
+                borderRadius: 10,
+              }}
+              source={contentImg}
+              alt="titleOfLogo"
+              onLoad={() => setIsLoading(false)}
+            />
+          </Box>
         </View>
       )}
       <BottomSheetModalProvider>
@@ -645,8 +702,8 @@ export const MainScreen = (): JSX => {
             ref={bottomSheetModalRef}
             index={0}
             snapPoints={[screenHeight / 2, 500, "80%"]}
-            handleIndicatorStyle={{ backgroundColor: "#152127", opacity: 0.5 }}
-            backgroundStyle={{ backgroundColor: "#152127" }}
+            handleIndicatorStyle={{ backgroundColor: "#263238", opacity: 0.5 }}
+            backgroundStyle={{ backgroundColor: "#263238" }}
             enableDismissOnClose={true}
           >
             <ModalData />
@@ -656,7 +713,7 @@ export const MainScreen = (): JSX => {
                 justifyContent: "center",
                 alignItems: "flex-end",
                 alignContent: "flex-end",
-                height: screenHeight / 4.5,
+                height: isIOS() ? screenHeight / 4.5 : screenHeight / 4,
               }}
             >
               <IconButton
