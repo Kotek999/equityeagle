@@ -17,6 +17,7 @@ import {
   Image,
   ImageSourcePropType,
   Platform,
+  StyleSheet,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenHeight, screenWidth } from "../../helpers/dimensions";
@@ -83,6 +84,8 @@ export const MainScreen = (): JSX => {
     return source ? <SymbolIcon source={source} /> : "N/A";
   };
 
+  const [isOverlayVisible, setIsOverlayVisible] = useState(false);
+
   const placeRef = useRef(0);
   const symbolRef = useRef("");
   const maxOpenRef = useRef(0);
@@ -91,7 +94,13 @@ export const MainScreen = (): JSX => {
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
 
   const onClickOpenModal = () => {
+    setIsOverlayVisible(true);
     bottomSheetModalRef.current?.present();
+  };
+
+  const onClickCloseModal = () => {
+    setIsOverlayVisible(false);
+    bottomSheetModalRef.current?.close();
   };
 
   const insets = useSafeAreaInsets();
@@ -170,6 +179,8 @@ export const MainScreen = (): JSX => {
     const [trend, setTrend] = useState<string>("");
     const mountedRef = useRef<boolean>(false);
 
+    const [data, setData] = useState<any>(null);
+
     const maxOpenUpdate = (timeSeriesData: Data["Time Series (5min)"]) => {
       let maxOpen: number | null = null;
       for (let key in timeSeriesData) {
@@ -235,13 +246,21 @@ export const MainScreen = (): JSX => {
             // console.log(
             //   `The current status of the ALPHA VANTAGE website is: ${response.status}. `
             // );
+            // console.log("DANE");
             return data;
           } catch (error) {
             console.error("An error occurred while fetching the data.", error);
           }
         };
 
-        fetchData();
+        if (isOverlayVisible) {
+          setData(null);
+        } else {
+          setData(fetchData());
+        }
+        // setData(fetchData());
+
+        // fetchData();
 
         // let interval = setInterval(() => {
         //   fetchData();
@@ -254,7 +273,7 @@ export const MainScreen = (): JSX => {
 
     return (
       <View>
-        {isLoading ? (
+        {isLoading && !isOverlayVisible && data ? (
           <View
             style={{
               flexDirection: "row",
@@ -289,70 +308,72 @@ export const MainScreen = (): JSX => {
             </Text> */}
           </View>
         ) : (
-          <>
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-around",
-                alignItems: "center",
-                alignContent: "center",
-              }}
-            >
-              <Text
+          data && (
+            <>
+              <View
                 style={{
-                  flex: 1,
-                  textAlign: "center",
-                  color: "white",
-                  fontFamily: "Lato",
-                }}
-              >{`${place}.`}</Text>
-              <MaterialCommunityIcons
-                name="information-outline"
-                size={20}
-                color="#b6843a"
-                onPress={() => {
-                  onModalOpened(symbol, place, maxOpen, trend);
-                }}
-              />
-              <Text style={{ flex: 1, textAlign: "center" }}>
-                {symbolChecker(symbol)}
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  textAlign: "center",
-                  color: "white",
-                  fontFamily: "Lato",
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  alignContent: "center",
                 }}
               >
-                {symbol}
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  textAlign: "center",
-                  color: "white",
-                  fontFamily: "Lato",
-                }}
-              >
-                {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
-              </Text>
-              <Text
-                style={{
-                  flex: 1,
-                  textAlign: "center",
-                  color:
-                    trend === "low"
-                      ? "red"
-                      : "lime" && trend === "N/A"
-                      ? "white"
-                      : "white",
-                }}
-              >
-                {trend}
-              </Text>
-            </View>
-          </>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    fontFamily: "Lato",
+                  }}
+                >{`${place}.`}</Text>
+                <MaterialCommunityIcons
+                  name="information-outline"
+                  size={20}
+                  color="#b6843a"
+                  onPress={() => {
+                    onModalOpened(symbol, place, maxOpen, trend);
+                  }}
+                />
+                <Text style={{ flex: 1, textAlign: "center" }}>
+                  {symbolChecker(symbol)}
+                </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    fontFamily: "Lato",
+                  }}
+                >
+                  {symbol}
+                </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    fontFamily: "Lato",
+                  }}
+                >
+                  {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
+                </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color:
+                      trend === "low"
+                        ? "red"
+                        : "lime" && trend === "N/A"
+                        ? "white"
+                        : "white",
+                  }}
+                >
+                  {trend}
+                </Text>
+              </View>
+            </>
+          )
         )}
       </View>
     );
@@ -530,36 +551,97 @@ export const MainScreen = (): JSX => {
           color="#263238"
         />
       </View>
-      <ScrollView
-        style={{ bottom: 0, marginBottom: 40, marginTop: 0 }}
-        contentContainerStyle={{ paddingBottom: 40, width: screenWidth }}
-      >
-        <React.Fragment>
-          {symbols.map((symbol, i) => (
-            <Box
-              key={`box-${i}`}
-              w={screenWidth - 20}
-              h={50}
-              m={4}
-              radius={14}
-              style={{
-                backgroundColor: "#455a64",
-                justifyContent: "center",
-                marginBottom: 10,
-                left: 5,
-              }}
-            >
-              <StockData key={`stockData-${i}`} symbol={symbol} place={i + 1} />
-            </Box>
-          ))}
-        </React.Fragment>
-      </ScrollView>
+      {!isOverlayVisible ? (
+        <ScrollView
+          style={{
+            bottom: 0,
+            marginBottom: 40,
+            marginTop: 0,
+            backgroundColor: "#263238",
+          }}
+          contentContainerStyle={{ paddingBottom: 40, width: screenWidth }}
+        >
+          <View
+            style={[
+              StyleSheet.absoluteFillObject,
+              {
+                backgroundColor: isOverlayVisible
+                  ? "rgba(0, 0, 0, 0.5)"
+                  : "#263238",
+                zIndex: isOverlayVisible ? 1 : -1,
+              },
+            ]}
+          />
+          <React.Fragment>
+            {symbols.map((symbol, i) => (
+              <Box
+                key={`box-${i}`}
+                w={screenWidth - 20}
+                h={50}
+                m={4}
+                radius={14}
+                style={{
+                  backgroundColor: "#455a64",
+                  justifyContent: "center",
+                  marginBottom: 10,
+                  left: 5,
+                }}
+              >
+                <StockData
+                  key={`stockData-${i}`}
+                  symbol={symbol}
+                  place={i + 1}
+                />
+              </Box>
+            ))}
+          </React.Fragment>
+        </ScrollView>
+      ) : (
+        <View style={{flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        alignContent: 'center'}}>
+        <Box
+          w={screenWidth - 20}
+          radius={14}
+          h={screenHeight / 4}
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            alignItems: "center",
+            alignContent: "center",
+            backgroundColor: "#152127",
+          }}
+        >
+          <MaterialCommunityIcons
+            name="database-eye-off"
+            size={32}
+            color="red"
+          />
+          <Text
+            style={{
+              textAlign: "center",
+              color: "white",
+              fontFamily: "Lato",
+              fontSize: 16,
+            }}
+          >
+            No data to display.
+          </Text>
+          <MaterialCommunityIcons
+            name="database-eye-off"
+            size={32}
+            color="red"
+          />
+        </Box>
+        </View>
+      )}
       <BottomSheetModalProvider>
         <View
           style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
         >
           <BottomSheetModal
-            enablePanDownToClose={true}
+            enablePanDownToClose={false}
             ref={bottomSheetModalRef}
             index={0}
             snapPoints={[screenHeight / 2, 500, "80%"]}
@@ -574,14 +656,14 @@ export const MainScreen = (): JSX => {
                 justifyContent: "center",
                 alignItems: "flex-end",
                 alignContent: "flex-end",
-                height: screenHeight / 4,
+                height: screenHeight / 4.5,
               }}
             >
               <IconButton
                 icon={(props): any => <Icon name="close" {...props} />}
                 color="white"
                 style={{ width: 40, height: 40, backgroundColor: "#00d084" }}
-                onPress={() => bottomSheetModalRef.current?.close()}
+                onPress={onClickCloseModal}
               />
             </View>
           </BottomSheetModal>

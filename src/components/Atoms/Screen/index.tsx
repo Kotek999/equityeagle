@@ -11,7 +11,7 @@ export const Screen = ({ children }: ChildProps): JSX => {
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
         {children}
       </ScrollView>
-      <StatusBar backgroundColor="black" style={isIOS() ? "dark" : "light"} />
+      <StatusBar backgroundColor="black" style={isIOS() ? "light" : "light"} />
     </SafeAreaView>
   );
 };
