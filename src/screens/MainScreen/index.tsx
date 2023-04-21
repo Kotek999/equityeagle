@@ -16,6 +16,7 @@ import {
   Linking,
   ActivityIndicator,
   Image,
+  ImageBackground,
   ImageSourcePropType,
   Platform,
   StyleSheet,
@@ -104,7 +105,11 @@ export const MainScreen = (): JSX => {
   };
 
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [imageLoading, setImageLoading] = useState<boolean>(true);
+
+  const imageOnLoad = () => {
+    setImageLoading(false);
+  };
 
   const placeRef = useRef(0);
   const symbolRef = useRef("");
@@ -155,40 +160,41 @@ export const MainScreen = (): JSX => {
     const showText = isExpanded ? expandedText : initialText;
 
     return (
-      <TouchableOpacity onPress={onClickShowMoreText}>
-        <View
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
+        <Text
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            alignContent: "center",
+            textAlign: "center",
+            color: "white",
+            fontSize: 16,
+            fontFamily: "Lato",
           }}
         >
+          {showText}
+        </Text>
+        <Text
+          style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
+        ></Text>
+        <TouchableOpacity onPress={onClickShowMoreText}>
           <Text
             style={{
               textAlign: "center",
-              color: "white",
-              fontSize: 16,
-              fontFamily: "Lato",
+              color: "#7bdcb5",
+              fontWeight: "600",
+              fontSize: 12,
             }}
           >
-            {showText}
+            {isExpanded ? "Show less" : "Show more..."}
           </Text>
-          <Text
-            style={{ textAlign: "center", color: "white", fontWeight: "bold" }}
-          ></Text>
-          <Text
-            style={{
-              textAlign: "center",
-              color: "white",
-              fontWeight: "bold",
-              left: 20,
-            }}
-          >
-            {isExpanded ? null : "more..."}
-          </Text>
-        </View>
-      </TouchableOpacity>
+        </TouchableOpacity>
+      </View>
     );
   };
   const ModalData: React.FC = () => {
@@ -217,28 +223,83 @@ export const MainScreen = (): JSX => {
                 paddingHorizontal: 16,
               }}
             >
-              <Text
+              <View
                 style={{
                   flex: 1,
-                  color: "white",
-                  fontSize: 20,
-                  fontFamily: "Lato",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  alignContent: "center",
+                  justifyContent: "center",
                 }}
               >
-                {placeRef.current}.
-              </Text>
-              <View style={{ flexDirection: "row", alignItems: "center" }}>
                 <Text
                   style={{
-                    textAlign: "center",
-                    color: "white",
-                    fontSize: 20,
+                    flex: 1,
+                    color: "#00d084",
+                    fontSize: 24,
                     fontFamily: "Lato",
                   }}
                 >
-                  {symbolRef.current}
+                  {placeRef.current}.
                 </Text>
-                <View>{symbolChecker(symbolRef.current)}</View>
+                <Box
+                  w={screenWidth / 3}
+                  h={50}
+                  mr={20}
+                  radius={14}
+                  style={{
+                    backgroundColor: "#455a64",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    alignContent: "center",
+                    justifyContent: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      textAlign: "center",
+                      color: "white",
+                      fontSize: 15,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {maxOpenRef.current !== null
+                      ? maxOpenRef.current.toFixed(2)
+                      : "N/A"}{" "}
+                    {trendRef.current}
+                  </Text>
+                </Box>
+              </View>
+              <View
+                style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
+              >
+                <Box
+                  w={screenWidth / 2.2}
+                  h={50}
+                  m={0}
+                  radius={14}
+                  style={{
+                    backgroundColor: "#152127",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <Text
+                    style={{
+                      flex: 1,
+                      textAlign: "center",
+                      color: "white",
+                      fontSize: 20,
+                      fontFamily: "Lato",
+                    }}
+                  >
+                    {symbolRef.current}
+                  </Text>
+                  <View style={{ flex: 1 }}>
+                    {symbolChecker(symbolRef.current)}
+                  </View>
+                </Box>
               </View>
             </View>
             <Divider
@@ -250,13 +311,14 @@ export const MainScreen = (): JSX => {
                 justifyContent: "space-between",
                 alignItems: "center",
                 alignContent: "center",
-                margin: 10,
+                width: screenWidth - 40,
               }}
             >
               <Box
                 w={screenWidth / 2}
                 h={150}
-                m={4}
+                m={10}
+                radius={14}
                 style={{
                   backgroundColor: "#152127",
                   flexDirection: "row",
@@ -269,18 +331,6 @@ export const MainScreen = (): JSX => {
                   expandedText="Great cool long text that will be here about interesting facts from the company."
                 />
               </Box>
-              <View>
-                <Text style={{ color: "white", marginBottom: 10 }}>
-                  Value:{" "}
-                  {maxOpenRef.current !== null
-                    ? maxOpenRef.current.toFixed(2)
-                    : "N/A"}
-                </Text>
-
-                <Text style={{ color: "white" }}>
-                  Trend: {trendRef.current}
-                </Text>
-              </View>
             </View>
           </View>
         )}
@@ -513,7 +563,16 @@ export const MainScreen = (): JSX => {
     );
   };
 
-  const symbols = [
+  function newValues<T>(array: T[]): T[] {
+    const newArray = [...array];
+    for (let i = newArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
+    }
+    return newArray;
+  }
+
+  const symbols: string[] = [
     "AAPL",
     "MSFT",
     "GOOGL",
@@ -525,6 +584,8 @@ export const MainScreen = (): JSX => {
     "NFLX",
     "SPCE",
   ];
+
+  const randomSymbols: string[] = newValues(symbols);
 
   return (
     <View
@@ -683,10 +744,16 @@ export const MainScreen = (): JSX => {
         <Badge
           style={{ marginLeft: 10 }}
           labelStyle={{ color: "#abb8c3", fontFamily: "Lato" }}
-          label="Data refreshed every 5 minutes"
+          label={
+            !isOverlayVisible ? "Data refreshed every 5 minutes" : "No data"
+          }
           color="#152127"
         />
-        <MaterialCommunityIcons name="database-eye" size={20} color="#4caf50" />
+        <MaterialCommunityIcons
+          name={!isOverlayVisible ? "database-eye" : "database-eye-off"}
+          size={20}
+          color={!isOverlayVisible ? "#4caf50" : "#eb144c"}
+        />
       </View>
       {!isOverlayVisible ? (
         <>
@@ -697,7 +764,10 @@ export const MainScreen = (): JSX => {
               marginTop: 0,
               backgroundColor: "#263238",
             }}
-            contentContainerStyle={{ paddingBottom: 40, width: screenWidth }}
+            contentContainerStyle={{
+              paddingBottom: insets.bottom,
+              width: screenWidth,
+            }}
           >
             <View
               style={[
@@ -711,7 +781,7 @@ export const MainScreen = (): JSX => {
               ]}
             />
             <React.Fragment>
-              {symbols.map((symbol, i) => (
+              {randomSymbols.map((symbol, i) => (
                 <Box
                   key={`box-${i}`}
                   w={screenWidth - 20}
@@ -740,6 +810,7 @@ export const MainScreen = (): JSX => {
               justifyContent: "center",
               alignItems: "center",
               alignContent: "center",
+              paddingBottom: insets.bottom,
             }}
           >
             <Text
@@ -755,60 +826,34 @@ export const MainScreen = (): JSX => {
           </View>
         </>
       ) : (
-        <View
-          style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            alignContent: "center",
-          }}
-        >
-          <Box
-            w={screenWidth - 20}
-            radius={14}
-            h={screenHeight / 4}
-            style={{
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              alignContent: "center",
-              backgroundColor: "#263238",
-            }}
-          >
-            {isLoading && (
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  alignContent: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    textAlign: "center",
-                    color: "white",
-                    marginRight: 20,
-                  }}
-                >
-                  Loading...
-                </Text>
-                <ActivityIndicator size="small" color="#b6843a" />
-              </View>
-            )}
-            <Image
-              resizeMode="contain"
-              resizeMethod="resize"
+        <View style={{ flex: 1, top: -screenHeight / 8.2 }}>
+          {imageLoading ? (
+            <View
               style={{
+                flex: 1,
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <ActivityIndicator size="large" color="#b6843a" />
+              <Text style={{ marginTop: 10, color: "white" }}>Loading...</Text>
+            </View>
+          ) : (
+            <ImageBackground
+              resizeMode="cover"
+              // resizeMethod="resize"
+              style={{
+                flex: 1,
+                justifyContent: "center",
                 width: screenWidth,
-                height: screenHeight / 2,
+                height: screenHeight / 2.5,
                 borderRadius: 10,
               }}
               source={contentImg}
               alt="titleOfLogo"
-              onLoad={() => setIsLoading(false)}
-            />
-          </Box>
+              onLoad={imageOnLoad}
+            ></ImageBackground>
+          )}
         </View>
       )}
       <BottomSheetModalProvider>
@@ -831,7 +876,8 @@ export const MainScreen = (): JSX => {
                 justifyContent: "center",
                 alignItems: "flex-end",
                 alignContent: "flex-end",
-                height: isIOS() ? screenHeight / 4.5 : screenHeight / 6,
+                paddingBottom: insets.bottom,
+                height: isIOS() ? screenHeight / 6 : screenHeight / 6,
               }}
             >
               <IconButton
