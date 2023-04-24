@@ -40,7 +40,7 @@ export const MainScreen = (): JSX => {
   const showToast = () => {
     Toast.show({
       type: "success",
-      text1: "Data downloaded",
+      text1: "Data refreshed",
     });
   };
 
@@ -234,7 +234,7 @@ export const MainScreen = (): JSX => {
               >
                 <Text
                   style={{
-                    flex: 1,
+                    left: -10,
                     color: "#00d084",
                     fontSize: 24,
                     fontFamily: "Lato",
@@ -245,7 +245,7 @@ export const MainScreen = (): JSX => {
                 <Box
                   w={screenWidth / 3}
                   h={50}
-                  mr={20}
+                  mr={10}
                   radius={14}
                   style={{
                     backgroundColor: "#455a64",
@@ -360,7 +360,8 @@ export const MainScreen = (): JSX => {
     const [trend, setTrend] = useState<string>("");
     const mountedRef = useRef<boolean>(false);
 
-    const [data, setData] = useState<any>(null);
+    const [data, setData] = useState<Data | null>(null);
+    const [refreshData, setRefreshData] = useState<Data | null>(null);
 
     const maxOpenUpdate = (timeSeriesData: Data["Time Series (5min)"]) => {
       let maxOpen: number | null = null;
@@ -410,54 +411,52 @@ export const MainScreen = (): JSX => {
     //4XX - Client Error (bad)
     //5XX - Server Error
 
-    useEffect(() => {
-      if (!mountedRef.current) {
-        mountedRef.current = true;
-        // for MSFT we have values (because it's a demo), for the rest, you need to provide the key.
-        const fetchData = async (): Promise<any> => {
-          const apiUrl: string = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=demo`;
+    const fetchData = async (): Promise<any> => {
+      // for MSFT we have values (because it's a demo), for the rest, you need to provide the key.
+      const apiUrl: string = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=demo`;
 
-          try {
-            const response = await fetch(apiUrl);
-            const data: Data = await response.json();
-            setMaxOpen(maxOpenUpdate(data["Time Series (5min)"]));
-            setTrend(trendUpdate(data["Time Series (5min)"]));
-            setIsLoading(false);
-            // console.log(data);
-            // console.log(
-            //   `The current status of the ALPHA VANTAGE website is: ${response.status}. `
-            // );
-            // console.log("DANE");
-
-            return data;
-          } catch (error) {
-            console.error("An error occurred while fetching the data.", error);
-          }
-        };
-
-        if (isOverlayVisible) {
-          setData(null);
-        } else {
-          setData(fetchData());
-          showToast();
-        }
-
-        // setData(fetchData());
-
-        // fetchData();
-
-        // let interval = setInterval(() => {
-        //   fetchData();
-        //   console.log("data refreshed")
-        // }, 300000);
-        // fetchData();
-        // return () => clearInterval(interval);
+      try {
+        const response = await fetch(apiUrl);
+        const data: Data = await response.json();
+        setMaxOpen(maxOpenUpdate(data["Time Series (5min)"]));
+        setTrend(trendUpdate(data["Time Series (5min)"]));
+        setData(data);
+        setRefreshData(data);
+        setIsLoading(false);
+        // console.log(data["Meta Data"]);
+        // console.log(data["Time Series (5min)"])
+        // console.log(
+        //   `The current status of the ALPHA VANTAGE website is: ${response.status}. `
+        // );
+        // console.log(data);
+        return data;
+      } catch (error) {
+        console.error("An error occurred while fetching the data.", error);
       }
-    }, [symbol]);
+    };
+
+    useEffect(() => {
+      if (data) {
+        console.log("No data");
+      } else {
+        // if (!mountedRef.current) {
+        //   mountedRef.current = true;
+        //   let interval = setInterval(() => {
+        //     setRefreshData(data);
+        //     fetchData();
+        //     console.log("data refreshed");
+        //     showToast();
+        //     setIsLoading(false);
+        //   }, 30000);
+        fetchData();
+        //   return () => clearInterval(interval);
+        // }
+      }
+    }, []);
 
     return (
       <View>
-        {isLoading && !isOverlayVisible && data ? (
+        {isLoading && !isOverlayVisible && !data && !refreshData ? (
           <View
             style={{
               flexDirection: "row",
@@ -468,96 +467,122 @@ export const MainScreen = (): JSX => {
           >
             <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text>
             <ActivityIndicator size="small" color="#b6843a" />
-            {/* <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
-              1.
-            </Text>
-            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
-              Icon
-            </Text>
-            <Text
+          </View>
+        ) : data && refreshData ? (
+          <>
+            <View
               style={{
-                flex: 1,
-                textAlign: "center",
-                color: "white",
-                textTransform: "uppercase",
+                flexDirection: "row",
+                justifyContent: "space-around",
+                alignItems: "center",
+                alignContent: "center",
               }}
             >
-              symbol
-            </Text>
-            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
-              N/A
-            </Text>
-            <Text style={{ flex: 1, textAlign: "center", color: "white" }}>
-              N/A
-            </Text> */}
-          </View>
-        ) : (
-          data && (
-            <>
-              <View
+              <Text
                 style={{
-                  flexDirection: "row",
-                  justifyContent: "space-around",
-                  alignItems: "center",
-                  alignContent: "center",
+                  flex: 1,
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily: "Lato",
+                }}
+              >{`${place}.`}</Text>
+              <MaterialCommunityIcons
+                name="information"
+                size={20}
+                color="#b6843a"
+                onPress={() => {
+                  onModalOpened(symbol, place, maxOpen, trend);
+                }}
+              />
+              <Text style={{ flex: 1, textAlign: "center" }}>
+                {symbolChecker(symbol)}
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily: "Lato",
                 }}
               >
-                <Text
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    color: "white",
-                    fontFamily: "Lato",
-                  }}
-                >{`${place}.`}</Text>
-                <MaterialCommunityIcons
-                  name="information"
-                  size={20}
-                  color="#b6843a"
-                  onPress={() => {
-                    onModalOpened(symbol, place, maxOpen, trend);
-                  }}
-                />
-                <Text style={{ flex: 1, textAlign: "center" }}>
-                  {symbolChecker(symbol)}
-                </Text>
-                <Text
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    color: "white",
-                    fontFamily: "Lato",
-                  }}
-                >
-                  {symbol}
-                </Text>
-                <Text
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    color: "white",
-                    fontFamily: "Lato",
-                  }}
-                >
-                  {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
-                </Text>
-                <Text
-                  style={{
-                    flex: 1,
-                    textAlign: "center",
-                    color:
-                      trend === "low"
-                        ? "red"
-                        : "lime" && trend === "N/A"
-                        ? "white"
-                        : "white",
-                  }}
-                >
-                  {trend}
-                </Text>
-              </View>
-            </>
-          )
+                {symbol}
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  color: "white",
+                  fontFamily: "Lato",
+                }}
+              >
+                {maxOpen !== null ? maxOpen.toFixed(2) : "N/A"}
+              </Text>
+              <Text
+                style={{
+                  flex: 1,
+                  textAlign: "center",
+                  color:
+                    trend === "low"
+                      ? "red"
+                      : "lime" && trend === "N/A"
+                      ? "white"
+                      : "white",
+                }}
+              >
+                {trend}
+              </Text>
+            </View>
+          </>
+        ) : !refreshData ? (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                right: 5,
+                textAlign: "center",
+                color: "white",
+                fontFamily: "Lato",
+              }}
+            >
+              Data is being refreshed, please wait...
+            </Text>
+            <MaterialCommunityIcons
+              name="database-refresh"
+              size={20}
+              color="#ffc107"
+            />
+          </View>
+        ) : (
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              alignContent: "center",
+              alignSelf: "center",
+            }}
+          >
+            <Text
+              style={{
+                right: 20,
+                textAlign: "center",
+                color: "white",
+                fontFamily: "Lato",
+              }}
+            >
+              No data
+            </Text>
+            <MaterialCommunityIcons
+              name="database-eye-off"
+              size={20}
+              color="#eb144c"
+            />
+          </View>
         )}
       </View>
     );
@@ -765,7 +790,7 @@ export const MainScreen = (): JSX => {
               backgroundColor: "#263238",
             }}
             contentContainerStyle={{
-              paddingBottom: insets.bottom,
+              paddingBottom: insets.bottom + 20,
               width: screenWidth,
             }}
           >
@@ -826,11 +851,12 @@ export const MainScreen = (): JSX => {
           </View>
         </>
       ) : (
-        <View style={{ flex: 1, top: -screenHeight / 8.2 }}>
-          {imageLoading ? (
+        <View style={{ flex: 1, top: -screenHeight / 4 }}>
+          {imageLoading && (
             <View
               style={{
                 flex: 1,
+                top: 200,
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -838,22 +864,19 @@ export const MainScreen = (): JSX => {
               <ActivityIndicator size="large" color="#b6843a" />
               <Text style={{ marginTop: 10, color: "white" }}>Loading...</Text>
             </View>
-          ) : (
-            <ImageBackground
-              resizeMode="cover"
-              // resizeMethod="resize"
-              style={{
-                flex: 1,
-                justifyContent: "center",
-                width: screenWidth,
-                height: screenHeight / 2.5,
-                borderRadius: 10,
-              }}
-              source={contentImg}
-              alt="titleOfLogo"
-              onLoad={imageOnLoad}
-            ></ImageBackground>
           )}
+          <ImageBackground
+            resizeMode="cover"
+            style={{
+              flex: 1,
+              justifyContent: "center",
+              width: !imageLoading ? screenWidth : 0,
+              height: !imageLoading ? screenHeight / 2 : 0,
+            }}
+            source={contentImg}
+            alt="titleOfLogo"
+            onLoad={imageOnLoad}
+          />
         </View>
       )}
       <BottomSheetModalProvider>
@@ -864,7 +887,7 @@ export const MainScreen = (): JSX => {
             enablePanDownToClose={false}
             ref={bottomSheetModalRef}
             index={0}
-            snapPoints={[screenHeight / 2, 500, "80%"]}
+            snapPoints={[screenHeight / 1.9, 500, "80%"]}
             handleIndicatorStyle={{ backgroundColor: "#263238", opacity: 0.5 }}
             backgroundStyle={{ backgroundColor: "#263238" }}
             enableDismissOnClose={true}
@@ -877,7 +900,7 @@ export const MainScreen = (): JSX => {
                 alignItems: "flex-end",
                 alignContent: "flex-end",
                 paddingBottom: insets.bottom,
-                height: isIOS() ? screenHeight / 6 : screenHeight / 6,
+                height: isIOS() ? screenHeight / 6 : screenHeight / 8.5,
               }}
             >
               <IconButton
