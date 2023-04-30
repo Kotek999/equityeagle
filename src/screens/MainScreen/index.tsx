@@ -22,7 +22,6 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
-  StatusBar,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenHeight, screenWidth } from "../../helpers/dimensions";
@@ -33,6 +32,7 @@ import {
   AppBar,
   IconButton,
   Divider,
+  Button,
 } from "@react-native-material/core";
 import { logoTitle } from "../../helpers/imageRequirements";
 
@@ -68,8 +68,6 @@ export const MainScreen = (): JSX => {
   const themeSPCE = require("../../assets/themes/themeSPCE.png");
   const themeTSLA = require("../../assets/themes/themeTSLA.png");
 
-  const contentImg = require("../../assets/themes/content.png");
-
   type SourceProps = {
     source: ImageSourcePropType;
   };
@@ -89,12 +87,14 @@ export const MainScreen = (): JSX => {
           style={{
             flex: 1,
             justifyContent: "center",
-            width: !imageLoading ? screenWidth : 0,
-            height: !imageLoading ? screenHeight / 2 : 0,
+            width: screenWidth,
+            height: screenHeight / 2,
+            // width: !imageLoading ? screenWidth : 0,
+            // height: !imageLoading ? screenHeight / 2 : 0,
           }}
           source={source}
           alt="titleOfLogo"
-          onLoad={imageOnLoad}
+          // onLoad={imageOnLoad}
         />
       </View>
     );
@@ -147,7 +147,7 @@ export const MainScreen = (): JSX => {
     );
   };
 
-  const symbolChecker = (symbol: string): JSX.Element | string => {
+  const symbolChecker = (symbol: string): JSX | string => {
     const iconMap: Record<string, ImageType> = {
       AAPL: iconAAPL,
       MSFT: iconMSFT,
@@ -167,11 +167,15 @@ export const MainScreen = (): JSX => {
   };
 
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
-  const [imageLoading, setImageLoading] = useState<boolean>(true);
 
-  const imageOnLoad = () => {
-    setImageLoading(false);
-  };
+  const [isOverlayVisibleModalChart, setIsOverlayVisibleModalChart] =
+    useState(false);
+
+  // const [imageLoading, setImageLoading] = useState<boolean>(true);
+
+  // const imageOnLoad = () => {
+  //   setImageLoading(false);
+  // };
 
   const placeRef = useRef(0);
   const symbolRef = useRef("");
@@ -179,15 +183,22 @@ export const MainScreen = (): JSX => {
   const trendRef = useRef("");
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
+  const bottomSheetModalWithChartRef = useRef<BottomSheetModal>(null);
 
   const onClickOpenModal = () => {
     setIsOverlayVisible(true);
+    setIsOverlayVisibleModalChart(false);
     bottomSheetModalRef.current?.present();
   };
 
   const onClickCloseModal = () => {
     setIsOverlayVisible(false);
     bottomSheetModalRef.current?.close();
+  };
+
+  const onClickOpenModalWithChart = () => {
+    setIsOverlayVisibleModalChart(true);
+    bottomSheetModalWithChartRef.current?.present();
   };
 
   const insets = useSafeAreaInsets();
@@ -276,125 +287,204 @@ export const MainScreen = (): JSX => {
         {isLoading ? (
           <Text style={{ color: "white" }}>Loading...</Text>
         ) : (
-          <View>
-            <View
-              style={{
-                flexDirection: "row",
-                alignItems: "center",
-                justifyContent: "space-between",
-                paddingHorizontal: 16,
-              }}
-            >
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: "row",
-                  alignItems: "center",
-                  alignContent: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <Text
-                  style={{
-                    left: -10,
-                    color: "#00d084",
-                    fontSize: 24,
-                    fontFamily: "Lato",
-                  }}
-                >
-                  {placeRef.current}.
-                </Text>
-                <Box
-                  w={screenWidth / 3}
-                  h={50}
-                  mr={10}
-                  radius={14}
-                  style={{
-                    backgroundColor: "#455a64",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    alignContent: "center",
-                    justifyContent: "center",
-                  }}
-                >
-                  <Text
+          <>
+            {!isOverlayVisibleModalChart ? (
+              <>
+                <View>
+                  <View
                     style={{
-                      textAlign: "center",
-                      color: "white",
-                      fontSize: 15,
-                      fontWeight: "bold",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      paddingHorizontal: 16,
                     }}
                   >
-                    {maxOpenRef.current !== null
-                      ? maxOpenRef.current.toFixed(2)
-                      : "N/A"}{" "}
-                    {trendRef.current}
-                  </Text>
-                </Box>
-              </View>
-              <View
-                style={{ flex: 1, flexDirection: "row", alignItems: "center" }}
-              >
-                <Box
-                  w={screenWidth / 2.2}
-                  h={50}
-                  m={0}
-                  radius={14}
-                  style={{
-                    backgroundColor: "#152127",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    alignContent: "center",
-                  }}
-                >
-                  <Text
-                    style={{
-                      flex: 1,
-                      textAlign: "center",
-                      color: "white",
-                      fontSize: 20,
-                      fontFamily: "Lato",
-                    }}
-                  >
-                    {symbolRef.current}
-                  </Text>
-                  <View style={{ flex: 1 }}>
-                    {symbolChecker(symbolRef.current)}
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Text
+                        style={{
+                          left: -10,
+                          color: "#cddc39",
+                          fontSize: 24,
+                          fontFamily: "Lato",
+                        }}
+                      >
+                        {placeRef.current}.
+                      </Text>
+                      <Box
+                        w={screenWidth / 3}
+                        h={50}
+                        mr={10}
+                        radius={14}
+                        style={{
+                          backgroundColor: "#455a64",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          alignContent: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            textAlign: "center",
+                            color: "white",
+                            fontSize: 15,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {maxOpenRef.current !== null
+                            ? maxOpenRef.current.toFixed(2)
+                            : "N/A"}{" "}
+                          {trendRef.current}
+                        </Text>
+                      </Box>
+                    </View>
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        alignItems: "center",
+                      }}
+                    >
+                      <Box
+                        w={screenWidth / 2.2}
+                        h={50}
+                        m={0}
+                        radius={14}
+                        style={{
+                          backgroundColor: "#152127",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          alignContent: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            flex: 1,
+                            textAlign: "center",
+                            color: "white",
+                            fontSize: 20,
+                            fontFamily: "Lato",
+                          }}
+                        >
+                          {symbolRef.current}
+                        </Text>
+                        <View style={{ flex: 1 }}>
+                          {symbolChecker(symbolRef.current)}
+                        </View>
+                      </Box>
+                    </View>
                   </View>
-                </Box>
-              </View>
-            </View>
-            <Divider
-              style={{ backgroundColor: "grey", top: 20, marginBottom: 20 }}
-            />
-            <View
-              style={{
-                flexDirection: "row",
-                justifyContent: "space-between",
-                alignItems: "center",
-                alignContent: "center",
-                width: screenWidth - 40,
-              }}
-            >
-              <Box
-                w={screenWidth / 2}
-                h={150}
-                m={10}
-                radius={14}
+                  <Divider
+                    style={{
+                      backgroundColor: "#00d084",
+                      top: 20,
+                      marginBottom: 20,
+                    }}
+                  />
+                  <View
+                    style={{
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      alignContent: "center",
+                      width: screenWidth,
+                    }}
+                  >
+                    <Box
+                      w={screenWidth - 20}
+                      h={150}
+                      top={10}
+                      radius={14}
+                      style={{
+                        backgroundColor: "#152127",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                      }}
+                    >
+                      <ShowMoreText
+                        initialText="In progress..."
+                        expandedText="Great cool long text that will be here about interesting facts from the company."
+                      />
+                    </Box>
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                        justifyContent: "center",
+                        alignSelf: "flex-start",
+                      }}
+                    >
+                      <Box
+                        w={screenWidth / 2}
+                        h={150}
+                        m={10}
+                        top={10}
+                        radius={14}
+                        style={{
+                          backgroundColor: "#152127",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          alignContent: "center",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            flex: 1,
+                            fontFamily: "Lato",
+                            color: "white",
+                            textAlign: "center",
+                          }}
+                        >
+                          Map or Image of Place
+                        </Text>
+                      </Box>
+                      <View
+                        style={{
+                          flex: 1,
+                          flexDirection: "row",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          alignContent: "center",
+                        }}
+                      >
+                        <Button
+                          variant="contained"
+                          color="#152127"
+                          title="Show chart"
+                          tintColor="#cddc39"
+                          trailing={(props) => (
+                            <Icon name="chart-line" {...props} />
+                          )}
+                          onPress={() => onClickOpenModalWithChart()}
+                        />
+                      </View>
+                    </View>
+                  </View>
+                </View>
+              </>
+            ) : (
+              <Text
                 style={{
-                  backgroundColor: "#152127",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  alignContent: "center",
+                  fontFamily: "Lato",
+                  color: "white",
+                  textAlign: "center",
+                  fontSize: 20,
                 }}
               >
-                <ShowMoreText
-                  initialText="In progress..."
-                  expandedText="Great cool long text that will be here about interesting facts from the company."
-                />
-              </Box>
-            </View>
-          </View>
+                The CHART modal in progress...
+              </Text>
+            )}
+          </>
         )}
       </View>
     );
@@ -552,6 +642,7 @@ export const MainScreen = (): JSX => {
                 onPress={() => {
                   onModalOpened(symbol, place, maxOpen, trend);
                 }}
+                style={{ marginRight: 16 }}
               />
               <Text style={{ flex: 1, textAlign: "center" }}>
                 {symbolChecker(symbol)}
@@ -915,8 +1006,10 @@ export const MainScreen = (): JSX => {
         </>
       ) : (
         <View style={{ flex: 1, top: -30 }}>
-          {imageLoading && (
-            <View
+          {/* issue with load image on IOS */}
+
+          {/* {imageLoading && ( */}
+          {/* <View
               style={{
                 flex: 1,
                 justifyContent: "center",
@@ -925,8 +1018,8 @@ export const MainScreen = (): JSX => {
             >
               <ActivityIndicator size="large" color="#b6843a" />
               <Text style={{ marginTop: 10, color: "white" }}>Loading...</Text>
-            </View>
-          )}
+            </View> */}
+          {/* )} */}
           <View>{themeChecker(symbolRef.current)}</View>
         </View>
       )}
@@ -938,7 +1031,7 @@ export const MainScreen = (): JSX => {
             enablePanDownToClose={false}
             ref={bottomSheetModalRef}
             index={0}
-            snapPoints={[screenHeight / 1.5, 500, "80%"]}
+            snapPoints={[screenHeight / 1.55, 500, "80%"]}
             handleIndicatorStyle={{
               backgroundColor: "#263238",
               opacity: 0.5,
@@ -954,7 +1047,7 @@ export const MainScreen = (): JSX => {
                 alignItems: "flex-end",
                 alignContent: "flex-end",
                 paddingBottom: insets.bottom,
-                height: isIOS() ? screenHeight / 6 : screenHeight / 4,
+                height: screenHeight / 7,
               }}
             >
               <IconButton
