@@ -3,6 +3,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import isIOS from "../../helpers/rulesOfDevice/isIOS";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import Toast from "react-native-toast-message";
+import appJSON from "../../../app.json";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -21,6 +22,7 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenHeight, screenWidth } from "../../helpers/dimensions";
@@ -46,7 +48,7 @@ export const MainScreen = (): JSX => {
 
   const iconAAPL = require("../../assets/icons/AAPL.png");
   const iconMSFT = require("../../assets/icons/MSFT.png");
-  const iconGOOGL = require("../../assets/icons/GOOGL.png");
+  const iconLMT = require("../../assets/icons/LMT.png");
   const iconTSLA = require("../../assets/icons/TSLA.png");
   const iconNVDA = require("../../assets/icons/NVDA.png");
   const iconDPZ = require("../../assets/icons/DPZ.png");
@@ -55,13 +57,50 @@ export const MainScreen = (): JSX => {
   const iconNFLX = require("../../assets/icons/NFLX.png");
   const iconSPCE = require("../../assets/icons/SPCE.png");
 
-  const contentImg = require("../../assets/companiesImg/content.png");
+  const themeAAPL = require("../../assets/themes/themeAAPL.png");
+  const themeCAT = require("../../assets/themes/themeCAT.png");
+  const themeDPZ = require("../../assets/themes/themeDPZ.png");
+  const themeEA = require("../../assets/themes/themeEA.png");
+  const themeLMT = require("../../assets/themes/themeLMT.png");
+  const themeMSFT = require("../../assets/themes/themeMSFT.png");
+  const themeNLFX = require("../../assets/themes/themeNLFX.png");
+  const themeNVDA = require("../../assets/themes/themeNVDA.png");
+  const themeSPCE = require("../../assets/themes/themeSPCE.png");
+  const themeTSLA = require("../../assets/themes/themeTSLA.png");
 
-  type IconProps = {
+  const contentImg = require("../../assets/themes/content.png");
+
+  type SourceProps = {
     source: ImageSourcePropType;
   };
 
-  const SymbolIcon = ({ source }: IconProps): JSX => {
+  const ThemeImage = ({ source }: SourceProps): JSX => {
+    return (
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
+        <ImageBackground
+          resizeMode="contain"
+          resizeMethod="auto"
+          style={{
+            flex: 1,
+            justifyContent: "center",
+            width: !imageLoading ? screenWidth : 0,
+            height: !imageLoading ? screenHeight / 2 : 0,
+          }}
+          source={source}
+          alt="titleOfLogo"
+          onLoad={imageOnLoad}
+        />
+      </View>
+    );
+  };
+
+  const SymbolIcon = ({ source }: SourceProps): JSX => {
     return (
       <View
         style={{
@@ -81,15 +120,38 @@ export const MainScreen = (): JSX => {
     );
   };
 
-  type IconType = {
+  type ImageType = {
     uri: string;
   };
 
+  const themeChecker = (theme: string): JSX | string => {
+    const themeMap: Record<string, ImageType> = {
+      AAPL: themeAAPL,
+      MSFT: themeMSFT,
+      LMT: themeLMT,
+      TSLA: themeTSLA,
+      NVDA: themeNVDA,
+      DPZ: themeDPZ,
+      CAT: themeCAT,
+      EA: themeEA,
+      NFLX: themeNLFX,
+      SPCE: themeSPCE,
+    };
+
+    const source = themeMap[theme];
+
+    return source ? (
+      <ThemeImage source={source} />
+    ) : (
+      "There was a problem displaying the image."
+    );
+  };
+
   const symbolChecker = (symbol: string): JSX.Element | string => {
-    const iconMap: Record<string, IconType> = {
+    const iconMap: Record<string, ImageType> = {
       AAPL: iconAAPL,
       MSFT: iconMSFT,
-      GOOGL: iconGOOGL,
+      LMT: iconLMT,
       TSLA: iconTSLA,
       NVDA: iconNVDA,
       DPZ: iconDPZ,
@@ -436,22 +498,19 @@ export const MainScreen = (): JSX => {
     };
 
     useEffect(() => {
-      if (data) {
-        console.log("No data");
-      } else {
-        // if (!mountedRef.current) {
-        //   mountedRef.current = true;
-        //   let interval = setInterval(() => {
-        //     setRefreshData(data);
-        //     fetchData();
-        //     console.log("data refreshed");
-        //     showToast();
-        //     setIsLoading(false);
-        //   }, 30000);
-        fetchData();
-        //   return () => clearInterval(interval);
-        // }
-      }
+      fetchData();
+      // if (!mountedRef.current) {
+      //   mountedRef.current = true;
+      //   fetchData();
+      //   let interval = setInterval(() => {
+      //     setRefreshData(data);
+      //     fetchData();
+      //     console.log("data refreshed");
+      //     showToast();
+      //     setIsLoading(false);
+      //   }, 30000);
+      //   return () => clearInterval(interval);
+      // }
     }, []);
 
     return (
@@ -600,7 +659,7 @@ export const MainScreen = (): JSX => {
   const symbols: string[] = [
     "AAPL",
     "MSFT",
-    "GOOGL",
+    "LMT",
     "TSLA",
     "NVDA",
     "DPZ",
@@ -612,10 +671,12 @@ export const MainScreen = (): JSX => {
 
   const randomSymbols: string[] = newValues(symbols);
 
+  const currentYear: number = new Date().getFullYear();
+
   return (
     <View
       style={{
-        position: "absolute",
+        flex: 1,
         top: 0,
         bottom: 0,
         left: 0,
@@ -625,163 +686,163 @@ export const MainScreen = (): JSX => {
         backgroundColor: "#152127",
       }}
     >
-      <View
-        style={{
-          paddingTop: insets.top,
-          marginBottom: 10,
-          alignItems: "center",
-          backgroundColor: "#263238",
-        }}
-      >
-        <AppBar
-          style={{ backgroundColor: "#152127", width: screenWidth }}
-          leading={() => (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <Image
-                resizeMode="contain"
-                resizeMethod="scale"
-                style={{ width: "75%", height: 50 }}
-                source={logoTitle}
-                alt="titleOfLogo"
-              />
-            </View>
-          )}
-          trailing={() => (
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
-              <MaterialCommunityIcons
-                name="logout"
-                size={32}
-                color="#d32f2f"
-                onPress={() => {
-                  Alert.alert(
-                    "Exit",
-                    "Are you sure you want to exit the app?",
-                    [
-                      { text: "Cancel", style: "cancel" },
-                      {
-                        text: "OK",
-                        onPress: () => {
-                          if (Platform.OS === "ios") {
-                            Linking.openURL("app-settings:");
-                          } else {
-                            BackHandler.exitApp();
-                          }
-                        },
-                      },
-                    ],
-                    { cancelable: false }
-                  );
+      {!isOverlayVisible ? (
+        <>
+          <View
+            style={{
+              paddingTop: insets.top,
+              marginBottom: 10,
+              alignItems: "center",
+              backgroundColor: "#263238",
+            }}
+          >
+            <AppBar
+              style={{ backgroundColor: "#152127", width: screenWidth }}
+              leading={() => (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <Image
+                    resizeMode="contain"
+                    resizeMethod="scale"
+                    style={{ width: "75%", height: 50 }}
+                    source={logoTitle}
+                    alt="titleOfLogo"
+                  />
+                </View>
+              )}
+              trailing={() => (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <MaterialCommunityIcons
+                    name="logout"
+                    size={32}
+                    color="#d32f2f"
+                    onPress={() => {
+                      Alert.alert(
+                        "Exit",
+                        "Are you sure you want to exit the app?",
+                        [
+                          { text: "Cancel", style: "cancel" },
+                          {
+                            text: "OK",
+                            onPress: () => {
+                              if (Platform.OS === "ios") {
+                                Linking.openURL("app-settings:");
+                              } else {
+                                BackHandler.exitApp();
+                              }
+                            },
+                          },
+                        ],
+                        { cancelable: false }
+                      );
+                    }}
+                  />
+                </View>
+              )}
+            />
+          </View>
+          <View style={{ alignItems: "center" }}>
+            <Box
+              w={screenWidth - 20}
+              h={50}
+              m={4}
+              radius={14}
+              style={{
+                // backgroundColor: "#b6843a", the same color as button
+                backgroundColor: "#00d084",
+                justifyContent: "center",
+                marginBottom: 10,
+              }}
+            >
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  alignContent: "center",
                 }}
-              />
-            </View>
-          )}
-        />
-      </View>
-      <View style={{ alignItems: "center" }}>
-        <Box
-          w={screenWidth - 20}
-          h={50}
-          m={4}
-          radius={14}
-          style={{
-            // backgroundColor: "#b6843a", the same color as button
-            backgroundColor: "#00d084",
-            justifyContent: "center",
-            marginBottom: 10,
-          }}
-        >
+              >
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontFamily: "Lato",
+                  }}
+                >
+                  Place
+                </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontFamily: "Lato",
+                  }}
+                >
+                  Icon
+                </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontFamily: "Lato",
+                  }}
+                >
+                  Name
+                </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontFamily: "Lato",
+                  }}
+                >
+                  Value
+                </Text>
+                <Text
+                  style={{
+                    flex: 1,
+                    textAlign: "center",
+                    color: "white",
+                    textTransform: "uppercase",
+                    fontFamily: "Lato",
+                  }}
+                >
+                  Trend
+                </Text>
+              </View>
+            </Box>
+          </View>
+          <Toast position="top" visibilityTime={2000} />
           <View
             style={{
               flexDirection: "row",
-              justifyContent: "space-around",
-              alignItems: "center",
+              alignItems: "flex-start",
               alignContent: "center",
+              alignSelf: "flex-start",
+              marginBottom: 10,
             }}
           >
-            <Text
-              style={{
-                flex: 1,
-                textAlign: "center",
-                color: "white",
-                textTransform: "uppercase",
-                fontFamily: "Lato",
-              }}
-            >
-              Place
-            </Text>
-            <Text
-              style={{
-                flex: 1,
-                textAlign: "center",
-                color: "white",
-                textTransform: "uppercase",
-                fontFamily: "Lato",
-              }}
-            >
-              Icon
-            </Text>
-            <Text
-              style={{
-                flex: 1,
-                textAlign: "center",
-                color: "white",
-                textTransform: "uppercase",
-                fontFamily: "Lato",
-              }}
-            >
-              Name
-            </Text>
-            <Text
-              style={{
-                flex: 1,
-                textAlign: "center",
-                color: "white",
-                textTransform: "uppercase",
-                fontFamily: "Lato",
-              }}
-            >
-              Value
-            </Text>
-            <Text
-              style={{
-                flex: 1,
-                textAlign: "center",
-                color: "white",
-                textTransform: "uppercase",
-                fontFamily: "Lato",
-              }}
-            >
-              Trend
-            </Text>
+            <Badge
+              style={{ marginLeft: 10 }}
+              labelStyle={{ color: "#abb8c3", fontFamily: "Lato" }}
+              label={
+                !isOverlayVisible ? "Data refreshed every 5 minutes" : "No data"
+              }
+              color="#152127"
+            />
+            <MaterialCommunityIcons
+              name={!isOverlayVisible ? "database-eye" : "database-eye-off"}
+              size={20}
+              color={!isOverlayVisible ? "#4caf50" : "#eb144c"}
+            />
           </View>
-        </Box>
-      </View>
-      <Toast position="top" visibilityTime={2000} />
-      <View
-        style={{
-          flexDirection: "row",
-          alignItems: "flex-start",
-          alignContent: "center",
-          alignSelf: "flex-start",
-          marginBottom: 10,
-        }}
-      >
-        <Badge
-          style={{ marginLeft: 10 }}
-          labelStyle={{ color: "#abb8c3", fontFamily: "Lato" }}
-          label={
-            !isOverlayVisible ? "Data refreshed every 5 minutes" : "No data"
-          }
-          color="#152127"
-        />
-        <MaterialCommunityIcons
-          name={!isOverlayVisible ? "database-eye" : "database-eye-off"}
-          size={20}
-          color={!isOverlayVisible ? "#4caf50" : "#eb144c"}
-        />
-      </View>
-      {!isOverlayVisible ? (
-        <>
           <ScrollView
             style={{
               bottom: 0,
@@ -846,17 +907,18 @@ export const MainScreen = (): JSX => {
                 fontSize: 16,
               }}
             >
-              &copy; Equity Eagle 2023 &copy;
+              &copy;{" "}
+              {`Equity Eagle ${`(v.${appJSON.expo.version})`} - ${currentYear}`}{" "}
+              &copy;
             </Text>
           </View>
         </>
       ) : (
-        <View style={{ flex: 1, top: -screenHeight / 4 }}>
+        <View style={{ flex: 1, top: -30 }}>
           {imageLoading && (
             <View
               style={{
                 flex: 1,
-                top: 200,
                 justifyContent: "center",
                 alignItems: "center",
               }}
@@ -865,18 +927,7 @@ export const MainScreen = (): JSX => {
               <Text style={{ marginTop: 10, color: "white" }}>Loading...</Text>
             </View>
           )}
-          <ImageBackground
-            resizeMode="cover"
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              width: !imageLoading ? screenWidth : 0,
-              height: !imageLoading ? screenHeight / 2 : 0,
-            }}
-            source={contentImg}
-            alt="titleOfLogo"
-            onLoad={imageOnLoad}
-          />
+          <View>{themeChecker(symbolRef.current)}</View>
         </View>
       )}
       <BottomSheetModalProvider>
@@ -887,8 +938,11 @@ export const MainScreen = (): JSX => {
             enablePanDownToClose={false}
             ref={bottomSheetModalRef}
             index={0}
-            snapPoints={[screenHeight / 1.9, 500, "80%"]}
-            handleIndicatorStyle={{ backgroundColor: "#263238", opacity: 0.5 }}
+            snapPoints={[screenHeight / 1.5, 500, "80%"]}
+            handleIndicatorStyle={{
+              backgroundColor: "#263238",
+              opacity: 0.5,
+            }}
             backgroundStyle={{ backgroundColor: "#263238" }}
             enableDismissOnClose={true}
           >
@@ -900,7 +954,7 @@ export const MainScreen = (): JSX => {
                 alignItems: "flex-end",
                 alignContent: "flex-end",
                 paddingBottom: insets.bottom,
-                height: isIOS() ? screenHeight / 6 : screenHeight / 8.5,
+                height: isIOS() ? screenHeight / 6 : screenHeight / 4,
               }}
             >
               <IconButton
