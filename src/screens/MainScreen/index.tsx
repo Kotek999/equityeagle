@@ -4,6 +4,7 @@ import isIOS from "../../helpers/rulesOfDevice/isIOS";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import Toast from "react-native-toast-message";
 import appJSON from "../../../app.json";
+import dataJSON from "../../components/Data/MainScreenData/data.json";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -22,6 +23,7 @@ import {
   Platform,
   StyleSheet,
   TouchableOpacity,
+  Animated,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenHeight, screenWidth } from "../../helpers/dimensions";
@@ -270,6 +272,87 @@ export const MainScreen = (): JSX => {
       </View>
     );
   };
+
+  const Data = ({ data, index }: any) => {
+    if (!data || !data.length) {
+      return <Text>Loading...</Text>;
+    }
+    const isCurrentIndex = index === data.index;
+
+    const labelAnimatedValue = useRef(new Animated.Value(0)).current;
+    const contentAnimatedValue = useRef(new Animated.Value(0)).current;
+
+    useEffect(() => {
+      if (isCurrentIndex) {
+        const fadeIn = Animated.timing(labelAnimatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: false,
+        });
+        const fadeOut = Animated.timing(contentAnimatedValue, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: false,
+        });
+        const fadeInContent = Animated.timing(contentAnimatedValue, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: false,
+        });
+
+        Animated.sequence([fadeOut, fadeIn, fadeInContent]).start(() => {
+          labelAnimatedValue.setValue(0);
+          contentAnimatedValue.setValue(0);
+        });
+      }
+    }, [labelAnimatedValue, contentAnimatedValue, isCurrentIndex]);
+
+    const label = data[index].label;
+    const content = data[index].value;
+
+    const labelOpacity = labelAnimatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [1, 0],
+    });
+
+    const contentOpacity = contentAnimatedValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: [0, 1],
+    });
+
+    return (
+      <View>
+        <Animated.Text style={{ opacity: labelOpacity }}>{label}</Animated.Text>
+        <Animated.Text style={{ opacity: contentOpacity }}>
+          {content}
+        </Animated.Text>
+      </View>
+    );
+  };
+
+  const InterestingFacts = ({ data }: any) => {
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+      const intervalId = setInterval(() => {
+        setCurrentIndex((currentIndex + 1) % data.length);
+      }, 5000);
+      return () => clearInterval(intervalId);
+    }, [currentIndex, data.length]);
+
+    return (
+      <View>
+        {data.map((item: any, index: number) => {
+          return <Data key={index} data={data} index={currentIndex} />;
+        })}
+      </View>
+    );
+  };
+
+  const InterestingFactsBox = () => {
+    return <InterestingFacts data={dataJSON} />;
+  };
+
   const ModalData: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -410,10 +493,11 @@ export const MainScreen = (): JSX => {
                         alignContent: "center",
                       }}
                     >
-                      <ShowMoreText
+                      {/* <ShowMoreText
                         initialText="In progress..."
                         expandedText="Great cool long text that will be here about interesting facts from the company."
-                      />
+                      /> */}
+                      <InterestingFactsBox />
                     </Box>
                     <View
                       style={{
@@ -1031,7 +1115,11 @@ export const MainScreen = (): JSX => {
             enablePanDownToClose={false}
             ref={bottomSheetModalRef}
             index={0}
-            snapPoints={[screenHeight / 1.55, 500, "80%"]}
+            snapPoints={[
+              isIOS() ? screenHeight / 1.55 : screenHeight / 1.45,
+              500,
+              "80%",
+            ]}
             handleIndicatorStyle={{
               backgroundColor: "#263238",
               opacity: 0.5,
@@ -1047,7 +1135,7 @@ export const MainScreen = (): JSX => {
                 alignItems: "flex-end",
                 alignContent: "flex-end",
                 paddingBottom: insets.bottom,
-                height: screenHeight / 7,
+                height: isIOS() ? screenHeight / 7 : screenHeight / 11,
               }}
             >
               <IconButton
