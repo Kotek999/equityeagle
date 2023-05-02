@@ -4,7 +4,7 @@ import isIOS from "../../helpers/rulesOfDevice/isIOS";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import Toast from "react-native-toast-message";
 import appJSON from "../../../app.json";
-import dataJSON from "../../components/Data/MainScreenData/data.json";
+import { Test, TestSecond } from "../../components/Data/MainScreenData/data";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -71,11 +71,56 @@ export const MainScreen = (): JSX => {
   const themeSPCE = require("../../assets/themes/themeSPCE.png");
   const themeTSLA = require("../../assets/themes/themeTSLA.png");
 
-  type SourceProps = {
-    source: ImageSourcePropType;
+  // type SourceProps = {
+  //   source: ImageSourcePropType;
+  // };
+
+  type SourceType = {
+    uri: string;
   };
 
-  const ThemeImage = ({ source }: SourceProps): JSX => {
+  type Check<T> = Record<string, T>;
+
+  type CheckProps<T> = {
+    source: T;
+  };
+
+  const checker = <
+    T extends SourceType,
+    C extends React.ComponentType<CheckProps<T>>
+  >(
+    value: string,
+    check: Check<T>,
+    component: C
+  ): JSX.Element | string => {
+    const source = check[value];
+
+    return source
+      ? React.createElement(component, { source })
+      : `There was a problem displaying the object. ${value}`;
+  };
+
+  const SymbolIcon = ({ source }: CheckProps<SourceType>) => {
+    return (
+      <View
+        style={{
+          flexDirection: "row",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
+        <Image
+          source={source}
+          resizeMode="contain"
+          resizeMethod="auto"
+          style={{ width: isIOS() ? "100%" : 50, height: 35 }}
+        />
+      </View>
+    );
+  };
+
+  const ThemeImage = ({ source }: CheckProps<SourceType>) => {
     return (
       <View
         style={{
@@ -103,70 +148,30 @@ export const MainScreen = (): JSX => {
     );
   };
 
-  const SymbolIcon = ({ source }: SourceProps): JSX => {
-    return (
-      <View
-        style={{
-          flexDirection: "row",
-          justifyContent: "center",
-          alignItems: "center",
-          alignContent: "center",
-        }}
-      >
-        <Image
-          source={source}
-          resizeMode="contain"
-          resizeMethod="auto"
-          style={{ width: isIOS() ? "100%" : 50, height: 35 }}
-        />
-      </View>
-    );
+  const checkOne: Check<SourceType> = {
+    AAPL: iconAAPL,
+    MSFT: iconMSFT,
+    LMT: iconLMT,
+    TSLA: iconTSLA,
+    NVDA: iconNVDA,
+    DPZ: iconDPZ,
+    CAT: iconCAT,
+    EA: iconEA,
+    NFLX: iconNFLX,
+    SPCE: iconSPCE,
   };
 
-  type ImageType = {
-    uri: string;
-  };
-
-  const themeChecker = (theme: string): JSX | string => {
-    const themeMap: Record<string, ImageType> = {
-      AAPL: themeAAPL,
-      MSFT: themeMSFT,
-      LMT: themeLMT,
-      TSLA: themeTSLA,
-      NVDA: themeNVDA,
-      DPZ: themeDPZ,
-      CAT: themeCAT,
-      EA: themeEA,
-      NFLX: themeNLFX,
-      SPCE: themeSPCE,
-    };
-
-    const source = themeMap[theme];
-
-    return source ? (
-      <ThemeImage source={source} />
-    ) : (
-      "There was a problem displaying the image."
-    );
-  };
-
-  const symbolChecker = (symbol: string): JSX | string => {
-    const iconMap: Record<string, ImageType> = {
-      AAPL: iconAAPL,
-      MSFT: iconMSFT,
-      LMT: iconLMT,
-      TSLA: iconTSLA,
-      NVDA: iconNVDA,
-      DPZ: iconDPZ,
-      CAT: iconCAT,
-      EA: iconEA,
-      NFLX: iconNFLX,
-      SPCE: iconSPCE,
-    };
-
-    const source = iconMap[symbol];
-
-    return source ? <SymbolIcon source={source} /> : "N/A";
+  const checkTwo: Check<SourceType> = {
+    AAPL: themeAAPL,
+    MSFT: themeMSFT,
+    LMT: themeLMT,
+    TSLA: themeTSLA,
+    NVDA: themeNVDA,
+    DPZ: themeDPZ,
+    CAT: themeCAT,
+    EA: themeEA,
+    NFLX: themeNLFX,
+    SPCE: themeSPCE,
   };
 
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
@@ -278,48 +283,9 @@ export const MainScreen = (): JSX => {
     if (!data || !data.length) {
       return <Text>Loading...</Text>;
     }
-    const isCurrentIndex = index === data.index;
-
-    const labelAnimatedValue = useRef(new Animated.Value(0)).current;
-    const contentAnimatedValue = useRef(new Animated.Value(0)).current;
-
-    useEffect(() => {
-      if (isCurrentIndex) {
-        const fadeIn = Animated.timing(labelAnimatedValue, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: false,
-        });
-        const fadeOut = Animated.timing(contentAnimatedValue, {
-          toValue: 0,
-          duration: 500,
-          useNativeDriver: false,
-        });
-        const fadeInContent = Animated.timing(contentAnimatedValue, {
-          toValue: 1,
-          duration: 500,
-          useNativeDriver: false,
-        });
-
-        Animated.sequence([fadeOut, fadeIn, fadeInContent]).start(() => {
-          labelAnimatedValue.setValue(0);
-          contentAnimatedValue.setValue(0);
-        });
-      }
-    }, [labelAnimatedValue, contentAnimatedValue, isCurrentIndex]);
-
-    const label = data[index].label;
-    const content = data[index].value;
-
-    const labelOpacity = labelAnimatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, 0],
-    });
-
-    const contentOpacity = contentAnimatedValue.interpolate({
-      inputRange: [0, 1],
-      outputRange: [1, 0],
-    });
+    const currentData = data[index];
+    const label = currentData.label;
+    const content = currentData.content;
 
     return (
       <View
@@ -335,7 +301,7 @@ export const MainScreen = (): JSX => {
             textAlign: "center",
             color: "white",
             fontFamily: "Lato",
-            opacity: labelOpacity,
+            fontSize: 14,
           }}
         >
           {label}
@@ -345,7 +311,7 @@ export const MainScreen = (): JSX => {
             textAlign: "center",
             color: "white",
             fontFamily: "Lato",
-            opacity: contentOpacity,
+            fontSize: 14,
           }}
         >
           {content}
@@ -364,17 +330,47 @@ export const MainScreen = (): JSX => {
       return () => clearInterval(intervalId);
     }, [currentIndex, data.length]);
 
-    return (
-      <View>
-        {data.map((item: any, index: number) => {
-          return <Data key={index} data={data} index={currentIndex} />;
-        })}
-      </View>
-    );
+    return <Data data={data} index={currentIndex} />;
   };
 
-  const InterestingFactsBox = () => {
-    return <InterestingFacts data={dataJSON} />;
+  const factsSwitcher = (value: string) => {
+    switch (value) {
+      case "AAPL":
+        return <InterestingFacts data={Test} />;
+      case "MSFT":
+        return <InterestingFacts data={TestSecond} />;
+      case "LMT":
+        return <InterestingFacts data={TestSecond} />;
+      case "TSLA":
+        return <InterestingFacts data={TestSecond} />;
+      case "NVDA":
+        return <InterestingFacts data={TestSecond} />;
+      case "DPZ":
+        return <InterestingFacts data={TestSecond} />;
+      case "CAT":
+        return <InterestingFacts data={TestSecond} />;
+      case "EA":
+        return <InterestingFacts data={TestSecond} />;
+      case "NFLX":
+        return <InterestingFacts data={TestSecond} />;
+      case "SPCE":
+        return <InterestingFacts data={TestSecond} />;
+
+      default:
+        return (
+          <>
+            <Text
+              style={{
+                color: "white",
+                fontSize: 14,
+                fontFamily: "Lato",
+              }}
+            >
+              No facts to displaying.
+            </Text>
+          </>
+        );
+    }
   };
 
   const ModalData: React.FC = () => {
@@ -484,7 +480,11 @@ export const MainScreen = (): JSX => {
                           {symbolRef.current}
                         </Text>
                         <View style={{ flex: 1 }}>
-                          {symbolChecker(symbolRef.current)}
+                          {checker<SourceType, typeof SymbolIcon>(
+                            symbolRef.current,
+                            checkOne,
+                            SymbolIcon
+                          )}
                         </View>
                       </Box>
                     </View>
@@ -543,7 +543,7 @@ export const MainScreen = (): JSX => {
                               alignContent: "center",
                             }}
                           >
-                            <InterestingFactsBox />
+                            {factsSwitcher(symbolRef.current)}
                           </View>
                         </Box>
                         <View
@@ -826,7 +826,11 @@ export const MainScreen = (): JSX => {
                 style={{ marginRight: 16 }}
               />
               <Text style={{ flex: 1, textAlign: "center" }}>
-                {symbolChecker(symbol)}
+                {checker<SourceType, typeof SymbolIcon>(
+                  symbol,
+                  checkOne,
+                  SymbolIcon
+                )}
               </Text>
               <Text
                 style={{
@@ -1201,7 +1205,13 @@ export const MainScreen = (): JSX => {
               <Text style={{ marginTop: 10, color: "white" }}>Loading...</Text>
             </View> */}
           {/* )} */}
-          <View>{themeChecker(symbolRef.current)}</View>
+          <View>
+            {checker<SourceType, typeof ThemeImage>(
+              symbolRef.current,
+              checkTwo,
+              ThemeImage
+            )}
+          </View>
         </View>
       )}
       <BottomSheetModalProvider>
@@ -1226,23 +1236,7 @@ export const MainScreen = (): JSX => {
             backgroundStyle={{ backgroundColor: "#263238" }}
             enableDismissOnClose={true}
           >
-            {/* <ScrollView
-              style={{
-                bottom: 0,
-                marginBottom: 0,
-                marginTop: 0,
-                backgroundColor: "#263238",
-              }}
-              contentContainerStyle={{
-                paddingBottom: insets.bottom + 120,
-                width: screenWidth,
-              }}
-            >
-              <View style={{ flex: 1 }}> */}
             <ModalData />
-
-            {/* </View>
-            </ScrollView> */}
           </BottomSheetModal>
         </SafeAreaView>
       </BottomSheetModalProvider>
