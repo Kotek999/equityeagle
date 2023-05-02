@@ -24,6 +24,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
+  SafeAreaView,
 } from "react-native";
 import { JSX } from "../../types";
 import { screenHeight, screenWidth } from "../../helpers/dimensions";
@@ -317,13 +318,36 @@ export const MainScreen = (): JSX => {
 
     const contentOpacity = contentAnimatedValue.interpolate({
       inputRange: [0, 1],
-      outputRange: [0, 1],
+      outputRange: [1, 0],
     });
 
     return (
-      <View>
-        <Animated.Text style={{ opacity: labelOpacity }}>{label}</Animated.Text>
-        <Animated.Text style={{ opacity: contentOpacity }}>
+      <View
+        style={{
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
+        <Animated.Text
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontFamily: "Lato",
+            opacity: labelOpacity,
+          }}
+        >
+          {label}
+        </Animated.Text>
+        <Animated.Text
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontFamily: "Lato",
+            opacity: contentOpacity,
+          }}
+        >
           {content}
         </Animated.Text>
       </View>
@@ -467,106 +491,179 @@ export const MainScreen = (): JSX => {
                   </View>
                   <Divider
                     style={{
-                      backgroundColor: "#00d084",
+                      backgroundColor: "#abb8c3",
                       top: 20,
                       marginBottom: 20,
                     }}
                   />
-                  <View
+                  <ScrollView
                     style={{
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      alignContent: "center",
+                      bottom: 0,
+                      marginBottom: 50,
+                      marginTop: 0,
+                      backgroundColor: "#263238",
+                    }}
+                    contentContainerStyle={{
+                      paddingBottom: insets.bottom + 200,
                       width: screenWidth,
                     }}
                   >
-                    <Box
-                      w={screenWidth - 20}
-                      h={150}
-                      top={10}
-                      radius={14}
-                      style={{
-                        backgroundColor: "#152127",
-                        flexDirection: "row",
-                        alignItems: "center",
-                        alignContent: "center",
-                      }}
-                    >
-                      {/* <ShowMoreText
-                        initialText="In progress..."
-                        expandedText="Great cool long text that will be here about interesting facts from the company."
-                      /> */}
-                      <InterestingFactsBox />
-                    </Box>
-                    <View
-                      style={{
-                        flexDirection: "row",
-                        alignItems: "center",
-                        alignContent: "center",
-                        justifyContent: "center",
-                        alignSelf: "flex-start",
-                      }}
-                    >
-                      <Box
-                        w={screenWidth / 2}
-                        h={150}
-                        m={10}
-                        top={10}
-                        radius={14}
-                        style={{
-                          backgroundColor: "#152127",
-                          flexDirection: "row",
-                          alignItems: "center",
-                          alignContent: "center",
-                        }}
-                      >
-                        <Text
-                          style={{
-                            flex: 1,
-                            fontFamily: "Lato",
-                            color: "white",
-                            textAlign: "center",
-                          }}
-                        >
-                          Map or Image of Place
-                        </Text>
-                      </Box>
+                    <View style={{ flex: 1 }}>
                       <View
                         style={{
-                          flex: 1,
-                          flexDirection: "row",
+                          flexDirection: "column",
                           justifyContent: "center",
                           alignItems: "center",
                           alignContent: "center",
+                          width: screenWidth,
                         }}
                       >
-                        <Button
-                          variant="contained"
-                          color="#152127"
-                          title="Show chart"
-                          tintColor="#cddc39"
-                          trailing={(props) => (
-                            <Icon name="chart-line" {...props} />
-                          )}
-                          onPress={() => onClickOpenModalWithChart()}
-                        />
+                        <Box
+                          w={screenWidth - 20}
+                          h={150}
+                          top={10}
+                          radius={14}
+                          style={{
+                            backgroundColor: "#152127",
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                          }}
+                        >
+                          {/* <ShowMoreText
+                        initialText="In progress..."
+                        expandedText="Great cool long text that will be here about interesting facts from the company."
+                      /> */}
+                          <View
+                            style={{
+                              flex: 1,
+                              flexDirection: "row",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              alignContent: "center",
+                            }}
+                          >
+                            <InterestingFactsBox />
+                          </View>
+                        </Box>
+                        <View
+                          style={{
+                            flexDirection: "row",
+                            alignItems: "center",
+                            alignContent: "center",
+                            justifyContent: "center",
+                            alignSelf: "flex-start",
+                          }}
+                        >
+                          <Box
+                            w={screenWidth / 2}
+                            h={150}
+                            m={10}
+                            top={10}
+                            radius={14}
+                            style={{
+                              backgroundColor: "#152127",
+                              flexDirection: "row",
+                              alignItems: "center",
+                              alignContent: "center",
+                            }}
+                          >
+                            <Text
+                              style={{
+                                flex: 1,
+                                fontFamily: "Lato",
+                                color: "white",
+                                textAlign: "center",
+                              }}
+                            >
+                              Map or Image of Place
+                            </Text>
+                          </Box>
+                          <View
+                            style={{
+                              flex: 1,
+                              right: 5,
+                              flexDirection: "row",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              alignContent: "center",
+                            }}
+                          >
+                            <Button
+                              style={{ width: "90%" }}
+                              variant="contained"
+                              color="#152127"
+                              title="Show chart"
+                              tintColor="#cddc39"
+                              trailing={(props) => (
+                                <Icon name="chart-line" {...props} />
+                              )}
+                              onPress={() => onClickOpenModalWithChart()}
+                            />
+                          </View>
+                        </View>
                       </View>
                     </View>
-                  </View>
+                    <View
+                      style={{
+                        position: "relative",
+                        top: 20,
+                        bottom: 0,
+                        left: 0,
+                        right: 0,
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <IconButton
+                        icon={(props): any => <Icon name="close" {...props} />}
+                        color="#cddc39"
+                        style={{
+                          width: 40,
+                          height: 40,
+                          backgroundColor: "#152127",
+                        }}
+                        onPress={onClickCloseModal}
+                      />
+                    </View>
+                  </ScrollView>
                 </View>
               </>
             ) : (
-              <Text
-                style={{
-                  fontFamily: "Lato",
-                  color: "white",
-                  textAlign: "center",
-                  fontSize: 20,
-                }}
-              >
-                The CHART modal in progress...
-              </Text>
+              <>
+                <Text
+                  style={{
+                    fontFamily: "Lato",
+                    color: "white",
+                    textAlign: "center",
+                    fontSize: 20,
+                  }}
+                >
+                  The CHART modal in progress...
+                </Text>
+                <View
+                  style={{
+                    position: "relative",
+                    top: 20,
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <IconButton
+                    icon={(props): any => <Icon name="close" {...props} />}
+                    color="#cddc39"
+                    style={{
+                      width: 40,
+                      height: 40,
+                      backgroundColor: "#152127",
+                    }}
+                    onPress={onClickCloseModal}
+                  />
+                </View>
+              </>
             )}
           </>
         )}
@@ -1108,18 +1205,20 @@ export const MainScreen = (): JSX => {
         </View>
       )}
       <BottomSheetModalProvider>
-        <View
-          style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        <SafeAreaView
+          style={{
+            flex: 1,
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            right: 0,
+          }}
         >
           <BottomSheetModal
             enablePanDownToClose={false}
             ref={bottomSheetModalRef}
             index={0}
-            snapPoints={[
-              isIOS() ? screenHeight / 1.55 : screenHeight / 1.45,
-              500,
-              "80%",
-            ]}
+            snapPoints={["65%", 500, "80%"]}
             handleIndicatorStyle={{
               backgroundColor: "#263238",
               opacity: 0.5,
@@ -1127,26 +1226,25 @@ export const MainScreen = (): JSX => {
             backgroundStyle={{ backgroundColor: "#263238" }}
             enableDismissOnClose={true}
           >
-            <ModalData />
-            <View
+            {/* <ScrollView
               style={{
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "flex-end",
-                alignContent: "flex-end",
-                paddingBottom: insets.bottom,
-                height: isIOS() ? screenHeight / 7 : screenHeight / 11,
+                bottom: 0,
+                marginBottom: 0,
+                marginTop: 0,
+                backgroundColor: "#263238",
+              }}
+              contentContainerStyle={{
+                paddingBottom: insets.bottom + 120,
+                width: screenWidth,
               }}
             >
-              <IconButton
-                icon={(props): any => <Icon name="close" {...props} />}
-                color="white"
-                style={{ width: 40, height: 40, backgroundColor: "#00d084" }}
-                onPress={onClickCloseModal}
-              />
-            </View>
+              <View style={{ flex: 1 }}> */}
+            <ModalData />
+
+            {/* </View>
+            </ScrollView> */}
           </BottomSheetModal>
-        </View>
+        </SafeAreaView>
       </BottomSheetModalProvider>
     </View>
   );
