@@ -4,7 +4,18 @@ import isIOS from "../../helpers/rulesOfDevice/isIOS";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import Toast from "react-native-toast-message";
 import appJSON from "../../../app.json";
-import { Test, TestSecond } from "../../components/Data/MainScreenData/data";
+import {
+  AAPL_DATA,
+  CAT_DATA,
+  DPZ_DATA,
+  EA_DATA,
+  LMT_DATA,
+  MSFT_DATA,
+  NFLX_DATA,
+  NVDA_DATA,
+  SPCE_DATA,
+  TSLA_DATA,
+} from "../../components/Data/MainScreenData/data";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
@@ -92,7 +103,7 @@ export const MainScreen = (): JSX => {
     value: string,
     check: Check<T>,
     component: C
-  ): JSX.Element | string => {
+  ): JSX | string => {
     const source = check[value];
 
     return source
@@ -294,28 +305,62 @@ export const MainScreen = (): JSX => {
           justifyContent: "center",
           alignItems: "center",
           alignContent: "center",
+          width: "90%",
         }}
       >
-        <Animated.Text
+        <View style={{ top: 10 }}>
+          <Animated.Text
+            style={{
+              textAlign: "center",
+              color: "#cddc39",
+              fontFamily: "Lato",
+              fontSize: 16,
+              letterSpacing: 1.1,
+              textTransform: "uppercase",
+            }}
+          >
+            {label}
+          </Animated.Text>
+        </View>
+        <Box
+          w={screenWidth - 50}
+          h={80}
+          radius={14}
           style={{
-            textAlign: "center",
-            color: "white",
-            fontFamily: "Lato",
-            fontSize: 14,
+            top: 10,
+            marginBottom: 20,
+            flexDirection: "row",
+            alignItems: "center",
+            alignContent: "center",
+            justifyContent: "center",
+            backgroundColor: "transparent",
           }}
         >
-          {label}
-        </Animated.Text>
-        <Animated.Text
-          style={{
-            textAlign: "center",
-            color: "white",
-            fontFamily: "Lato",
-            fontSize: 14,
-          }}
-        >
-          {content}
-        </Animated.Text>
+          <ScrollView
+            style={{
+              bottom: 0,
+              marginBottom: 0,
+              marginTop: 10,
+              backgroundColor: "transparent",
+            }}
+            contentContainerStyle={{
+              paddingBottom: insets.bottom,
+              
+            }}
+          >
+            <Animated.Text
+              style={{
+                textAlign: "center",
+                color: "white",
+                fontFamily: "Lato",
+                fontSize: 14,
+                letterSpacing: 1.1,
+              }}
+            >
+              {content}
+            </Animated.Text>
+          </ScrollView>
+        </Box>
       </View>
     );
   };
@@ -326,51 +371,68 @@ export const MainScreen = (): JSX => {
     useEffect(() => {
       const intervalId = setInterval(() => {
         setCurrentIndex((currentIndex + 1) % data.length);
-      }, 5000);
+      }, 10000);
       return () => clearInterval(intervalId);
     }, [currentIndex, data.length]);
 
     return <Data data={data} index={currentIndex} />;
   };
 
-  const factsSwitcher = (value: string) => {
-    switch (value) {
-      case "AAPL":
-        return <InterestingFacts data={Test} />;
-      case "MSFT":
-        return <InterestingFacts data={TestSecond} />;
-      case "LMT":
-        return <InterestingFacts data={TestSecond} />;
-      case "TSLA":
-        return <InterestingFacts data={TestSecond} />;
-      case "NVDA":
-        return <InterestingFacts data={TestSecond} />;
-      case "DPZ":
-        return <InterestingFacts data={TestSecond} />;
-      case "CAT":
-        return <InterestingFacts data={TestSecond} />;
-      case "EA":
-        return <InterestingFacts data={TestSecond} />;
-      case "NFLX":
-        return <InterestingFacts data={TestSecond} />;
-      case "SPCE":
-        return <InterestingFacts data={TestSecond} />;
+  enum Symbols {
+    Apple = "AAPL",
+    Microsoft = "MSFT",
+    Lewis = "LMT",
+    Tesla = "TSLA",
+    Nvidia = "NVDA",
+    Dominos = "DPZ",
+    Caterpillar = "CAT",
+    ElectronicArts = "EA",
+    Netflix = "NFLX",
+    Virgin = "SPCE",
+  }
 
-      default:
-        return (
-          <>
-            <Text
-              style={{
-                color: "white",
-                fontSize: 14,
-                fontFamily: "Lato",
-              }}
-            >
-              No facts to displaying.
-            </Text>
-          </>
-        );
-    }
+  const symbolDataMap: any = {
+    [Symbols.Apple]: AAPL_DATA,
+    [Symbols.Microsoft]: MSFT_DATA,
+    [Symbols.Lewis]: LMT_DATA,
+    [Symbols.Tesla]: TSLA_DATA,
+    [Symbols.Nvidia]: NVDA_DATA,
+    [Symbols.Dominos]: DPZ_DATA,
+    [Symbols.Caterpillar]: CAT_DATA,
+    [Symbols.ElectronicArts]: EA_DATA,
+    [Symbols.Netflix]: NFLX_DATA,
+    [Symbols.Virgin]: SPCE_DATA,
+  };
+
+  interface NoFactsProps {
+    symbol: Symbols;
+  }
+
+  const NoFacts = ({ symbol }: NoFactsProps): JSX => {
+    return (
+      <>
+        <Text
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontFamily: "Lato",
+            fontSize: 16,
+            letterSpacing: 1.1,
+          }}
+        >
+          {`No facts for ${symbol}.`}
+        </Text>
+      </>
+    );
+  };
+
+  const factsSwitcher = (symbol: any): JSX => {
+    const data: Symbols = symbolDataMap[symbol];
+    return data ? (
+      <InterestingFacts data={data} />
+    ) : (
+      <NoFacts symbol={symbol} />
+    );
   };
 
   const ModalData: React.FC = () => {
@@ -416,6 +478,7 @@ export const MainScreen = (): JSX => {
                           left: -10,
                           color: "#cddc39",
                           fontSize: 24,
+                          letterSpacing: 1.1,
                           fontFamily: "Lato",
                         }}
                       >
@@ -439,6 +502,7 @@ export const MainScreen = (): JSX => {
                             textAlign: "center",
                             color: "white",
                             fontSize: 15,
+                            letterSpacing: 1.1,
                             fontWeight: "bold",
                           }}
                         >
@@ -474,6 +538,7 @@ export const MainScreen = (): JSX => {
                             textAlign: "center",
                             color: "white",
                             fontSize: 20,
+                            letterSpacing: 1.1,
                             fontFamily: "Lato",
                           }}
                         >
@@ -574,6 +639,7 @@ export const MainScreen = (): JSX => {
                                 fontFamily: "Lato",
                                 color: "white",
                                 textAlign: "center",
+                                letterSpacing: 1.1,
                               }}
                             >
                               Map or Image of Place
@@ -636,6 +702,7 @@ export const MainScreen = (): JSX => {
                     fontFamily: "Lato",
                     color: "white",
                     textAlign: "center",
+                    letterSpacing: 1.1,
                     fontSize: 20,
                   }}
                 >
@@ -795,7 +862,11 @@ export const MainScreen = (): JSX => {
               alignContent: "center",
             }}
           >
-            <Text style={{ color: "white", marginRight: 20 }}>Loading...</Text>
+            <Text
+              style={{ color: "white", marginRight: 20, letterSpacing: 1.1 }}
+            >
+              Loading...
+            </Text>
             <ActivityIndicator size="small" color="#b6843a" />
           </View>
         ) : data && refreshData ? (
@@ -814,6 +885,7 @@ export const MainScreen = (): JSX => {
                   textAlign: "center",
                   color: "white",
                   fontFamily: "Lato",
+                  letterSpacing: 1.1,
                 }}
               >{`${place}.`}</Text>
               <MaterialCommunityIcons
@@ -823,9 +895,9 @@ export const MainScreen = (): JSX => {
                 onPress={() => {
                   onModalOpened(symbol, place, maxOpen, trend);
                 }}
-                style={{ marginRight: 16 }}
+                style={{ marginRight: 10 }}
               />
-              <Text style={{ flex: 1, textAlign: "center" }}>
+              <Text style={{ textAlign: "center" }}>
                 {checker<SourceType, typeof SymbolIcon>(
                   symbol,
                   checkOne,
@@ -838,6 +910,7 @@ export const MainScreen = (): JSX => {
                   textAlign: "center",
                   color: "white",
                   fontFamily: "Lato",
+                  letterSpacing: 1.1,
                 }}
               >
                 {symbol}
@@ -883,6 +956,7 @@ export const MainScreen = (): JSX => {
                 textAlign: "center",
                 color: "white",
                 fontFamily: "Lato",
+                letterSpacing: 1.1,
               }}
             >
               Data is being refreshed, please wait...
@@ -908,6 +982,7 @@ export const MainScreen = (): JSX => {
                 textAlign: "center",
                 color: "white",
                 fontFamily: "Lato",
+                letterSpacing: 1.1,
               }}
             >
               No data
@@ -1057,7 +1132,7 @@ export const MainScreen = (): JSX => {
                     fontFamily: "Lato",
                   }}
                 >
-                  Icon
+                  Symbol
                 </Text>
                 <Text
                   style={{
@@ -1107,7 +1182,11 @@ export const MainScreen = (): JSX => {
           >
             <Badge
               style={{ marginLeft: 10 }}
-              labelStyle={{ color: "#abb8c3", fontFamily: "Lato" }}
+              labelStyle={{
+                color: "#abb8c3",
+                fontFamily: "Lato",
+                letterSpacing: 1.1,
+              }}
               label={
                 !isOverlayVisible ? "Data refreshed every 5 minutes" : "No data"
               }
@@ -1181,6 +1260,7 @@ export const MainScreen = (): JSX => {
                 color: "#90a4ae",
                 fontFamily: "Lato",
                 fontSize: 16,
+                letterSpacing: 1.1,
               }}
             >
               &copy;{" "}
