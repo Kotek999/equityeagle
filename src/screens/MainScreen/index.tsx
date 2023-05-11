@@ -454,7 +454,7 @@ export const MainScreen = (): JSX => {
           value: 240,
           date: "10 Apr 2022",
           label: "10 Apr",
-          labelTextStyle: { color: "lightgray", width: 60 },
+          labelTextStyle: { fontFamily: "Lato", color: "lightgray", width: 60 },
         },
         { value: 280, date: "11 Apr 2022" },
         { value: 260, date: "12 Apr 2022" },
@@ -470,7 +470,7 @@ export const MainScreen = (): JSX => {
           value: 300,
           date: "20 Apr 2022",
           label: "20 Apr",
-          labelTextStyle: { color: "lightgray", width: 60 },
+          labelTextStyle: { fontFamily: "Lato", color: "lightgray", width: 60 },
         },
         { value: 280, date: "21 Apr 2022" },
         { value: 295, date: "22 Apr 2022" },
@@ -486,7 +486,7 @@ export const MainScreen = (): JSX => {
           value: 200,
           date: "30 Apr 2022",
           label: "30 Apr",
-          labelTextStyle: { color: "lightgray", width: 60 },
+          labelTextStyle: { fontFamily: "Lato", color: "lightgray", width: 60 },
         },
         { value: 240, date: "1 May 2022" },
         { value: 250, date: "2 May 2022" },
@@ -506,12 +506,12 @@ export const MainScreen = (): JSX => {
         >
           <View
             style={{
-              top: 10,
+              top: 0,
               width: screenWidth,
               paddingVertical: 80,
-              paddingLeft: 20,
+              paddingLeft: 10,
               // bgColor for tests:
-              backgroundColor: "#152127",
+              backgroundColor: "#263238",
               // backgroundColor: "#263238",
             }}
           >
@@ -519,13 +519,14 @@ export const MainScreen = (): JSX => {
               areaChart
               data={ptData}
               rotateLabel
-              width={300}
-              height={200}
+              width={screenWidth / 1.25}
+              height={screenHeight / 6}
               hideDataPoints
-              spacing={10}
-              color="#00ff83"
+              spacing={11}
+              color="#00d084"
+              // color="#cddc39"
               thickness={2}
-              startFillColor="rgba(20,105,81,0.3)"
+              startFillColor="#00d084"
               endFillColor="rgba(20,85,81,0.01)"
               startOpacity={0.9}
               endOpacity={0.2}
@@ -556,15 +557,15 @@ export const MainScreen = (): JSX => {
                         height: 90,
                         width: 100,
                         justifyContent: "center",
-                        marginTop: -30,
+                        marginTop: 0,
                         marginLeft: -40,
                       }}
                     >
                       <Text
                         style={{
+                          fontFamily: "Lato",
                           color: "white",
                           fontSize: 14,
-                          marginBottom: 6,
                           textAlign: "center",
                         }}
                       >
@@ -573,14 +574,20 @@ export const MainScreen = (): JSX => {
 
                       <View
                         style={{
+                          top: 10,
                           paddingHorizontal: 14,
                           paddingVertical: 6,
                           borderRadius: 16,
-                          backgroundColor: "white",
+                          backgroundColor: "#455a64",
                         }}
                       >
                         <Text
-                          style={{ fontWeight: "bold", textAlign: "center" }}
+                          style={{
+                            fontFamily: "Lato",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            color: "white",
+                          }}
                         >
                           {"$" + items[0].value + ".0"}
                         </Text>
@@ -854,17 +861,71 @@ export const MainScreen = (): JSX => {
               </>
             ) : (
               <>
-                <Text
-                  style={{
-                    fontFamily: "Lato",
-                    color: "white",
-                    textAlign: "center",
-                    letterSpacing: 1.1,
-                    fontSize: 20,
-                  }}
-                >
-                  The CHART modal in progress...
-                </Text>
+                <View>
+                  <View
+                    style={{
+                      flexDirection: "row",
+                      alignItems: "center",
+                      justifyContent: "space-between",
+                      paddingHorizontal: 16,
+                    }}
+                  >
+                    <View
+                      style={{
+                        flex: 1,
+                        flexDirection: "row",
+                        alignItems: "center",
+                        alignContent: "center",
+                        justifyContent: "center",
+                      }}
+                    >
+                      <Box
+                        w={screenWidth - 20}
+                        h={50}
+                        radius={14}
+                        style={{
+                          flex: 1,
+                          backgroundColor: "#152127",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          alignContent: "center",
+                          justifyContent: "space-around",
+                        }}
+                      >
+                        <Text
+                          style={{
+                            textAlign: "center",
+                            color: "white",
+                            fontSize: 20,
+                            letterSpacing: 1.1,
+                            fontWeight: "bold",
+                            textTransform: "uppercase",
+                          }}
+                        >
+                          Chart for:
+                        </Text>
+                        <Text
+                          style={{
+                            textAlign: "center",
+                            color: "#cddc39",
+                            fontSize: 20,
+                            letterSpacing: 1.1,
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {symbolRef.current}
+                        </Text>
+                      </Box>
+                    </View>
+                  </View>
+                  <Divider
+                    style={{
+                      backgroundColor: "#abb8c3",
+                      top: 20,
+                      marginBottom: 20,
+                    }}
+                  />
+                </View>
                 <Chart />
                 <View
                   style={{
