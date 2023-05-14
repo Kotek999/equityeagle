@@ -83,6 +83,17 @@ export const MainScreen = (): JSX => {
   const themeSPCE = require("../../assets/themes/themeSPCE.png");
   const themeTSLA = require("../../assets/themes/themeTSLA.png");
 
+  const productAAPL = require("../../assets/products/productAAPL.png");
+  const productCAT = require("../../assets/products/productCAT.png");
+  const productDPZ = require("../../assets/products/productDPZ.png");
+  const productEA = require("../../assets/products/productEA.png");
+  const productLMT = require("../../assets/products/productLMT.png");
+  const productMSFT = require("../../assets/products/productMSFT.png");
+  const productNFLX = require("../../assets/products/productNFLX.png");
+  const productNVDA = require("../../assets/products/productNVDA.png");
+  const productSPCE = require("../../assets/products/productSPCE.png");
+  const productTSLA = require("../../assets/products/productTSLA.png");
+
   // type SourceProps = {
   //   source: ImageSourcePropType;
   // };
@@ -160,6 +171,179 @@ export const MainScreen = (): JSX => {
     );
   };
 
+  enum Symbols {
+    Apple = "AAPL",
+    Microsoft = "MSFT",
+    Lewis = "LMT",
+    Tesla = "TSLA",
+    Nvidia = "NVDA",
+    Dominos = "DPZ",
+    Caterpillar = "CAT",
+    ElectronicArts = "EA",
+    Netflix = "NFLX",
+    Virgin = "SPCE",
+  }
+
+  enum Products {
+    Apple = "iPhone",
+    Microsoft = "MS Office 365",
+    Lewis = "LMT MARS",
+    Tesla = "Tesla Model S",
+    Nvidia = "Graphics cards",
+    Dominos = "Delivery by robots",
+    Caterpillar = "Crawler excavator",
+    ElectronicArts = "FIFA game series",
+    Netflix = "Movies and series",
+    Virgin = "Private spacecraft",
+  }
+
+  const symbolDataMap: any = {
+    [Symbols.Apple]: AAPL_DATA,
+    [Symbols.Microsoft]: MSFT_DATA,
+    [Symbols.Lewis]: LMT_DATA,
+    [Symbols.Tesla]: TSLA_DATA,
+    [Symbols.Nvidia]: NVDA_DATA,
+    [Symbols.Dominos]: DPZ_DATA,
+    [Symbols.Caterpillar]: CAT_DATA,
+    [Symbols.ElectronicArts]: EA_DATA,
+    [Symbols.Netflix]: NFLX_DATA,
+    [Symbols.Virgin]: SPCE_DATA,
+  };
+
+  const productDataMap: any = {
+    [Symbols.Apple]: Products.Apple,
+    [Symbols.Microsoft]: Products.Microsoft,
+    [Symbols.Lewis]: Products.Lewis,
+    [Symbols.Tesla]: Products.Tesla,
+    [Symbols.Nvidia]: Products.Nvidia,
+    [Symbols.Dominos]: Products.Dominos,
+    [Symbols.Caterpillar]: Products.Caterpillar,
+    [Symbols.ElectronicArts]: Products.ElectronicArts,
+    [Symbols.Netflix]: Products.Netflix,
+    [Symbols.Virgin]: Products.Virgin,
+  };
+
+  interface NoContentProps {
+    symbol: Symbols | Products;
+  }
+
+  const NoContent = ({ symbol }: NoContentProps): JSX => {
+    return (
+      <>
+        <Text
+          style={{
+            textAlign: "center",
+            color: "white",
+            fontFamily: "Lato",
+            fontSize: 16,
+            letterSpacing: 1.1,
+          }}
+        >
+          {`No content for ${symbol}.`}
+        </Text>
+      </>
+    );
+  };
+
+  const Product = ({ productName }: any): JSX => {
+    return (
+      <>
+        <Text>{productName}</Text>
+      </>
+    );
+  };
+
+  const ContentSwitcher = ({ symbol, isName }: any): JSX => {
+    const data: Symbols = symbolDataMap[symbol];
+    const productName: Symbols = productDataMap[symbol];
+
+    return data ? (
+      <>
+        {!isName ? (
+          <InterestingFacts data={data} />
+        ) : (
+          <Product productName={productName} />
+        )}
+      </>
+    ) : (
+      <NoContent symbol={symbol} />
+    );
+  };
+
+  const ProductImage = ({ source }: CheckProps<SourceType>) => {
+    return (
+      <View style={{ flex: 1 }}>
+        <View
+          style={{
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+            alignContent: "center",
+            width: screenWidth,
+          }}
+        >
+          <View
+            style={{
+              marginTop: 30,
+              marginBottom: 30,
+              flex: 1,
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+            }}
+          >
+            <ImageBackground
+              source={source}
+              resizeMode="cover"
+              resizeMethod="auto"
+              style={{
+                justifyContent: "flex-end",
+                width: screenWidth,
+                flex: 1,
+                height: screenWidth / 2,
+              }}
+            >
+              <View
+                style={{
+                  height: 60,
+                  flexDirection: "row",
+                  justifyContent: "space-around",
+                  alignItems: "center",
+                  alignContent: "center",
+                  backgroundColor: "#000000c0",
+                }}
+              >
+                <Text
+                  style={{
+                    flex: 1,
+                    color: "white",
+                    fontSize: 20,
+                    fontFamily: "Lato",
+                    justifyContent: "center",
+                    marginLeft: 20,
+                  }}
+                >
+                  Most popular product:
+                </Text>
+                <Text
+                  style={{
+                    color: "#cddc39",
+                    fontSize: 20,
+                    fontWeight: "bold",
+                    marginRight: 20,
+                  }}
+                >
+                  <ContentSwitcher symbol={symbolRef.current} isName={true} />
+                </Text>
+              </View>
+            </ImageBackground>
+          </View>
+        </View>
+      </View>
+    );
+  };
+
   const checkOne: Check<SourceType> = {
     AAPL: iconAAPL,
     MSFT: iconMSFT,
@@ -184,6 +368,19 @@ export const MainScreen = (): JSX => {
     EA: themeEA,
     NFLX: themeNLFX,
     SPCE: themeSPCE,
+  };
+
+  const checkThree: Check<SourceType> = {
+    AAPL: productAAPL,
+    MSFT: productMSFT,
+    LMT: productLMT,
+    TSLA: productTSLA,
+    NVDA: productNVDA,
+    DPZ: productDPZ,
+    CAT: productCAT,
+    EA: productEA,
+    NFLX: productNFLX,
+    SPCE: productSPCE,
   };
 
   const [isOverlayVisible, setIsOverlayVisible] = useState(false);
@@ -219,6 +416,11 @@ export const MainScreen = (): JSX => {
   const onClickOpenModalWithChart = () => {
     setIsOverlayVisibleModalChart(true);
     bottomSheetModalWithChartRef.current?.present();
+  };
+
+  const onClickCloseModalWithChart = () => {
+    setIsOverlayVisibleModalChart(false);
+    bottomSheetModalWithChartRef.current?.close();
   };
 
   const insets = useSafeAreaInsets();
@@ -328,6 +530,7 @@ export const MainScreen = (): JSX => {
           h={80}
           radius={14}
           style={{
+            flex: 1,
             top: 10,
             marginBottom: 20,
             flexDirection: "row",
@@ -376,63 +579,6 @@ export const MainScreen = (): JSX => {
     }, [currentIndex, data.length]);
 
     return <Data data={data} index={currentIndex} />;
-  };
-
-  enum Symbols {
-    Apple = "AAPL",
-    Microsoft = "MSFT",
-    Lewis = "LMT",
-    Tesla = "TSLA",
-    Nvidia = "NVDA",
-    Dominos = "DPZ",
-    Caterpillar = "CAT",
-    ElectronicArts = "EA",
-    Netflix = "NFLX",
-    Virgin = "SPCE",
-  }
-
-  const symbolDataMap: any = {
-    [Symbols.Apple]: AAPL_DATA,
-    [Symbols.Microsoft]: MSFT_DATA,
-    [Symbols.Lewis]: LMT_DATA,
-    [Symbols.Tesla]: TSLA_DATA,
-    [Symbols.Nvidia]: NVDA_DATA,
-    [Symbols.Dominos]: DPZ_DATA,
-    [Symbols.Caterpillar]: CAT_DATA,
-    [Symbols.ElectronicArts]: EA_DATA,
-    [Symbols.Netflix]: NFLX_DATA,
-    [Symbols.Virgin]: SPCE_DATA,
-  };
-
-  interface NoFactsProps {
-    symbol: Symbols;
-  }
-
-  const NoFacts = ({ symbol }: NoFactsProps): JSX => {
-    return (
-      <>
-        <Text
-          style={{
-            textAlign: "center",
-            color: "white",
-            fontFamily: "Lato",
-            fontSize: 16,
-            letterSpacing: 1.1,
-          }}
-        >
-          {`No facts for ${symbol}.`}
-        </Text>
-      </>
-    );
-  };
-
-  const factsSwitcher = (symbol: any): JSX => {
-    const data: Symbols = symbolDataMap[symbol];
-    return data ? (
-      <InterestingFacts data={data} />
-    ) : (
-      <NoFacts symbol={symbol} />
-    );
   };
 
   const ModalData: React.FC = () => {
@@ -624,8 +770,7 @@ export const MainScreen = (): JSX => {
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingHorizontal: 16,
+                      justifyContent: "center",
                     }}
                   >
                     <View
@@ -634,24 +779,25 @@ export const MainScreen = (): JSX => {
                         flexDirection: "row",
                         alignItems: "center",
                         alignContent: "center",
-                        justifyContent: "center",
+                        justifyContent: "space-around",
                       }}
                     >
-                      <Text
+                      <IconButton
+                        icon={(props): any => (
+                          <Icon name="finance" {...props} />
+                        )}
                         style={{
-                          left: -10,
-                          color: "#cddc39",
-                          fontSize: 24,
-                          letterSpacing: 1.1,
-                          fontFamily: "Lato",
+                          width: 50,
+                          height: 50,
+                          backgroundColor: "#152127",
                         }}
-                      >
-                        {placeRef.current}.
-                      </Text>
+                        color="#cddc39"
+                        onPress={() => onClickOpenModalWithChart()}
+                      />
+
                       <Box
                         w={screenWidth / 3}
                         h={50}
-                        mr={10}
                         radius={14}
                         style={{
                           backgroundColor: "#455a64",
@@ -676,16 +822,9 @@ export const MainScreen = (): JSX => {
                           {trendRef.current}
                         </Text>
                       </Box>
-                    </View>
-                    <View
-                      style={{
-                        flex: 1,
-                        flexDirection: "row",
-                        alignItems: "center",
-                      }}
-                    >
+
                       <Box
-                        w={screenWidth / 2.2}
+                        w={screenWidth / 3}
                         h={50}
                         m={0}
                         radius={14}
@@ -694,33 +833,45 @@ export const MainScreen = (): JSX => {
                           flexDirection: "row",
                           alignItems: "center",
                           alignContent: "center",
+                          justifyContent: "center",
                         }}
                       >
-                        <Text
+                        <View
                           style={{
                             flex: 1,
-                            textAlign: "center",
-                            color: "white",
-                            fontSize: 20,
-                            letterSpacing: 1.1,
-                            fontFamily: "Lato",
+                            flexDirection: "row",
+                            justifyContent: "space-around",
+                            alignItems: "center",
+                            alignContent: "center",
                           }}
                         >
-                          {symbolRef.current}
-                        </Text>
-                        <View style={{ flex: 1 }}>
-                          {checker<SourceType, typeof SymbolIcon>(
-                            symbolRef.current,
-                            checkOne,
-                            SymbolIcon
-                          )}
+                          <Text
+                            style={{
+                              textAlign: "center",
+                              left: 5,
+                              color: "white",
+                              fontSize: 20,
+                              letterSpacing: 1.1,
+                              fontFamily: "Lato",
+                            }}
+                          >
+                            {symbolRef.current}
+                          </Text>
+                          <View>
+                            {checker<SourceType, typeof SymbolIcon>(
+                              symbolRef.current,
+                              checkOne,
+                              SymbolIcon
+                            )}
+                          </View>
                         </View>
                       </Box>
                     </View>
                   </View>
                   <Divider
                     style={{
-                      backgroundColor: "#abb8c3",
+                      backgroundColor: "#607d8b",
+                      height: 2,
                       top: 20,
                       marginBottom: 20,
                     }}
@@ -728,12 +879,12 @@ export const MainScreen = (): JSX => {
                   <ScrollView
                     style={{
                       bottom: 0,
-                      marginBottom: 50,
+                      marginBottom: 0,
                       marginTop: 0,
                       backgroundColor: "#263238",
                     }}
                     contentContainerStyle={{
-                      paddingBottom: insets.bottom + 200,
+                      paddingBottom: insets.bottom + 300,
                       width: screenWidth,
                     }}
                   >
@@ -772,65 +923,18 @@ export const MainScreen = (): JSX => {
                               alignContent: "center",
                             }}
                           >
-                            {factsSwitcher(symbolRef.current)}
-                          </View>
-                        </Box>
-                        <View
-                          style={{
-                            flexDirection: "row",
-                            alignItems: "center",
-                            alignContent: "center",
-                            justifyContent: "center",
-                            alignSelf: "flex-start",
-                          }}
-                        >
-                          <Box
-                            w={screenWidth / 2}
-                            h={150}
-                            m={10}
-                            top={10}
-                            radius={14}
-                            style={{
-                              backgroundColor: "#152127",
-                              flexDirection: "row",
-                              alignItems: "center",
-                              alignContent: "center",
-                            }}
-                          >
-                            <Text
-                              style={{
-                                flex: 1,
-                                fontFamily: "Lato",
-                                color: "white",
-                                textAlign: "center",
-                                letterSpacing: 1.1,
-                              }}
-                            >
-                              Map or Image of Place
-                            </Text>
-                          </Box>
-                          <View
-                            style={{
-                              flex: 1,
-                              right: 5,
-                              flexDirection: "row",
-                              justifyContent: "center",
-                              alignItems: "center",
-                              alignContent: "center",
-                            }}
-                          >
-                            <Button
-                              style={{ width: "90%" }}
-                              variant="contained"
-                              color="#152127"
-                              title="Show chart"
-                              tintColor="#cddc39"
-                              trailing={(props) => (
-                                <Icon name="chart-line" {...props} />
-                              )}
-                              onPress={() => onClickOpenModalWithChart()}
+                            <ContentSwitcher
+                              symbol={symbolRef.current}
+                              isName={false}
                             />
                           </View>
+                        </Box>
+                        <View style={{ flex: 1 }}>
+                          {checker<SourceType, typeof ProductImage>(
+                            symbolRef.current,
+                            checkThree,
+                            ProductImage
+                          )}
                         </View>
                       </View>
                     </View>
@@ -849,8 +953,8 @@ export const MainScreen = (): JSX => {
                         icon={(props): any => <Icon name="close" {...props} />}
                         color="#cddc39"
                         style={{
-                          width: 40,
-                          height: 40,
+                          width: 50,
+                          height: 50,
                           backgroundColor: "#152127",
                         }}
                         onPress={onClickCloseModal}
@@ -866,8 +970,7 @@ export const MainScreen = (): JSX => {
                     style={{
                       flexDirection: "row",
                       alignItems: "center",
-                      justifyContent: "space-between",
-                      paddingHorizontal: 16,
+                      justifyContent: "center",
                     }}
                   >
                     <View
@@ -876,15 +979,35 @@ export const MainScreen = (): JSX => {
                         flexDirection: "row",
                         alignItems: "center",
                         alignContent: "center",
-                        justifyContent: "center",
+                        justifyContent: "space-around",
                       }}
                     >
+                      <View
+                        style={{
+                          flexDirection: "row",
+                          alignItems: "center",
+                          alignContent: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <IconButton
+                          icon={(props): any => (
+                            <Icon name="arrow-left" {...props} />
+                          )}
+                          color="#cddc39"
+                          style={{
+                            width: 50,
+                            height: 50,
+                            backgroundColor: "#152127",
+                          }}
+                          onPress={onClickCloseModalWithChart}
+                        />
+                      </View>
                       <Box
-                        w={screenWidth - 20}
+                        w={screenWidth / 1.5}
                         h={50}
                         radius={14}
                         style={{
-                          flex: 1,
                           backgroundColor: "#152127",
                           flexDirection: "row",
                           alignItems: "center",
@@ -898,7 +1021,7 @@ export const MainScreen = (): JSX => {
                             color: "white",
                             fontSize: 20,
                             letterSpacing: 1.1,
-                            fontWeight: "bold",
+                            fontFamily: "Lato",
                             textTransform: "uppercase",
                           }}
                         >
@@ -920,35 +1043,14 @@ export const MainScreen = (): JSX => {
                   </View>
                   <Divider
                     style={{
-                      backgroundColor: "#abb8c3",
+                      backgroundColor: "#607d8b",
+                      height: 2,
                       top: 20,
                       marginBottom: 20,
                     }}
                   />
                 </View>
                 <Chart />
-                <View
-                  style={{
-                    position: "relative",
-                    top: 20,
-                    bottom: 0,
-                    left: 0,
-                    right: 0,
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <IconButton
-                    icon={(props): any => <Icon name="close" {...props} />}
-                    color="#cddc39"
-                    style={{
-                      width: 40,
-                      height: 40,
-                      backgroundColor: "#152127",
-                    }}
-                    onPress={onClickCloseModal}
-                  />
-                </View>
               </>
             )}
           </>
@@ -1045,7 +1147,11 @@ export const MainScreen = (): JSX => {
         // console.log(data["Meta Data"]);
         // console.log(data["Time Series (5min)"])
         // console.log(
-        //   `The current status of the ALPHA VANTAGE website is: ${response.status}. `
+        //   `${
+        //     response.status === 200 ? "Success!" : "Error"
+        //   } The current status of the ALPHA VANTAGE website is: ${
+        //     response.status
+        //   }. `
         // );
         // console.log(data);
         return data;
