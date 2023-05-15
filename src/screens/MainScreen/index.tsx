@@ -511,7 +511,7 @@ export const MainScreen = (): JSX => {
           width: "90%",
         }}
       >
-        <View style={{ top: 10 }}>
+        <View style={{ top: 20 }}>
           <Animated.Text
             style={{
               textAlign: "center",
@@ -553,6 +553,7 @@ export const MainScreen = (): JSX => {
           >
             <Animated.Text
               style={{
+                width: "100%",
                 textAlign: "center",
                 color: "white",
                 fontFamily: "Lato",
@@ -585,107 +586,120 @@ export const MainScreen = (): JSX => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     const Chart = () => {
-      const ptData: any = [
-        { value: 160, date: "1 Apr 2022" },
-        { value: 180, date: "2 Apr 2022" },
-        { value: 190, date: "3 Apr 2022" },
-        { value: 180, date: "4 Apr 2022" },
-        { value: 140, date: "5 Apr 2022" },
-        { value: 145, date: "6 Apr 2022" },
-        { value: 160, date: "7 Apr 2022" },
-        { value: 200, date: "8 Apr 2022" },
+      const currentDate: Date = new Date();
 
-        { value: 220, date: "9 Apr 2022" },
-        {
-          value: 240,
-          date: "10 Apr 2022",
-          label: "10 Apr",
-          labelTextStyle: { fontFamily: "Lato", color: "lightgray", width: 60 },
-        },
-        { value: 280, date: "11 Apr 2022" },
-        { value: 260, date: "12 Apr 2022" },
-        { value: 340, date: "13 Apr 2022" },
-        { value: 385, date: "14 Apr 2022" },
-        { value: 280, date: "15 Apr 2022" },
-        { value: 390, date: "16 Apr 2022" },
-
-        { value: 370, date: "17 Apr 2022" },
-        { value: 285, date: "18 Apr 2022" },
-        { value: 295, date: "19 Apr 2022" },
-        {
-          value: 300,
-          date: "20 Apr 2022",
-          label: "20 Apr",
-          labelTextStyle: { fontFamily: "Lato", color: "lightgray", width: 60 },
-        },
-        { value: 280, date: "21 Apr 2022" },
-        { value: 295, date: "22 Apr 2022" },
-        { value: 260, date: "23 Apr 2022" },
-        { value: 255, date: "24 Apr 2022" },
-
-        { value: 190, date: "25 Apr 2022" },
-        { value: 220, date: "26 Apr 2022" },
-        { value: 205, date: "27 Apr 2022" },
-        { value: 230, date: "28 Apr 2022" },
-        { value: 210, date: "29 Apr 2022" },
-        {
-          value: 200,
-          date: "30 Apr 2022",
-          label: "30 Apr",
-          labelTextStyle: { fontFamily: "Lato", color: "lightgray", width: 60 },
-        },
-        { value: 240, date: "1 May 2022" },
-        { value: 250, date: "2 May 2022" },
-        { value: 280, date: "3 May 2022" },
-        { value: 250, date: "4 May 2022" },
-        { value: 210, date: "5 May 2022" },
+      const months: string[] = [
+        "January",
+        "February",
+        "March",
+        "April",
+        "May",
+        "June",
+        "July",
+        "August",
+        "September",
+        "October",
+        "November",
+        "December",
       ];
 
+      const getCurrentMonth = (): string => {
+        const currentMonthIndex = currentDate.getMonth();
+        return months[currentMonthIndex];
+      };
+
+      const getCurrentDay = (): string => currentDate.getDate().toString();
+
+      const getCurrentDate = (): string =>
+        `${getCurrentDay()} ${getCurrentMonth()}`;
+
+      const getPreviousDate = (day: number): string => {
+        const previousDate = new Date();
+        previousDate.setDate(previousDate.getDate() - day);
+        const previousDay = previousDate.getDate();
+        const previousMonth = getCurrentMonth();
+        return `${previousDay} ${previousMonth}`;
+      };
+
+      const customLabel = (val: string) => {
+        return (
+          <View style={{ width: 70, marginLeft: 7 }}>
+            <Text style={{ fontFamily: "Lato", color: "lightgray" }}>
+              {val}
+            </Text>
+          </View>
+        );
+      };
+
+      const barData: any = [
+        {
+          value: 100,
+          labelTextStyle: { color: "lightgray", width: 60 },
+          labelComponent: () => customLabel(getPreviousDate(14)),
+        },
+        {
+          value: 50,
+          labelTextStyle: { color: "lightgray", width: 60 },
+          labelComponent: () => customLabel(getPreviousDate(7)),
+        },
+        {
+          value: maxOpenRef.current,
+          labelTextStyle: { color: "lightgray", width: 60 },
+          labelComponent: () => customLabel(getCurrentDate()),
+        },
+      ];
       return (
         <View
           style={{
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            alignContent: "center",
+            width: screenWidth - 20,
+            margin: 10,
+            padding: 20,
+            borderRadius: 20,
+            backgroundColor: "#152127",
+            // backgroundColor: "#263238",
           }}
         >
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            Overview
+          </Text>
           <View
             style={{
-              top: 0,
-              width: screenWidth,
-              paddingVertical: 80,
-              paddingLeft: 10,
-              // bgColor for tests:
-              backgroundColor: "#263238",
-              // backgroundColor: "#263238",
+              flexDirection: "row",
+              justifyContent: "center",
+              alignItems: "center",
+              alignContent: "center",
+              padding: 20,
             }}
           >
             <LineChart
-              areaChart
-              data={ptData}
-              rotateLabel
-              width={screenWidth / 1.25}
-              height={screenHeight / 6}
-              hideDataPoints
-              spacing={11}
-              color="#00d084"
-              // color="#cddc39"
+              width={screenWidth}
+              curved
+              isAnimated
               thickness={2}
-              startFillColor="#00d084"
-              endFillColor="rgba(20,85,81,0.01)"
+              maxValue={400}
+              noOfSections={4}
+              animateOnDataChange
+              animationDuration={1000}
+              onDataChangeAnimationDuration={300}
+              // hideDataPoints
+              dataPointsColor="#cddc39"
+              areaChart
+              data={barData}
               startOpacity={0.9}
               endOpacity={0.2}
-              initialSpacing={0}
-              noOfSections={6}
-              maxValue={600}
-              yAxisColor="white"
-              yAxisThickness={0}
+              spacing={60}
+              hideRules
+              initialSpacing={90}
+              color="#00ff83"
+              startFillColor="rgba(20,105,81,0.3)"
+              endFillColor="rgba(20,85,81,0.01)"
               rulesType="solid"
               rulesColor="gray"
+              // yAxisLabelSuffix="$"
+              yAxisColor="white"
+              yAxisThickness={0}
               yAxisTextStyle={{ color: "gray" }}
-              yAxisSide="right"
-              xAxisColor="lightgray"
+              xAxisColor="transparent"
               pointerConfig={{
                 pointerStripHeight: 160,
                 pointerStripColor: "lightgray",
@@ -696,31 +710,19 @@ export const MainScreen = (): JSX => {
                 pointerLabelHeight: 90,
                 activatePointersOnLongPress: true,
                 autoAdjustPointerLabelPosition: false,
-                pointerLabelComponent: (items: any) => {
+                pointerLabelComponent: (item: any) => {
                   return (
                     <View
                       style={{
                         height: 90,
-                        width: 100,
+                        width: 80,
                         justifyContent: "center",
-                        marginTop: 0,
-                        marginLeft: -40,
+                        marginTop: -10,
+                        marginLeft: -30,
                       }}
                     >
-                      <Text
-                        style={{
-                          fontFamily: "Lato",
-                          color: "white",
-                          fontSize: 14,
-                          textAlign: "center",
-                        }}
-                      >
-                        {items[0].date}
-                      </Text>
-
                       <View
                         style={{
-                          top: 10,
                           paddingHorizontal: 14,
                           paddingVertical: 6,
                           borderRadius: 16,
@@ -729,13 +731,12 @@ export const MainScreen = (): JSX => {
                       >
                         <Text
                           style={{
-                            fontFamily: "Lato",
+                            color: "white",
                             fontWeight: "bold",
                             textAlign: "center",
-                            color: "white",
                           }}
                         >
-                          {"$" + items[0].value + ".0"}
+                          {item[0].value}
                         </Text>
                       </View>
                     </View>
@@ -982,27 +983,19 @@ export const MainScreen = (): JSX => {
                         justifyContent: "space-around",
                       }}
                     >
-                      <View
+                      <IconButton
+                        icon={(props): any => (
+                          <Icon name="arrow-left" {...props} />
+                        )}
+                        color="#cddc39"
                         style={{
-                          flexDirection: "row",
-                          alignItems: "center",
-                          alignContent: "center",
-                          justifyContent: "center",
+                          width: 50,
+                          height: 50,
+                          backgroundColor: "#152127",
                         }}
-                      >
-                        <IconButton
-                          icon={(props): any => (
-                            <Icon name="arrow-left" {...props} />
-                          )}
-                          color="#cddc39"
-                          style={{
-                            width: 50,
-                            height: 50,
-                            backgroundColor: "#152127",
-                          }}
-                          onPress={onClickCloseModalWithChart}
-                        />
-                      </View>
+                        onPress={onClickCloseModalWithChart}
+                      />
+
                       <Box
                         w={screenWidth / 1.5}
                         h={50}
