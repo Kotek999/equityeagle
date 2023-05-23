@@ -8,8 +8,7 @@ import { JSX } from "../../../types";
 export const CustomButton = ({ title, onPress }: ButtonProps): JSX => {
   return (
     <Button
-      titleStyle={{ fontSize: 15 }}
-      color="black"
+      titleStyle={{color: "#cddc39", fontSize: 15 }}
       title={title}
       variant="contained"
       style={styles.button}
@@ -21,6 +20,6 @@ export const CustomButton = ({ title, onPress }: ButtonProps): JSX => {
 const styles = StyleSheet.create({
   button: {
     width: screenWidth / 2,
-    backgroundColor: "#b6843a",
+    backgroundColor: "#152127",
   },
 });

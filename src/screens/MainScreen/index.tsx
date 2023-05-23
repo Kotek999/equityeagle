@@ -46,10 +46,12 @@ import {
   AppBar,
   IconButton,
   Divider,
+  Chip,
   Button,
 } from "@react-native-material/core";
 import { logoTitle } from "../../helpers/imageRequirements";
 import { LineChart } from "react-native-gifted-charts";
+import { NumberProp } from "react-native-svg";
 
 // TODO --> powerfull refactor
 
@@ -397,6 +399,9 @@ export const MainScreen = (): JSX => {
   const placeRef = useRef(0);
   const symbolRef = useRef("");
   const maxOpenRef = useRef(0);
+  const openForDateRef = Array(4)
+    .fill(0)
+    .map(() => useRef(0));
   const trendRef = useRef("");
 
   const bottomSheetModalRef = useRef<BottomSheetModal>(null);
@@ -582,86 +587,217 @@ export const MainScreen = (): JSX => {
     return <Data data={data} index={currentIndex} />;
   };
 
+  const getDate = (day: number): string => {
+    const months: string[] = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+
+    const date: Date = new Date();
+
+    date.setDate(date.getDate() - day);
+
+    const getDay: number = date.getDate();
+    const getMonth: number = date.getMonth();
+
+    return getDay < 10
+      ? `0${getDay} ${months[getMonth]}`
+      : `${getDay} ${months[getMonth]}`;
+  };
+
   const ModalData: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(true);
+    const [period, setPeriod] = useState(getDate(0));
 
-    const Chart = () => {
-      const currentDate: Date = new Date();
+    const onClickChangePeriod = (date: string) => {
+      setPeriod(date);
+    };
 
-      const months: string[] = [
-        "January",
-        "February",
-        "March",
-        "April",
-        "May",
-        "June",
-        "July",
-        "August",
-        "September",
-        "October",
-        "November",
-        "December",
-      ];
+    const label = (title: string) => {
+      return (
+        <View style={{ width: "100%" }}>
+          <Text
+            style={{
+              alignSelf: "center",
+              fontFamily: "Lato",
+              color: "lightgray",
+            }}
+          >
+            {title}
+          </Text>
+        </View>
+      );
+    };
 
-      const getCurrentMonth = (): string => {
-        const currentMonthIndex = currentDate.getMonth();
-        return months[currentMonthIndex];
-      };
+    const openFor28: any =
+      openForDateRef[3].current < maxOpenRef.current
+        ? openForDateRef[3].current.toFixed(2)
+        : maxOpenRef.current;
 
-      const getCurrentDay = (): string => currentDate.getDate().toString();
+    const openFor21: any =
+      openForDateRef[2].current === 0
+        ? maxOpenRef.current.toFixed(2)
+        : openForDateRef[2].current.toFixed(2);
 
-      const getCurrentDate = (): string =>
-        `${getCurrentDay()} ${getCurrentMonth()}`;
+    const openFor14: any =
+      openForDateRef[1].current === 0
+        ? maxOpenRef.current.toFixed(2)
+        : openForDateRef[1].current.toFixed(2);
 
-      const getPreviousDate = (day: number): string => {
-        const previousDate = new Date();
-        previousDate.setDate(previousDate.getDate() - day);
-        const previousDay = previousDate.getDate();
-        const previousMonth = getCurrentMonth();
-        return `${previousDay} ${previousMonth}`;
-      };
+    const openFor7: any =
+      openForDateRef[0].current < maxOpenRef.current
+        ? openForDateRef[0].current.toFixed(2)
+        : maxOpenRef.current;
 
-      const customLabel = (val: string) => {
-        return (
-          <View style={{ width: 70, marginLeft: 7 }}>
-            <Text style={{ fontFamily: "Lato", color: "lightgray" }}>
-              {val}
-            </Text>
-          </View>
-        );
-      };
+    const chartDataCurrent: any = [
+      {
+        value: openFor28,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(28)),
+      },
+      {
+        value: openFor21,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(21)),
+      },
+      {
+        value: openFor14,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(14)),
+      },
+      {
+        value: openFor7,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(7)),
+      },
+      {
+        value: maxOpenRef.current.toFixed(2),
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(0)),
+      },
+    ];
 
-      const barData: any = [
-        {
-          value: 100,
-          labelTextStyle: { color: "lightgray", width: 60 },
-          labelComponent: () => customLabel(getPreviousDate(14)),
-        },
-        {
-          value: 50,
-          labelTextStyle: { color: "lightgray", width: 60 },
-          labelComponent: () => customLabel(getPreviousDate(7)),
-        },
-        {
-          value: maxOpenRef.current,
-          labelTextStyle: { color: "lightgray", width: 60 },
-          labelComponent: () => customLabel(getCurrentDate()),
-        },
-      ];
+    const chartData7Days: any = [
+      {
+        value: openFor28,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(28)),
+      },
+      {
+        value: openFor21,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(21)),
+      },
+      {
+        value: openFor14,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(14)),
+      },
+      {
+        value: openFor7,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(7)),
+      },
+    ];
+
+    const chartData14Days: any = [
+      {
+        value: openFor28,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(28)),
+      },
+      {
+        value: openFor21,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(21)),
+      },
+      {
+        value: openFor14,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(14)),
+      },
+    ];
+
+    const chartData21Days: any = [
+      {
+        value: openFor28,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(28)),
+      },
+      {
+        value: openFor21,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(21)),
+      },
+    ];
+
+    const chartData28Days: any = [
+      {
+        value: openFor28,
+        labelTextStyle: { color: "lightgray", width: 60 },
+        labelComponent: () => label(getDate(28)),
+      },
+    ];
+
+    const Chart = ({ data }: any) => {
       return (
         <View
           style={{
-            width: screenWidth - 20,
-            margin: 10,
+            width: screenWidth,
             padding: 20,
-            borderRadius: 20,
             backgroundColor: "#152127",
             // backgroundColor: "#263238",
           }}
         >
-          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
-            Overview
-          </Text>
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          >
+            <Icon
+              size={26}
+              color="#cddc39"
+              name="update"
+              onPress={() => onClickChangePeriod(getDate(0))}
+            />
+
+            <Text
+              style={{
+                left: 10,
+                flex: 1,
+                color: "white",
+                fontSize: 16,
+                fontFamily: "Lato",
+              }}
+            >
+              {`Period: ${period}`}
+            </Text>
+            <Text style={{ color: "white", fontSize: 16, fontFamily: "Lato" }}>
+              Average:
+            </Text>
+            <Text
+              style={{
+                color: "#cddc39",
+                fontSize: 16,
+                fontWeight: "bold",
+                left: 5,
+              }}
+            >
+              {average()}
+            </Text>
+          </View>
           <View
             style={{
               flexDirection: "row",
@@ -672,7 +808,7 @@ export const MainScreen = (): JSX => {
             }}
           >
             <LineChart
-              width={screenWidth}
+              width={screenWidth - 90}
               curved
               isAnimated
               thickness={2}
@@ -684,12 +820,12 @@ export const MainScreen = (): JSX => {
               // hideDataPoints
               dataPointsColor="#cddc39"
               areaChart
-              data={barData}
+              data={data}
               startOpacity={0.9}
               endOpacity={0.2}
               spacing={60}
               hideRules
-              initialSpacing={90}
+              initialSpacing={50}
               color="#00ff83"
               startFillColor="rgba(20,105,81,0.3)"
               endFillColor="rgba(20,85,81,0.01)"
@@ -755,8 +891,45 @@ export const MainScreen = (): JSX => {
       placeRef.current,
       symbolRef.current,
       maxOpenRef.current,
+      openForDateRef[0].current,
+      openForDateRef[1].current,
+      openForDateRef[2].current,
+      openForDateRef[3].current,
       trendRef.current,
     ]);
+
+    const average = () => {
+      const sumOf: number =
+        openForDateRef[0].current +
+        openForDateRef[1].current +
+        openForDateRef[2].current +
+        openForDateRef[3].current;
+
+      const avg: number = sumOf / 4;
+      const result: string = avg.toFixed(2);
+
+      return result;
+    };
+
+    const periodSwitcher = (period: string) => {
+      switch (period) {
+        case getDate(7):
+          return <Chart data={chartData7Days} />;
+
+        case getDate(14):
+          return <Chart data={chartData14Days} />;
+
+        case getDate(21):
+          return <Chart data={chartData21Days} />;
+
+        case getDate(28):
+          return <Chart data={chartData28Days} />;
+
+        default:
+        case getDate(0):
+          return <Chart data={chartDataCurrent} />;
+      }
+    };
 
     return (
       <View>
@@ -871,6 +1044,8 @@ export const MainScreen = (): JSX => {
                   </View>
                   <Divider
                     style={{
+                      alignSelf: "center",
+                      width: screenWidth - 20,
                       backgroundColor: "#607d8b",
                       height: 2,
                       top: 20,
@@ -1036,6 +1211,8 @@ export const MainScreen = (): JSX => {
                   </View>
                   <Divider
                     style={{
+                      alignSelf: "center",
+                      width: screenWidth - 20,
                       backgroundColor: "#607d8b",
                       height: 2,
                       top: 20,
@@ -1043,7 +1220,84 @@ export const MainScreen = (): JSX => {
                     }}
                   />
                 </View>
-                <Chart />
+                {/* <View
+                  style={{
+                    margin: 10,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    alignContent: "center",
+                  }}
+                >
+                  <Text style={{ flex: 1, color: "white" }}>
+                    {`7 days ${
+                      openForDateRef[0].current !== null
+                        ? openForDateRef[0].current.toFixed(2)
+                        : "N/A"
+                    }`}
+                  </Text>
+                  <Text style={{ flex: 1, color: "white" }}>
+                    {`14 days ${
+                      openForDateRef[1].current !== null
+                        ? openForDateRef[1].current.toFixed(2)
+                        : "N/A"
+                    }`}
+                  </Text>
+                  <Text style={{ flex: 1, color: "white" }}>
+                    {`21 days ${
+                      openForDateRef[2].current !== null
+                        ? openForDateRef[2].current.toFixed(2)
+                        : "N/A"
+                    }`}
+                  </Text>
+                  <Text style={{ flex: 1, color: "white" }}>
+                    {`28 days ${
+                      openForDateRef[3].current !== null
+                        ? openForDateRef[3].current.toFixed(2)
+                        : "N/A"
+                    }`}
+                  </Text>
+                </View> */}
+                <View
+                  style={{
+                    width: "100%",
+                    marginTop: 12,
+                    marginBottom: 12,
+                    flexDirection: "row",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                  }}
+                >
+                  <Chip
+                    style={{ alignSelf: "center", backgroundColor: "#455a64" }}
+                    labelStyle={{ fontFamily: "Lato" }}
+                    label="7 days"
+                    color="white"
+                    onPress={() => onClickChangePeriod(getDate(7))}
+                  />
+                  <Chip
+                    style={{ alignSelf: "center", backgroundColor: "#455a64" }}
+                    labelStyle={{ fontFamily: "Lato" }}
+                    label="14 days"
+                    color="white"
+                    onPress={() => onClickChangePeriod(getDate(14))}
+                  />
+                  <Chip
+                    style={{ alignSelf: "center", backgroundColor: "#455a64" }}
+                    labelStyle={{ fontFamily: "Lato" }}
+                    label="21 days"
+                    color="white"
+                    onPress={() => onClickChangePeriod(getDate(21))}
+                  />
+                  <Chip
+                    style={{ alignSelf: "center", backgroundColor: "#455a64" }}
+                    labelStyle={{ fontFamily: "Lato" }}
+                    label="28 days"
+                    color="white"
+                    onPress={() => onClickChangePeriod(getDate(28))}
+                  />
+                </View>
+                {periodSwitcher(period)}
               </>
             )}
           </>
@@ -1056,11 +1310,19 @@ export const MainScreen = (): JSX => {
     symbol: string,
     place: number,
     maxOpen: number | null,
+    openForDateOneWeek: number | null,
+    openForDateTwoWeek: number | null,
+    openForDateThreeWeek: number | null,
+    openForDateFourWeek: number | null,
     trend: string
   ) => {
     placeRef.current = place;
     symbolRef.current = symbol;
-    maxOpenRef.current = maxOpen != null ? maxOpen : 0;
+    maxOpenRef.current = maxOpen ?? 0;
+    openForDateRef[0].current = openForDateOneWeek ?? 0;
+    openForDateRef[1].current = openForDateTwoWeek ?? 0;
+    openForDateRef[2].current = openForDateThreeWeek ?? 0;
+    openForDateRef[3].current = openForDateFourWeek ?? 0;
     trendRef.current = trend;
     onClickOpenModal();
   };
@@ -1070,11 +1332,18 @@ export const MainScreen = (): JSX => {
     place,
   }) => {
     const [maxOpen, setMaxOpen] = useState<number | null>(null);
+
+    const [openForDate, setOpenForDate] = useState<(number | null)[]>([
+      null,
+      null,
+      null,
+    ]);
+
     const [isLoading, setIsLoading] = useState<boolean>(true);
     const [trend, setTrend] = useState<string>("");
     const mountedRef = useRef<boolean>(false);
 
-    const [data, setData] = useState<Data | null>(null);
+    const [data, setData] = useState<Data | any>(null);
     const [refreshData, setRefreshData] = useState<Data | null>(null);
 
     const maxOpenUpdate = (timeSeriesData: Data["Time Series (5min)"]) => {
@@ -1086,6 +1355,49 @@ export const MainScreen = (): JSX => {
         }
       }
       return maxOpen;
+    };
+
+    const openForDateUpdate = (
+      timeSeriesData: Data["Time Series (5min)"],
+      previousDate: number
+    ) => {
+      let openForDate: number | null = null;
+
+      const previousDateSwitcher = (): any => {
+        switch (previousDate) {
+          case 7:
+            return getPreviousDate(7);
+          case 14:
+            return getPreviousDate(14);
+          case 21:
+            return getPreviousDate(21);
+          case 28:
+            return getPreviousDate(28);
+          default:
+            console.log("N/A");
+            break;
+        }
+      };
+
+      for (let key in timeSeriesData) {
+        // 2023-05-09 20:00:00
+        let date: string = `${previousDateSwitcher()} 16:00:00`;
+
+        key = date;
+
+        const openForDateData: number =
+          parseFloat(timeSeriesData[key]["1. open"]) ?? undefined;
+
+        openForDate = openForDateData;
+
+        if (openForDateData != null) {
+          console.log(openForDateData);
+          break;
+        } else {
+          console.log(`No data found for the date ${date}`);
+        }
+      }
+      return openForDate;
     };
 
     const trendUpdate = (data: any): string => {
@@ -1125,18 +1437,35 @@ export const MainScreen = (): JSX => {
     //4XX - Client Error (bad)
     //5XX - Server Error
 
-    const fetchData = async (): Promise<any> => {
+    const fetchData = async (data: Data): Promise<Data | undefined> => {
       // for MSFT we have values (because it's a demo), for the rest, you need to provide the key.
-      const apiUrl: string = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&apikey=demo`;
+      const apiUrl: string = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${symbol}&interval=5min&outputsize=full&apikey=demo`;
 
       try {
         const response = await fetch(apiUrl);
-        const data: Data = await response.json();
+        data = await response.json();
+
+        // data for date:
+
         setMaxOpen(maxOpenUpdate(data["Time Series (5min)"]));
         setTrend(trendUpdate(data["Time Series (5min)"]));
+
         setData(data);
         setRefreshData(data);
+
+        if (openForDate != null) {
+          setOpenForDate([
+            openForDateUpdate(data["Time Series (5min)"], 7),
+            openForDateUpdate(data["Time Series (5min)"], 14),
+            openForDateUpdate(data["Time Series (5min)"], 21),
+            openForDateUpdate(data["Time Series (5min)"], 28),
+          ]);
+        } else {
+          console.log("error");
+        }
+
         setIsLoading(false);
+
         // console.log(data["Meta Data"]);
         // console.log(data["Time Series (5min)"])
         // console.log(
@@ -1147,14 +1476,19 @@ export const MainScreen = (): JSX => {
         //   }. `
         // );
         // console.log(data);
+
         return data;
       } catch (error) {
-        console.error("An error occurred while fetching the data.", error);
+        console.error(
+          `An error occurred while fetching the data. For symbol: ${symbol}`
+        );
+        // console.error("An error occurred while fetching the data.", error);
       }
     };
 
     useEffect(() => {
-      fetchData();
+      // fetchData(data);
+      
       // if (!mountedRef.current) {
       //   mountedRef.current = true;
       //   fetchData();
@@ -1211,7 +1545,16 @@ export const MainScreen = (): JSX => {
                 size={20}
                 color="#b6843a"
                 onPress={() => {
-                  onModalOpened(symbol, place, maxOpen, trend);
+                  onModalOpened(
+                    symbol,
+                    place,
+                    maxOpen,
+                    openForDate[0],
+                    openForDate[1],
+                    openForDate[2],
+                    openForDate[3],
+                    trend
+                  );
                 }}
                 style={{ marginRight: 10 }}
               />
@@ -1340,7 +1683,37 @@ export const MainScreen = (): JSX => {
 
   const randomSymbols: string[] = newValues(symbols);
 
-  const currentYear: number = new Date().getFullYear();
+  const getCurrentYear: number = new Date().getFullYear();
+
+  const getPreviousDate = (day: number): string => {
+    const monthValue: string[] = [
+      "01",
+      "02",
+      "03",
+      "04",
+      "05",
+      "06",
+      "07",
+      "08",
+      "09",
+      "10",
+      "11",
+      "12",
+    ];
+
+    const date: Date = new Date();
+
+    date.setDate(date.getDate() - day);
+
+    const getPreviousDay: number = date.getDate();
+    const getPreviousMonth: number = date.getMonth();
+
+    return getPreviousDay < 10
+      ? `${getCurrentYear}-${monthValue[getPreviousMonth]}-0${getPreviousDay}`
+      : `${getCurrentYear}-${monthValue[getPreviousMonth]}-${getPreviousDay}`;
+  };
+
+  // console.log("data: ", getPreviousDate(2));
 
   return (
     <View
@@ -1352,7 +1725,8 @@ export const MainScreen = (): JSX => {
         right: 0,
         paddingTop: 0,
         width: "100%",
-        backgroundColor: "#152127",
+        backgroundColor: "#263238",
+        // backgroundColor: "#152127",
       }}
     >
       {!isOverlayVisible ? (
@@ -1417,7 +1791,7 @@ export const MainScreen = (): JSX => {
               radius={14}
               style={{
                 // backgroundColor: "#b6843a", the same color as button
-                backgroundColor: "#00d084",
+                backgroundColor: "#152127",
                 justifyContent: "center",
                 marginBottom: 10,
               }}
@@ -1434,7 +1808,7 @@ export const MainScreen = (): JSX => {
                   style={{
                     flex: 1,
                     textAlign: "center",
-                    color: "white",
+                    color: "#cddc39",
                     textTransform: "uppercase",
                     fontFamily: "Lato",
                   }}
@@ -1445,7 +1819,7 @@ export const MainScreen = (): JSX => {
                   style={{
                     flex: 1,
                     textAlign: "center",
-                    color: "white",
+                    color: "#cddc39",
                     textTransform: "uppercase",
                     fontFamily: "Lato",
                   }}
@@ -1456,7 +1830,7 @@ export const MainScreen = (): JSX => {
                   style={{
                     flex: 1,
                     textAlign: "center",
-                    color: "white",
+                    color: "#cddc39",
                     textTransform: "uppercase",
                     fontFamily: "Lato",
                   }}
@@ -1467,7 +1841,7 @@ export const MainScreen = (): JSX => {
                   style={{
                     flex: 1,
                     textAlign: "center",
-                    color: "white",
+                    color: "#cddc39",
                     textTransform: "uppercase",
                     fontFamily: "Lato",
                   }}
@@ -1478,7 +1852,7 @@ export const MainScreen = (): JSX => {
                   style={{
                     flex: 1,
                     textAlign: "center",
-                    color: "white",
+                    color: "#cddc39",
                     textTransform: "uppercase",
                     fontFamily: "Lato",
                   }}
@@ -1508,7 +1882,7 @@ export const MainScreen = (): JSX => {
               label={
                 !isOverlayVisible ? "Data refreshed every 5 minutes" : "No data"
               }
-              color="#152127"
+              color="#263238"
             />
             <MaterialCommunityIcons
               name={!isOverlayVisible ? "database-eye" : "database-eye-off"}
@@ -1550,7 +1924,7 @@ export const MainScreen = (): JSX => {
                   style={{
                     backgroundColor: "#455a64",
                     justifyContent: "center",
-                    top: 12,
+
                     marginBottom: 12,
                     left: 5,
                   }}
@@ -1582,7 +1956,7 @@ export const MainScreen = (): JSX => {
               }}
             >
               &copy;{" "}
-              {`Equity Eagle ${`(v.${appJSON.expo.version})`} - ${currentYear}`}{" "}
+              {`Equity Eagle ${`(v.${appJSON.expo.version})`} - ${getCurrentYear}`}{" "}
               &copy;
             </Text>
           </View>
