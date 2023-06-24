@@ -1,10 +1,11 @@
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { JSX } from "./src/types";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { MainScreen } from "./src/screens/MainScreen";
+import { AboutScreen } from "./src/screens/AboutScreen";
 import { RootStackParamList } from "./rootTypeList";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -20,7 +21,7 @@ export const RootStack = (): JSX => {
           options={{
             title: "Home",
             headerShown: false,
-            animation: "slide_from_left",
+            animation: "fade",
           }}
           component={HomeScreen}
         />
@@ -29,9 +30,18 @@ export const RootStack = (): JSX => {
           options={{
             title: "Main",
             headerShown: false,
-            animation: "slide_from_right",
+            animation: "slide_from_bottom",
           }}
           component={MainScreen}
+        />
+        <Stack.Screen
+          name="About"
+          options={{
+            title: "About",
+            headerShown: false,
+            animation: "slide_from_right",
+          }}
+          component={AboutScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

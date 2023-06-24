@@ -1,15 +1,12 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { SCREEN } from "./routes";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 
 export type RootStackParamList = {
   Home: undefined;
   Main: undefined;
+  About: undefined;
 };
 
-export type HomeProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, SCREEN.Home>;
-};
-
-export type MainScreenProps = {
-  navigation: NativeStackNavigationProp<RootStackParamList, SCREEN.Main>;
+export type NavigationScreenProps<T extends keyof RootStackParamList> = {
+  navigation: NativeStackNavigationProp<RootStackParamList, T>;
+  onModalOpened?: Function;
 };

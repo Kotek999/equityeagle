@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { HomeProps } from "../../../../rootTypeList";
+import { NavigationScreenProps } from "../../../../rootTypeList";
 import { SCREEN } from "../../../../routes";
 import { Stack } from "@react-native-material/core";
 import { JSX } from "../../../types";
@@ -9,7 +9,9 @@ import { Slogan } from "../../Atoms/Slogan";
 import { Logo } from "../../Atoms/Logo";
 import { CustomButton } from "../../Atoms/Button";
 
-export const Home = ({ navigation }: HomeProps): JSX => {
+export const Home = ({
+  navigation,
+}: NavigationScreenProps<SCREEN.Home>): JSX => {
   return (
     <View style={styles.container}>
       <Stack center style={styles.imgWithSloganContainer}>
@@ -19,7 +21,7 @@ export const Home = ({ navigation }: HomeProps): JSX => {
       <View style={styles.buttonContainer}>
         <CustomButton
           title="Let's begin!"
-          onPress={() => navigation.push(SCREEN.Main)}
+          onPress={() => navigation.navigate(SCREEN.Main)}
         />
       </View>
     </View>

@@ -1,4 +1,5 @@
 node_modules
+src
 .expo
 dist
 web-build
