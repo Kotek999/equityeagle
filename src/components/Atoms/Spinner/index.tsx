@@ -6,8 +6,8 @@ import { JSX } from "../../../types";
 export const Spinner = (): JSX => {
   return (
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text style={{ margin: 20 }}>Loading...</Text>
       <ActivityIndicator size="large" color="lime" />
+      <Text style={{ margin: 20 }}>Loading...</Text>
     </View>
   );
 };

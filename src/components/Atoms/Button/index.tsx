@@ -5,14 +5,14 @@ import { screenWidth } from "../../../helpers/dimensions";
 import { Button } from "@react-native-material/core";
 import { JSX } from "../../../types";
 
-export const CustomButton = ({ title, onPress }: ButtonProps): JSX => {
+export const CustomButton = (props: ButtonProps): JSX => {
   return (
     <Button
-      titleStyle={{color: "#cddc39", fontSize: 15 }}
-      title={title}
+      titleStyle={{ color: "#cddc39", fontSize: 15 }}
+      title={props.title}
       variant="contained"
       style={styles.button}
-      onPress={onPress}
+      onPress={props.onPress}
     />
   );
 };
