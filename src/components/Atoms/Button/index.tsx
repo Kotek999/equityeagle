@@ -4,11 +4,12 @@ import { ButtonProps } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Button } from "@react-native-material/core";
 import { JSX } from "../../../types";
+import { COLORS } from "../../../colors";
 
 export const CustomButton = (props: ButtonProps): JSX => {
   return (
     <Button
-      titleStyle={{ color: "#cddc39", fontSize: 15 }}
+      titleStyle={{ color: COLORS.yellowColor, fontSize: 15 }}
       title={props.title}
       variant="contained"
       style={styles.button}
@@ -20,6 +21,6 @@ export const CustomButton = (props: ButtonProps): JSX => {
 const styles = StyleSheet.create({
   button: {
     width: screenWidth / 2,
-    backgroundColor: "#152127",
+    backgroundColor: COLORS.darkColor,
   },
 });

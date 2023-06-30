@@ -4,6 +4,7 @@ import { StyleSheet } from "react-native";
 import { Text } from "@react-native-material/core";
 import { JSX } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
+import { COLORS } from "../../../colors";
 
 export const Slogan = (): JSX => {
   const slogan: string = "Maximize your profits with our stock analysis tools!";
@@ -27,6 +28,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     fontWeight: "600",
     fontFamily: "Lato",
-    color: "white",
+    color: COLORS.whiteColor,
   },
 });
