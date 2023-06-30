@@ -125,8 +125,8 @@ export interface FetchedDataAreaProps {
   isInfoIcon: boolean;
   onPress?: OnPress;
   symbol: Symbols;
-  symbolValue: string;
-  maxOpenValue: number;
+  symbolValue?: string;
+  maxOpenValue: OpenType;
 }
 
 export interface DaysWithChartProps {

@@ -21,6 +21,7 @@ export const SymbolIcon = (props: SymbolProps): JSX => {
 
 const styles = StyleSheet.create({
   imgContainer: {
+    flex: isIOS() ? 1 : 0,
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
