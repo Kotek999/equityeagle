@@ -1,0 +1,28 @@
+import { ColorsType } from "./types";
+
+export const COLORS: ColorsType = {
+  whiteColor: "white",
+  grayColor: "gray",
+  lightGrayColor: "lightgray",
+  limeColor: "lime",
+  goldColor: "gold",
+  yellowColor: "#cddc39",
+  redColor: "red",
+  mainGrayColor: "#263238",
+  darkColor: "#152127",
+  textGrayColor: "#abb8c3",
+  boxGraylightGrayColor: "#455a64",
+  iconDataYellowColor: "#ffc107",
+  iconDataRedColor: "#eb144c",
+  iconDataGreenColor: "#4caf50",
+  iconLightGreenColor: "lightgreen",
+  iconRedColor: "darkred",
+  iconLightRedColor: "crimson",
+  iconGoldColor: "#b6843a",
+  opacityDarkColor: "#000000c0",
+  dividerLightGrayColor: "#607d8b",
+  chartLimeColor: "#00ff83",
+  chartFillGreenColor: "rgba(20,105,81,0.3)",
+  chartFillLightGreenColor: "rgba(20,105,81,0.3)",
+  blankColor: "transparent",
+};
