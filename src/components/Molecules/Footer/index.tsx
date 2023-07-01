@@ -7,6 +7,7 @@ import { LastRefreshedItem } from "../../Atoms/LastRefreshedItem";
 import { StatusItem } from "../../Atoms/StatusItem";
 import { ModalStatus } from "../ModalStatus";
 import { COLORS } from "../../../colors";
+import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 
 export const Footer = (): JSX => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
@@ -37,7 +38,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     backgroundColor: COLORS.darkColor,
-    marginBottom: 0,
+    marginBottom: isIOS() ? 20 : 0,
   },
   itemsContainer: {
     flexDirection: "row",

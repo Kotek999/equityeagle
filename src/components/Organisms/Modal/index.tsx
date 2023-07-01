@@ -24,7 +24,7 @@ export const Modal = (props: ModalProps): JSX => {
         {props.value}
       </ModalNavbar>
       <Divider />
-      <ScrollView>
+      <ScrollView isMarginExist>
         <View style={{ flex: 1 }}>
           <View style={styles.contentWithProductContainer}>
             <View

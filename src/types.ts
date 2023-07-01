@@ -10,12 +10,13 @@ export type ButtonProps = {
 };
 
 export type ChildProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+  isMarginExist?: boolean;
+};
 
 export type NoContentProps = {
-  symbol: Symbols | Products
-}
+  symbol: Symbols | Products;
+};
 
 // for images
 export type SourceType = {
@@ -100,26 +101,26 @@ export type CodesType = {
 };
 
 export type SymbolProps = {
-  symbol: Symbols
-}
+  symbol: Symbols;
+};
 
 export type ProductProps = {
   productName: string;
-}
+};
 
 export type InterestingFactsProps = {
-  data: FactsData[]
-}
+  data: FactsData[];
+};
 
 export type IconType = {
   name: string;
   color: string;
-}
+};
 
 export type CurrentStatusProps = {
   status: number;
-}
+};
 
 export type DataProviderProps = {
-  children: React.ReactNode
-}
+  children: React.ReactNode;
+};

@@ -13,7 +13,7 @@ export const Screen = (props: ChildProps): JSX => {
       <StatusBar
         hidden={false}
         backgroundColor="#152127"
-        style={isIOS() ? "light" : "light"}
+        style={isIOS() ? "dark" : "light"}
       />
     </SafeAreaView>
   );

@@ -16,7 +16,9 @@ export const Home = ({
     <View style={styles.container}>
       <Stack center style={styles.imgWithSloganContainer}>
         <Logo />
-        <Slogan />
+        <View style={{ width: screenWidth - 10 }}>
+          <Slogan />
+        </View>
       </Stack>
       <View style={styles.buttonContainer}>
         <CustomButton
