@@ -9,7 +9,7 @@ export default function App(): JSX {
   useEffect(() => {
     (async () => {
       await Font.loadAsync({
-        Lato: require("./src/assets/fonts/Lato-Light.ttf"),
+        Lato: require("./src/assets/fonts/Lato-Regular.ttf"),
       });
       setLoading(false);
     })();

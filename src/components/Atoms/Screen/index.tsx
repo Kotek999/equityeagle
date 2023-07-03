@@ -1,17 +1,20 @@
 import * as React from "react";
 import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 import { SafeAreaView, ScrollView } from "react-native";
-import { ChildProps } from "../../../interfaces";
-import { JSX } from "../../../types";
+import { JSX, ChildProps } from "../../../types";
 import { StatusBar } from "expo-status-bar";
 
-export const Screen = ({ children }: ChildProps): JSX => {
+export const Screen = (props: ChildProps): JSX => {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
-        {children}
+        {props.children}
       </ScrollView>
-      <StatusBar backgroundColor="black" style={isIOS() ? "dark" : "light"} />
+      <StatusBar
+        hidden={false}
+        backgroundColor="#152127"
+        style={isIOS() ? "dark" : "light"}
+      />
     </SafeAreaView>
   );
 };
