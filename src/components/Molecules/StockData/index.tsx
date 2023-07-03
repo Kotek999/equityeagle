@@ -16,6 +16,7 @@ import { DataContext } from "../../Atoms/Context";
 import { Text } from "react-native";
 import { ContextType } from "../../../types";
 import { StockDataProps } from "../../../interfaces";
+import { getAPI } from "../../../helpers/functions/getAPI";
 
 const StockData = (props: StockDataProps): JSX => {
   const { status, setStatus }: ContextType =
@@ -45,11 +46,10 @@ const StockData = (props: StockDataProps): JSX => {
 
   useEffect(() => {
     const fetchData = async (data: Data): Promise<void> => {
-      // for MSFT we have values (because it's a demo), for the rest, you need to provide the key.
-      const apiUrl: string = `https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=${props.symbol}&interval=5min&outputsize=full&apikey=demo`;
+      const stockAPI: string = getAPI(props.symbol);
 
       try {
-        const response = await fetch(apiUrl);
+        const response: Response = await fetch(stockAPI);
         data = await response.json();
 
         if (response.status !== 0) {

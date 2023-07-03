@@ -156,3 +156,11 @@ export type TrendIconProps = {
   name: string;
   color: string;
 };
+
+export type ApiType = {
+  url: {
+    part1: string;
+    part2: string;
+  };
+  key: string;
+};
