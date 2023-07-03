@@ -42,10 +42,10 @@ const styles = StyleSheet.create({
     alignItems: "center",
     alignContent: "center",
     width: "90%",
+    top: 10,
   },
   labelContainer: {
-    top: 40,
-    marginBottom: 40,
+    top: 10,
   },
   labelValue: {
     textAlign: "center",
@@ -56,6 +56,8 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
   },
   contentContainer: {
+    top: 20,
+    marginBottom: 40,
     height: 100,
     flex: 1,
     flexDirection: "row",

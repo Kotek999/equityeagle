@@ -12,7 +12,7 @@ export const Divider = (): JSX => {
 const styles = StyleSheet.create({
   divider: {
     alignSelf: "center",
-    width: screenWidth - 30,
+    width: screenWidth,
     backgroundColor: COLORS.dividerLightGrayColor,
     height: 1.5,
   },

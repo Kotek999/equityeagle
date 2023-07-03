@@ -11,7 +11,7 @@ export const categories: CategoriesType[] = [
     title: "Name",
   },
   {
-    title: "Value",
+    title: "Max Value",
   },
   {
     title: "Trend",

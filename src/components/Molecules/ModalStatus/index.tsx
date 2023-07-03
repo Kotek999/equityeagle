@@ -9,6 +9,7 @@ import { CurrentStatus } from "../../Atoms/CurrentStatus";
 import { Codes } from "../../Atoms/Codes";
 import { ModalStatusProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { screenHeight } from "../../../helpers/dimensions";
 
 export const ModalStatus = (props: ModalStatusProps): JSX => {
   const { status }: ContextType = useContext<ContextType>(DataContext);
@@ -19,7 +20,9 @@ export const ModalStatus = (props: ModalStatusProps): JSX => {
       isVisible={props.isVisible}
       onBackdropPress={props.onBackdropPress}
     >
-      <View style={{ height: "40%", backgroundColor: COLORS.darkColor }}>
+      <View
+        style={{ height: screenHeight / 2, backgroundColor: COLORS.darkColor }}
+      >
         <View style={styles.container}>
           <CurrentStatus status={status} />
           <ModalStatusDivider />
@@ -43,7 +46,7 @@ const styles = StyleSheet.create({
   codesTitleValue: {
     color: COLORS.textGrayColor,
     alignSelf: "flex-start",
-    marginBottom: 10,
+    marginBottom: 20,
     letterSpacing: 1.1,
     fontFamily: "Lato",
   },

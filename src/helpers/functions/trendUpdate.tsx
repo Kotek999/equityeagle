@@ -1,7 +1,10 @@
 import * as React from "react";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { COLORS } from "../../colors";
+import { TrendIcon } from "../../components/Atoms/TrendIcon";
+import { JSX } from "../../types";
+import { Text } from "react-native";
 
-export const trendUpdate = (data: any): string => {
+export const trendUpdate = (data: any): JSX => {
   let prevHighValue: number | null = null;
   let prevLowValue: number | null = null;
 
@@ -9,23 +12,15 @@ export const trendUpdate = (data: any): string => {
     const high: number = parseFloat(data[key]["2. high"]);
     const low: number = parseFloat(data[key]["3. low"]);
 
-    const up: any = () => (
-      <MaterialCommunityIcons name="trending-up" size={32} color="lime" />
-    );
-
-    const down: any = () => (
-      <MaterialCommunityIcons name="trending-down" size={32} color="red" />
-    );
-
     if (prevHighValue !== null && high > prevHighValue) {
-      return up;
+      return <TrendIcon name="trending-up" color={COLORS.limeColor} />;
     } else if (prevLowValue !== null && low < prevLowValue) {
-      return down;
+      return <TrendIcon name="trending-down" color={COLORS.redColor} />;
     }
 
     prevHighValue = high;
     prevLowValue = low;
   }
 
-  return "N/A";
+  return <Text style={{ color: COLORS.whiteColor }}>N/A</Text>;
 };

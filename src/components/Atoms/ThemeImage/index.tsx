@@ -6,28 +6,31 @@ import { SymbolIcon } from "../../../components/Atoms/SymbolIcon";
 import { NameOfCompany } from "../../../components/Atoms/NameOfCompany";
 import { themeImageDataMap } from "../../Data/MapsData";
 import { COLORS } from "../../../colors";
+import Animated, { FadeInUp } from "react-native-reanimated";
 
 export const ThemeImage = (props: SymbolProps): JSX => {
   const themeSource = themeImageDataMap[props.symbol];
 
   return (
     <View style={styles.themeContainer}>
-      <ImageBackground
-        resizeMode="cover"
-        resizeMethod="auto"
-        style={styles.image}
-        source={themeSource}
-        alt="titleOfLogo"
-      >
-        <View style={styles.nameOfCompanyContainer}>
-          <NameOfCompany symbol={props.symbol} />
-        </View>
-        <View style={styles.positionOfsymbolIconContainer}>
-          <View style={styles.symbolIconContainer}>
-            <SymbolIcon symbol={props.symbol} />
+      <Animated.View entering={FadeInUp.delay(100)}>
+        <ImageBackground
+          resizeMode="cover"
+          resizeMethod="auto"
+          style={styles.image}
+          source={themeSource}
+          alt="titleOfLogo"
+        >
+          <View style={styles.nameOfCompanyContainer}>
+            <NameOfCompany symbol={props.symbol} />
           </View>
-        </View>
-      </ImageBackground>
+          <View style={styles.positionOfsymbolIconContainer}>
+            <View style={styles.symbolIconContainer}>
+              <SymbolIcon symbol={props.symbol} />
+            </View>
+          </View>
+        </ImageBackground>
+      </Animated.View>
     </View>
   );
 };

@@ -95,7 +95,7 @@ export interface StockContainerProps {
   place: number;
   symbol: Symbols;
   maxOpenValue: OpenType;
-  trendValue: string;
+  trendValue: JSX;
 }
 
 export interface StatusItemProps {
@@ -130,7 +130,7 @@ export interface FetchedDataAreaProps {
 }
 
 export interface DaysWithChartProps {
-  onChangePeriod: ((value: string) => number);
+  onChangePeriod: Function;
   children: React.ReactNode;
 }
 

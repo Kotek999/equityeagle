@@ -30,7 +30,7 @@ const StockData = (props: StockDataProps): JSX => {
   ]);
 
   const [isDataLoading, setIsDataLoading] = useState<boolean>(true);
-  const [trend, setTrend] = useState<string>("");
+  const [trend, setTrend] = useState<JSX>(<></>);
   const mountedRef = useRef<boolean>(false);
 
   const [data, setData] = useState<Data>();

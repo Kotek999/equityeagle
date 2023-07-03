@@ -5,6 +5,7 @@ import { SourceType, JSX, SymbolProps } from "../../../types";
 import { ContentSwitcher } from "../../../components/Molecules/ContentSwitcher";
 import { productImageDataMap } from "../../Data/MapsData";
 import { COLORS } from "../../../colors";
+import Animated, { FadeInDown } from "react-native-reanimated";
 
 export const ProductImage = (props: SymbolProps): JSX => {
   const productSource: SourceType = productImageDataMap[props.symbol];
@@ -13,21 +14,23 @@ export const ProductImage = (props: SymbolProps): JSX => {
     <View style={{ flex: 1 }}>
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
-          <ImageBackground
-            source={productSource}
-            resizeMode="cover"
-            resizeMethod="auto"
-            style={styles.image}
-          >
-            <View style={styles.imageWithContentContainer}>
-              <View style={styles.valueWithContentContainer}>
-                <Text style={styles.value}>Most popular product:</Text>
-                <Text style={styles.content}>
-                  <ContentSwitcher symbol={props.symbol} isName={true} />
-                </Text>
+          <Animated.View entering={FadeInDown.delay(100)}>
+            <ImageBackground
+              source={productSource}
+              resizeMode="cover"
+              resizeMethod="auto"
+              style={styles.image}
+            >
+              <View style={styles.imageWithContentContainer}>
+                <View style={styles.valueWithContentContainer}>
+                  <Text style={styles.value}>Most popular product:</Text>
+                  <Text style={styles.content}>
+                    <ContentSwitcher symbol={props.symbol} isName={true} />
+                  </Text>
+                </View>
               </View>
-            </View>
-          </ImageBackground>
+            </ImageBackground>
+          </Animated.View>
         </View>
       </View>
     </View>

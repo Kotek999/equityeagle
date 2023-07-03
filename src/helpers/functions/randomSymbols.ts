@@ -1,16 +1,17 @@
 import { getRandomValues } from "./getRandomValues";
+import { Symbols } from "../../enums";
 
 const symbols: string[] = [
-  "AAPL",
-  "MSFT",
-  "LMT",
-  "TSLA",
-  "NVDA",
-  "DPZ",
-  "CAT",
-  "EA",
-  "NFLX",
-  "SPCE",
+  Symbols.AAPL,
+  Symbols.MSFT,
+  Symbols.LMT,
+  Symbols.TSLA,
+  Symbols.NVDA,
+  Symbols.DPZ,
+  Symbols.CAT,
+  Symbols.EA,
+  Symbols.NFLX,
+  Symbols.SPCE,
 ];
 
 export const randomSymbols: string[] = getRandomValues(symbols);

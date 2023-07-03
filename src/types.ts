@@ -124,3 +124,35 @@ export type CurrentStatusProps = {
 export type DataProviderProps = {
   children: React.ReactNode;
 };
+
+export type ColorsType = {
+  whiteColor: string;
+  grayColor: string;
+  lightGrayColor: string;
+  limeColor: string;
+  goldColor: string;
+  yellowColor: string;
+  redColor: string;
+  mainGrayColor: string;
+  darkColor: string;
+  textGrayColor: string;
+  boxGraylightGrayColor: string;
+  iconDataYellowColor: string;
+  iconDataRedColor: string;
+  iconDataGreenColor: string;
+  iconLightGreenColor: string;
+  iconRedColor: string;
+  iconLightRedColor: string;
+  iconGoldColor: string;
+  opacityDarkColor: string;
+  dividerLightGrayColor: string;
+  chartLimeColor: string;
+  chartFillGreenColor: string;
+  chartFillLightGreenColor: string;
+  blankColor: string;
+};
+
+export type TrendIconProps = {
+  name: string;
+  color: string;
+};

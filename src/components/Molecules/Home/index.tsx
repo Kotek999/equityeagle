@@ -23,7 +23,7 @@ export const Home = ({
       <View style={styles.buttonContainer}>
         <CustomButton
           title="Let's begin!"
-          onPress={() => navigation.navigate(SCREEN.Main)}
+          onPress={() => navigation.replace(SCREEN.Main)}
         />
       </View>
     </View>
