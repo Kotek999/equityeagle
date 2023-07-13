@@ -1,9 +1,10 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, StyleSheet } from "react-native";
 import { Badge } from "@react-native-material/core";
-import { JSX } from "../../../types";
 import { COLORS } from "../../../colors";
+import { JSX } from "../../../types";
 
 export const BadgeWithIcon = (): JSX => {
   return (
@@ -11,13 +12,13 @@ export const BadgeWithIcon = (): JSX => {
       <Badge
         style={{ marginLeft: 10 }}
         labelStyle={styles.badgeLabel}
-        label="Data refreshed every 5 minutes"
-        color={COLORS.mainGrayColor}
+        label={textData.value.badge}
+        color={COLORS.mainGray}
       />
       <MaterialCommunityIcons
         name="database-eye"
         size={20}
-        color={COLORS.iconDataGreenColor}
+        color={COLORS.iconDataGreen}
       />
     </View>
   );
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   badgeLabel: {
-    color: COLORS.textGrayColor,
+    color: COLORS.textGray,
     fontFamily: "Lato",
     letterSpacing: 1.1,
   },

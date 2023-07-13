@@ -1,8 +1,8 @@
 import * as React from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { JSX } from "../../../types";
 import { View, StyleSheet } from "react-native";
 import { COLORS } from "../../../colors";
+import { JSX } from "../../../types";
 
 export const ModalStatusDivider = (): JSX => {
   return (
@@ -12,7 +12,7 @@ export const ModalStatusDivider = (): JSX => {
         style={{ marginHorizontal: 10 }}
         name="security"
         size={24}
-        color={COLORS.iconLightGreenColor}
+        color={COLORS.iconLightGreen}
       />
       <View style={styles.divider} />
     </View>
@@ -29,6 +29,6 @@ const styles = StyleSheet.create({
   divider: {
     flex: 1,
     height: 1,
-    backgroundColor: COLORS.whiteColor,
+    backgroundColor: COLORS.white,
   },
 });

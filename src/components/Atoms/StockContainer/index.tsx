@@ -1,18 +1,19 @@
-import React, { Fragment } from "react";
+import textData from "../../../../textData.json";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import React, { Fragment } from "react";
 import { View, Text, ActivityIndicator, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { FetchedDataArea } from "../FetchedDataArea";
-import { StockContainerProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { StockContainerProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const StockContainer = (props: StockContainerProps): JSX => {
   return (
     <View>
       {props.isDataLoading && !props.data && !props.refreshData ? (
         <View style={styles.loadingContainer}>
-          <Text style={styles.loadingValue}>Loading...</Text>
-          <ActivityIndicator size="small" color={COLORS.yellowColor} />
+          <Text style={styles.loadingValue}>{textData.value.loading}</Text>
+          <ActivityIndicator size="small" color={COLORS.yellow} />
         </View>
       ) : props.data && props.refreshData ? (
         <Fragment>
@@ -27,22 +28,20 @@ export const StockContainer = (props: StockContainerProps): JSX => {
         </Fragment>
       ) : !props.refreshData ? (
         <View style={styles.dataContainer}>
-          <Text style={styles.refreshValue}>
-            Data is being refreshed, please wait...
-          </Text>
+          <Text style={styles.refreshValue}>{textData.value.dataRefresh}</Text>
           <MaterialCommunityIcons
             name="database-refresh"
             size={20}
-            color={COLORS.iconDataYellowColor}
+            color={COLORS.iconDataYellow}
           />
         </View>
       ) : (
         <View style={styles.dataContainer}>
-          <Text style={styles.noDataValue}>No data</Text>
+          <Text style={styles.noDataValue}>{textData.value.noData}</Text>
           <MaterialCommunityIcons
             name="database-eye-off"
             size={20}
-            color={COLORS.iconDataRedColor}
+            color={COLORS.iconDataRed}
           />
         </View>
       )}
@@ -58,7 +57,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   loadingValue: {
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     marginRight: 20,
     letterSpacing: 1.1,
   },
@@ -71,14 +70,14 @@ const styles = StyleSheet.create({
   refreshValue: {
     right: 5,
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontFamily: "Lato",
     letterSpacing: 1.1,
   },
   noDataValue: {
     right: 20,
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontFamily: "Lato",
     letterSpacing: 1.1,
   },

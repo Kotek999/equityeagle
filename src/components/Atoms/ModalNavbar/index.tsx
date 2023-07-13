@@ -1,11 +1,12 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, Text, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Box, IconButton, Pressable } from "@react-native-material/core";
-import { ModalNavbarProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { ModalNavbarProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const ModalNavbar = (props: ModalNavbarProps): JSX => {
   return (
@@ -13,15 +14,15 @@ export const ModalNavbar = (props: ModalNavbarProps): JSX => {
       <View style={styles.optionsOnNavbarContainer}>
         <Pressable
           style={styles.chartIconContainer}
-          pressEffectColor={COLORS.darkColor}
+          pressEffectColor={COLORS.dark}
           onPress={props.openModalWithChart}
         >
-          <Text style={styles.value}>Chart</Text>
+          <Text style={styles.value}>{textData.value.chartTitle}</Text>
           <Icon
             style={{ left: 10 }}
             name="finance"
             size={24}
-            color={COLORS.yellowColor}
+            color={COLORS.yellow}
           />
         </Pressable>
         <Box
@@ -35,7 +36,7 @@ export const ModalNavbar = (props: ModalNavbarProps): JSX => {
         <IconButton
           icon={(props): any => <Icon name="close" {...props} />}
           style={styles.iconButton}
-          color={COLORS.yellowColor}
+          color={COLORS.yellow}
           onPress={props.closeModal}
         />
       </View>
@@ -62,7 +63,7 @@ const styles = StyleSheet.create({
     width: screenWidth / 3,
     height: 50,
     borderRadius: 14,
-    backgroundColor: COLORS.mainGrayColor,
+    backgroundColor: COLORS.mainGray,
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",
@@ -70,13 +71,13 @@ const styles = StyleSheet.create({
   },
   value: {
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontSize: 15,
     letterSpacing: 1.1,
     fontWeight: "bold",
   },
   maxOpenWithTrendContainer: {
-    backgroundColor: COLORS.boxGraylightGrayColor,
+    backgroundColor: COLORS.boxGraylightGray,
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",
@@ -85,6 +86,6 @@ const styles = StyleSheet.create({
   iconButton: {
     width: 50,
     height: 50,
-    backgroundColor: COLORS.mainGrayColor,
+    backgroundColor: COLORS.mainGray,
   },
 });

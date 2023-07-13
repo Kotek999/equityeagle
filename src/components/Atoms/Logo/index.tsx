@@ -1,8 +1,8 @@
 import * as React from "react";
 import { View, StyleSheet, Image } from "react-native";
-import { JSX } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { logo, logoTitle } from "../../../helpers/imageRequirements";
+import { JSX } from "../../../types";
 
 export const Logo = (): JSX => {
   return (

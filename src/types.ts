@@ -1,4 +1,7 @@
+import { Dispatch, SetStateAction } from "react";
+import { ImageSourcePropType } from "react-native";
 import { Products, Symbols } from "./enums";
+import { Data } from "./interfaces";
 
 export type JSX = JSX.Element;
 
@@ -126,30 +129,32 @@ export type DataProviderProps = {
 };
 
 export type ColorsType = {
-  whiteColor: string;
-  grayColor: string;
-  lightGrayColor: string;
-  limeColor: string;
-  goldColor: string;
-  yellowColor: string;
-  redColor: string;
-  mainGrayColor: string;
-  darkColor: string;
-  textGrayColor: string;
-  boxGraylightGrayColor: string;
-  iconDataYellowColor: string;
-  iconDataRedColor: string;
-  iconDataGreenColor: string;
-  iconLightGreenColor: string;
-  iconRedColor: string;
-  iconLightRedColor: string;
-  iconGoldColor: string;
-  opacityDarkColor: string;
-  dividerLightGrayColor: string;
-  chartLimeColor: string;
-  chartFillGreenColor: string;
-  chartFillLightGreenColor: string;
-  blankColor: string;
+  white: string;
+  gray: string;
+  lightGray: string;
+  lime: string;
+  gold: string;
+  yellow: string;
+  red: string;
+  mainGray: string;
+  badgeDark: string;
+  dark: string;
+  textGray: string;
+  textVersion: string;
+  boxGraylightGray: string;
+  iconDataYellow: string;
+  iconDataRed: string;
+  iconDataGreen: string;
+  iconLightGreen: string;
+  iconRed: string;
+  iconLightRed: string;
+  iconGold: string;
+  opacityDark: string;
+  dividerLightGray: string;
+  chartLime: string;
+  chartFillGreen: string;
+  chartFillLightGreen: string;
+  blank: string;
 };
 
 export type TrendIconProps = {
@@ -161,6 +166,60 @@ export type ApiType = {
   url: {
     part1: string;
     part2: string;
+    news: string;
   };
+  testKey: string;
   key: string;
 };
+
+export type SettingsCogIconProps = {
+  name: string;
+  onPress: OnPress;
+};
+
+export type HeaderProps = {
+  onPress: OnPress;
+  isCogIconSelected: boolean;
+};
+
+export type FooterProps = {
+  isAboutScreen: boolean;
+};
+
+export type PublishedValueType = {
+  date: {
+    year: string;
+    month: string;
+    day: string;
+  };
+  time: {
+    hour: string;
+    minutes: string;
+  };
+};
+
+export type SliderDataType = {
+  article: {
+    id: string;
+    time: string | undefined;
+    title: string | undefined;
+    image: ImageSourcePropType;
+    onPress: OnPress;
+  };
+};
+
+export type RenderArticleImageProps = {
+  item: SliderDataType;
+};
+
+export type NewsScrollViewProps = {
+  children: React.ReactNode;
+};
+
+export type QuotesType = {
+  title: string;
+  author: string;
+  position: string;
+};
+
+export type DataValue = Dispatch<SetStateAction<Data | undefined>>;

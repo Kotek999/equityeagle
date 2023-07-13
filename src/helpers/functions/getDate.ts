@@ -1,19 +1,6 @@
-export const getDate = (day: number): string => {
-  const months: string[] = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
+import { months } from "../../components/Data/MonthData/data";
 
+export const getDate = (day: number): string => {
   const date: Date = new Date();
 
   date.setDate(date.getDate() - day);

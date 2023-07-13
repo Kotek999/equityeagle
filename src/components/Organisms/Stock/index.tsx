@@ -1,16 +1,16 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, Fragment } from "react";
 import {
   BottomSheetModal,
   BottomSheetModalProvider,
 } from "@gorhom/bottom-sheet";
-import { SCREEN } from "../../../../routes";
 import { NavigationScreenProps } from "../../../../rootTypeList";
-import { JSX, OnPress } from "../../../types";
-import { Symbols } from "../../../enums";
 import { ModalContainer } from "../../../components/Atoms/ModalContainer";
 import { ModalContent } from "../ModalContent";
 import { StockContent } from "../../Molecules/StockContent";
 import { ModalContentWithChart } from "../ModalChart";
+import { Symbols } from "../../../enums";
+import { JSX, OnPress } from "../../../types";
+import { SCREEN } from "../../../../routes";
 
 export const Stock = ({
   navigation,
@@ -126,7 +126,7 @@ export const Stock = ({
   );
 
   return (
-    <React.Fragment>
+    <Fragment>
       <StockContent navigation={navigation} onModalOpened={onModalOpened} />
       <BottomSheetModalProvider>
         <ModalContainer methodRef={bottomSheetModalRef}>
@@ -137,6 +137,6 @@ export const Stock = ({
           <ModalChart />
         </ModalContainer>
       </BottomSheetModalProvider>
-    </React.Fragment>
+    </Fragment>
   );
 };

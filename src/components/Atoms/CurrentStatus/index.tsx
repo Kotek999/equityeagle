@@ -1,10 +1,10 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, Text, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { statusIconDataMap } from "../../Data/MapsData";
-import { IconType, CurrentStatusProps } from "../../../types";
 import { COLORS } from "../../../colors";
+import { JSX, IconType, CurrentStatusProps } from "../../../types";
 
 export const CurrentStatus = (props: CurrentStatusProps): JSX => {
   const statusIconChecker = (status: number): JSX | null => {
@@ -28,15 +28,15 @@ export const CurrentStatus = (props: CurrentStatusProps): JSX => {
       <Text
         style={{
           ...styles.statusValue,
-          color: COLORS.textGrayColor,
+          color: COLORS.textGray,
         }}
       >
-        {`Status: `}
+        {textData.value.statusTitle}
       </Text>
       <Text
         style={{
           ...styles.statusValue,
-          color: COLORS.whiteColor,
+          color: COLORS.white,
         }}
       >
         {props.status}

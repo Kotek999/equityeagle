@@ -1,18 +1,14 @@
 import * as React from "react";
-import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, Image, StyleSheet } from "react-native";
 import { screenWidth } from "../../../helpers/dimensions";
 import { useSafeAreaInsets, EdgeInsets } from "react-native-safe-area-context";
 import { AppBar } from "@react-native-material/core";
 import { logoTitle } from "../../../helpers/imageRequirements";
-import { SCREEN } from "../../../../routes";
-import { NavigationScreenProps } from "../../../../rootTypeList";
-import { JSX } from "../../../types";
+import { SettingCogIcon } from "../SettingsCogIcon";
 import { COLORS } from "../../../colors";
+import { JSX, HeaderProps } from "../../../types";
 
-export const Header = ({
-  navigation,
-}: NavigationScreenProps<SCREEN.About>): JSX => {
+export const Header = (props: HeaderProps): JSX => {
   const insets: EdgeInsets = useSafeAreaInsets();
   return (
     <View style={{ paddingTop: insets.top }}>
@@ -32,12 +28,11 @@ export const Header = ({
           )}
           trailing={() => (
             <View style={styles.headerOptions}>
-              <MaterialCommunityIcons
-                name="cog-outline"
-                size={28}
-                color={COLORS.yellowColor}
-                onPress={() => navigation.push(SCREEN.About)}
-              />
+              {props.isCogIconSelected ? (
+                <SettingCogIcon name="cog" onPress={props.onPress} />
+              ) : (
+                <SettingCogIcon name="cog-outline" onPress={props.onPress} />
+              )}
             </View>
           )}
         />
@@ -48,12 +43,11 @@ export const Header = ({
 
 const styles = StyleSheet.create({
   headerContainer: {
-    marginBottom: 10,
     alignItems: "center",
-    backgroundColor: COLORS.mainGrayColor,
+    backgroundColor: COLORS.mainGray,
   },
   appBar: {
-    backgroundColor: COLORS.darkColor,
+    backgroundColor: COLORS.dark,
     width: screenWidth,
   },
   headerOptions: {

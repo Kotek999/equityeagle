@@ -1,9 +1,9 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { JSX, SymbolProps } from "../../../types";
-import { FullNameOfCompanies } from "../../../enums";
 import { companyNameDataMap } from "../../Data/MapsData";
 import { COLORS } from "../../../colors";
+import { FullNameOfCompanies } from "../../../enums";
+import { JSX, SymbolProps } from "../../../types";
 
 export const FullNameOfCompany = (props: SymbolProps): JSX => {
   const companyFullName: FullNameOfCompanies = companyNameDataMap[props.symbol];
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
   },
   companyFullName: {
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontWeight: "bold",
     justifyContent: "center",
     fontSize: 16,

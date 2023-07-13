@@ -1,12 +1,5 @@
+import textData from "../../../../textData.json";
 import React, { useState } from "react";
-import {
-  ItemType,
-  JSX,
-  OpenValuesType,
-  AverageForDayType,
-  OpenForType,
-  ChartDataProps,
-} from "../../../types";
 import { getDate } from "../../../helpers/functions/getDate";
 import { calculateOpenForDate } from "../../../helpers/functions/calculateOpenForDate";
 import { getAverage } from "../../../helpers/functions/getAverage";
@@ -16,8 +9,16 @@ import { formatOpen } from "../../../helpers/functions/formatOpen";
 import { createDataItem } from "../../../helpers/functions/createDataItem";
 import { dateForDay } from "../../Data/ModalChartData/data";
 import { ChartWithContent } from "../../Molecules/ChartWithContent";
-import { ModalContentWithChartProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { ModalContentWithChartProps } from "../../../interfaces";
+import {
+  ItemType,
+  JSX,
+  OpenValuesType,
+  AverageForDayType,
+  OpenForType,
+  ChartDataProps,
+} from "../../../types";
 
 export const ModalContentWithChart = (
   props: ModalContentWithChartProps
@@ -52,7 +53,7 @@ export const ModalContentWithChart = (
     createDataItem(openFor7, props.openForDateIndex0, 7),
     {
       value: Number(props.maxOpenValue.toFixed(2)),
-      labelTextStyle: { color: COLORS.lightGrayColor, width: 60 },
+      labelTextStyle: { color: COLORS.lightGray, width: 60 },
       labelComponent: () => label(getDate(0)),
     },
   ];
@@ -127,7 +128,7 @@ export const ModalContentWithChart = (
     return (
       <Chart
         onPress={() => onClickChangePeriod(getDate(0))}
-        periodValue={`Period ${period}`}
+        periodValue={`${textData.value.periodTitle} ${period}`}
         averageValue={averageSwitcher(period)}
         data={props.data}
       />

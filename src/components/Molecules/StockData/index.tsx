@@ -1,3 +1,4 @@
+import Toast from "react-native-toast-message";
 import React, {
   Fragment,
   useState,
@@ -5,18 +6,17 @@ import React, {
   useRef,
   useContext,
 } from "react";
-import { JSX, OpenType } from "../../../types";
-import { Data } from "../../../interfaces";
-import Toast from "react-native-toast-message";
-import { maxOpenUpdate } from "../../../helpers/functions/maxOpenUpdate";
-import { openForDateUpdate } from "../../../helpers/functions/openForDateUpdate";
-import { trendUpdate } from "../../../helpers/functions/trendUpdate";
+import { Text } from "react-native";
 import { StockContainer } from "../../../components/Atoms/StockContainer";
 import { DataContext } from "../../Atoms/Context";
-import { Text } from "react-native";
-import { ContextType } from "../../../types";
-import { StockDataProps } from "../../../interfaces";
-import { getAPI } from "../../../helpers/functions/getAPI";
+import { fetchStockData } from "../../../helpers/functions/fetchStockData";
+import { Symbols } from "../../../enums";
+import {
+  Data,
+  StockDataProps,
+  FetchStockDataProps as DataItemsProps,
+} from "../../../interfaces";
+import { JSX, OpenType, ContextType } from "../../../types";
 
 const StockData = (props: StockDataProps): JSX => {
   const { status, setStatus }: ContextType =
@@ -36,6 +36,7 @@ const StockData = (props: StockDataProps): JSX => {
 
   const [data, setData] = useState<Data>();
   const [refreshData, setRefreshData] = useState<Data>();
+  const [fetchError, setFetchError] = useState<unknown>();
 
   const showToast = () => {
     Toast.show({
@@ -44,54 +45,25 @@ const StockData = (props: StockDataProps): JSX => {
     });
   };
 
+  const stockData: Data = data as Data;
+  const stockSymbol: Symbols = props.symbol;
+
+  const dataItems: DataItemsProps = {
+    stockData,
+    stockSymbol,
+    setStatus,
+    setMaxOpen,
+    setTrend,
+    setData,
+    setRefreshData,
+    openForDate,
+    setOpenForDate,
+    setIsDataLoading,
+    setFetchError,
+  };
+
   useEffect(() => {
-    const fetchData = async (data: Data): Promise<void> => {
-      const stockAPI: string = getAPI(props.symbol);
-
-      try {
-        const response: Response = await fetch(stockAPI);
-        data = await response.json();
-
-        if (response.status !== 0) {
-          const statusCode: number = response.status;
-          setStatus(statusCode);
-        }
-
-        const stockData: Record<
-          string,
-          {
-            "1. open": string;
-            "2. high": string;
-            "3. low": string;
-          }
-        > = data["Time Series (5min)"];
-
-        setMaxOpen(maxOpenUpdate(stockData));
-        setTrend(trendUpdate(stockData));
-
-        setData(data);
-        setRefreshData(data);
-
-        if (openForDate != null) {
-          setOpenForDate([
-            openForDateUpdate(stockData, 7),
-            openForDateUpdate(stockData, 14),
-            openForDateUpdate(stockData, 21),
-            openForDateUpdate(stockData, 28),
-          ]);
-        } else {
-          console.log("error");
-        }
-
-        setIsDataLoading(false);
-      } catch (error) {
-        // console.error(
-        //   `An error occurred while fetching the data. For symbol: ${props.symbol}`
-        // );
-        // console.error("An error occurred while fetching the data.", error);
-      }
-    };
-    fetchData(data as Data);
+    fetchStockData(dataItems);
 
     // if (!mountedRef.current) {
     //   mountedRef.current = true;
@@ -109,7 +81,7 @@ const StockData = (props: StockDataProps): JSX => {
 
   return (
     <Fragment>
-      {props.isStatusExist ? <Text>Wartość: {status} </Text> : null}
+      {props.isStatusExist ? <Text>Status: {status} </Text> : null}
       <StockContainer
         isDataLoading={isDataLoading}
         data={data}

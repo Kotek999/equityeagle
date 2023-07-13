@@ -16,7 +16,7 @@ export const RootStack = (): JSX => {
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName={SCREEN.Home}
-        screenOptions={{ contentStyle: { backgroundColor: COLORS.whiteColor } }}
+        screenOptions={{ contentStyle: { backgroundColor: COLORS.white } }}
       >
         <Stack.Screen
           name={SCREEN.Home}
@@ -41,7 +41,6 @@ export const RootStack = (): JSX => {
           options={{
             title: SCREEN.About,
             headerShown: false,
-            animation: "slide_from_right",
           }}
           component={AboutScreen}
         />

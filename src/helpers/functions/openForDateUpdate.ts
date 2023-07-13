@@ -1,5 +1,6 @@
-import { Data } from "../../interfaces";
+import textData from "../../../textData.json";
 import { getPreviousDate } from "./getPreviousDate";
+import { Data } from "../../interfaces";
 
 export const openForDateUpdate = (
   timeSeriesData: Data["Time Series (5min)"],
@@ -18,14 +19,13 @@ export const openForDateUpdate = (
       case 28:
         return getPreviousDate(28);
       default:
-        console.log("N/A");
+        console.log(textData.value.notAvailable);
         break;
     }
   };
 
   for (let key in timeSeriesData) {
-    // 2023-05-09 20:00:00
-    let date: string = `${previousDateSwitcher()} 16:00:00`;
+    let date: string = `${previousDateSwitcher()} ${textData.value.time}`;
 
     key = date;
 
@@ -38,7 +38,7 @@ export const openForDateUpdate = (
       console.log(openForDateData);
       break;
     } else {
-      console.log(`No data found for the date ${date}`);
+      console.log(`${textData.value.noDataForDate}${date}`);
     }
   }
   return openForDate;

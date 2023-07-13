@@ -1,7 +1,6 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { JSX } from "../../../types";
+import { useSafeAreaInsets, EdgeInsets } from "react-native-safe-area-context";
 import { screenHeight, screenWidth } from "../../../helpers/dimensions";
 import { ContentSwitcher } from "../../Molecules/ContentSwitcher";
 import { ProductImage } from "../../Atoms/ProductImage";
@@ -10,9 +9,10 @@ import { ModalNavbar } from "../../Atoms/ModalNavbar";
 import { Divider } from "../../Atoms/Divider";
 import { ScrollView } from "../../Atoms/ScrollView";
 import { ModalProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const Modal = (props: ModalProps): JSX => {
-  const insets = useSafeAreaInsets();
+  const insets: EdgeInsets = useSafeAreaInsets();
 
   return (
     <View style={styles.modalContainer}>

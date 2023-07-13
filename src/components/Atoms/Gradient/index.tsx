@@ -1,13 +1,13 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-import { JSX, ChildProps } from "../../../types";
 import { COLORS } from "../../../colors";
+import { JSX, ChildProps } from "../../../types";
 
 export const Gradient = (props: ChildProps): JSX => {
   return (
     <LinearGradient
-      colors={[COLORS.darkColor, COLORS.yellowColor]}
+      colors={[COLORS.dark, COLORS.yellow]}
       style={styles.gradient}
       start={{ x: 0.8, y: 0.8 }}
       end={{ x: 0.6, y: 1 }}

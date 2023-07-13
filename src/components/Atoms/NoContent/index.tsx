@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Text, StyleSheet } from "react-native";
-import { JSX, NoContentProps } from "../../../types";
 import { COLORS } from "../../../colors";
+import { JSX, NoContentProps } from "../../../types";
 
 export const NoContent = (props: NoContentProps): JSX => {
   return (
@@ -14,7 +14,7 @@ export const NoContent = (props: NoContentProps): JSX => {
 const styles = StyleSheet.create({
   noContentValue: {
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontFamily: "Lato",
     fontSize: 16,
     letterSpacing: 1.1,

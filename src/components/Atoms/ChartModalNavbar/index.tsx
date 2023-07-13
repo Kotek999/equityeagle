@@ -1,12 +1,13 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, Text, StyleSheet } from "react-native";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
-import { JSX } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Box, IconButton } from "@react-native-material/core";
-import { ChartModalNavbarProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { ChartModalNavbarProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const ChartModalNavbar = (props: ChartModalNavbarProps): JSX => {
   const insets: EdgeInsets = useSafeAreaInsets();
@@ -20,7 +21,7 @@ export const ChartModalNavbar = (props: ChartModalNavbarProps): JSX => {
       <View style={styles.optionsOnNavbarContainer}>
         <IconButton
           icon={(props): JSX => <Icon name="arrow-left" {...props} />}
-          color={COLORS.yellowColor}
+          color={COLORS.yellow}
           style={styles.iconButton}
           onPress={props.onPress}
         />
@@ -31,7 +32,7 @@ export const ChartModalNavbar = (props: ChartModalNavbarProps): JSX => {
           radius={14}
           style={styles.valueWithSymbolContainer}
         >
-          <Text style={styles.value}>Chart for:</Text>
+          <Text style={styles.value}>{textData.value.chartForTitle}</Text>
           <Text style={styles.symbol}>{props.symbolValue}</Text>
         </Box>
       </View>
@@ -56,10 +57,10 @@ const styles = StyleSheet.create({
   iconButton: {
     width: 50,
     height: 50,
-    backgroundColor: COLORS.mainGrayColor,
+    backgroundColor: COLORS.mainGray,
   },
   valueWithSymbolContainer: {
-    backgroundColor: COLORS.mainGrayColor,
+    backgroundColor: COLORS.mainGray,
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",
@@ -67,7 +68,7 @@ const styles = StyleSheet.create({
   },
   value: {
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontSize: 20,
     letterSpacing: 1.1,
     fontFamily: "Lato",
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
   },
   symbol: {
     textAlign: "center",
-    color: COLORS.yellowColor,
+    color: COLORS.yellow,
     fontSize: 20,
     letterSpacing: 1.1,
     fontWeight: "bold",

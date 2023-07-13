@@ -1,8 +1,9 @@
 import * as React from "react";
-import { COLORS } from "../../colors";
+import textData from "../../../textData.json";
 import { TrendIcon } from "../../components/Atoms/TrendIcon";
-import { JSX } from "../../types";
 import { Text } from "react-native";
+import { COLORS } from "../../colors";
+import { JSX } from "../../types";
 
 export const trendUpdate = (data: any): JSX => {
   let prevHighValue: number | null = null;
@@ -13,14 +14,16 @@ export const trendUpdate = (data: any): JSX => {
     const low: number = parseFloat(data[key]["3. low"]);
 
     if (prevHighValue !== null && high > prevHighValue) {
-      return <TrendIcon name="trending-up" color={COLORS.limeColor} />;
+      return <TrendIcon name="trending-up" color={COLORS.lime} />;
     } else if (prevLowValue !== null && low < prevLowValue) {
-      return <TrendIcon name="trending-down" color={COLORS.redColor} />;
+      return <TrendIcon name="trending-down" color={COLORS.red} />;
     }
 
     prevHighValue = high;
     prevLowValue = low;
   }
 
-  return <Text style={{ color: COLORS.whiteColor }}>N/A</Text>;
+  return (
+    <Text style={{ color: COLORS.white }}>{textData.value.notAvailable}</Text>
+  );
 };

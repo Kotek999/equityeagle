@@ -1,9 +1,9 @@
 import * as React from "react";
-import { View, Text, StyleSheet } from "react-native";
-import { JSX, FactsData } from "../../../types";
 import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
-import { InterestingFactsDataProps } from "../../../interfaces";
+import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../../colors";
+import { InterestingFactsDataProps } from "../../../interfaces";
+import { JSX, FactsData } from "../../../types";
 
 export const InterestingFactsData = (props: InterestingFactsDataProps): JSX => {
   if (!props.data || !props.data.length) {
@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
   },
   labelValue: {
     textAlign: "center",
-    color: COLORS.yellowColor,
+    color: COLORS.yellow,
     fontFamily: "Lato",
     fontSize: 16,
     letterSpacing: 1.1,
@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
   contentValue: {
     width: "100%",
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontFamily: "Lato",
     fontSize: 14,
     letterSpacing: 1.1,

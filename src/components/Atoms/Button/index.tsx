@@ -1,15 +1,14 @@
 import * as React from "react";
 import { StyleSheet } from "react-native";
-import { ButtonProps } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Button } from "@react-native-material/core";
-import { JSX } from "../../../types";
 import { COLORS } from "../../../colors";
+import { JSX, ButtonProps } from "../../../types";
 
 export const CustomButton = (props: ButtonProps): JSX => {
   return (
     <Button
-      titleStyle={{ color: COLORS.yellowColor, fontSize: 15 }}
+      titleStyle={{ color: COLORS.yellow, fontSize: 15 }}
       title={props.title}
       variant="contained"
       style={styles.button}
@@ -21,6 +20,6 @@ export const CustomButton = (props: ButtonProps): JSX => {
 const styles = StyleSheet.create({
   button: {
     width: screenWidth / 2,
-    backgroundColor: COLORS.darkColor,
+    backgroundColor: COLORS.dark,
   },
 });
