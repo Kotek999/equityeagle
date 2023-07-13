@@ -8,6 +8,7 @@ import { Footer } from "../../components/Molecules/Footer";
 import { NewsContent } from "../../components/Organisms/NewsContent";
 import { ArticleData } from "../../interfaces";
 import { fetchNewsData } from "../../helpers/functions/fetchNewsData";
+import { screenChecker } from "../../helpers/functions/screenChecker";
 
 export const AboutScreen = ({
   navigation,
@@ -30,7 +31,7 @@ export const AboutScreen = ({
         time: article.time_published,
         title: article.title,
         image: { uri: article.banner_image },
-        onPress: () => console.log(`image: ${i + 1}`),
+        onPress: () => screenChecker(i + 1, navigation),
       },
     })
   );

@@ -6,6 +6,9 @@ import { COLORS } from "./src/colors";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { MainScreen } from "./src/screens/MainScreen";
 import { AboutScreen } from "./src/screens/AboutScreen";
+import { FirstArticleScreen } from "./src/screens/ArticleScreens/FirstArticleScreen";
+import { SecondArticleScreen } from "./src/screens/ArticleScreens/SecondArticleScreen";
+import { ThirdArticleScreen } from "./src/screens/ArticleScreens/ThirdArticleScreen";
 import { RootStackParamList } from "./rootTypeList";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -43,6 +46,30 @@ export const RootStack = (): JSX => {
             headerShown: false,
           }}
           component={AboutScreen}
+        />
+        <Stack.Screen
+          name={SCREEN.FirstArticleScreen}
+          options={{
+            title: SCREEN.FirstArticleScreen,
+            headerShown: true,
+          }}
+          component={FirstArticleScreen}
+        />
+        <Stack.Screen
+          name={SCREEN.SecondArticleScreen}
+          options={{
+            title: SCREEN.SecondArticleScreen,
+            headerShown: true,
+          }}
+          component={SecondArticleScreen}
+        />
+        <Stack.Screen
+          name={SCREEN.ThirdArticleScreen}
+          options={{
+            title: SCREEN.ThirdArticleScreen,
+            headerShown: true,
+          }}
+          component={ThirdArticleScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

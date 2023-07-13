@@ -4,6 +4,9 @@ export type RootStackParamList = {
   Home: undefined;
   Main: undefined;
   About: undefined;
+  FirstArticleScreen: undefined;
+  SecondArticleScreen: undefined;
+  ThirdArticleScreen: undefined;
 };
 
 export type NavigationScreenProps<T extends keyof RootStackParamList> = {
