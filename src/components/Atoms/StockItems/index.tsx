@@ -2,13 +2,13 @@ import * as React from "react";
 import { StyleSheet } from "react-native";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Box } from "@react-native-material/core";
-import { JSX } from "../../../types";
-import { Symbols } from "../../../enums";
 import { ScrollView } from "../../../components/Atoms/ScrollView";
 import { randomSymbols } from "../../../helpers/functions/randomSymbols";
 import { StockData } from "../../Molecules/StockData";
-import { StockItemsProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { Symbols } from "../../../enums";
+import { StockItemsProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const StockItems = (props: StockItemsProps): JSX => {
   return (
@@ -41,7 +41,7 @@ export const StockItems = (props: StockItemsProps): JSX => {
 
 const styles = StyleSheet.create({
   box: {
-    backgroundColor: COLORS.boxGraylightGrayColor,
+    backgroundColor: COLORS.boxGraylightGray,
     justifyContent: "center",
     marginBottom: 12,
     left: 5,

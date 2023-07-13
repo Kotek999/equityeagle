@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { JSX, InterestingFactsProps } from "../../../types";
 import { InterestingFactsData } from "../InterestingFactsData";
+import { JSX, InterestingFactsProps } from "../../../types";
 
 export const InterestingFacts = (props: InterestingFactsProps): JSX => {
   const [currentIndex, setCurrentIndex] = useState(0);

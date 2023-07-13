@@ -1,8 +1,9 @@
 import * as React from "react";
 import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 import { SafeAreaView, ScrollView } from "react-native";
-import { JSX, ChildProps } from "../../../types";
 import { StatusBar } from "expo-status-bar";
+import { COLORS } from "../../../colors";
+import { JSX, ChildProps } from "../../../types";
 
 export const Screen = (props: ChildProps): JSX => {
   return (
@@ -12,7 +13,7 @@ export const Screen = (props: ChildProps): JSX => {
       </ScrollView>
       <StatusBar
         hidden={false}
-        backgroundColor="#152127"
+        backgroundColor={COLORS.dark}
         style={isIOS() ? "dark" : "light"}
       />
     </SafeAreaView>

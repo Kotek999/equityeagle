@@ -1,14 +1,13 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import { View, Text, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { COLORS } from "../../../colors";
+import { JSX } from "../../../types";
 
 export const NoDataForChart = (): JSX => {
   return (
     <View style={styles.noDataContainer}>
-      <Text style={styles.value}>
-        {`No data available right now, please try again later...`}
-      </Text>
+      <Text style={styles.value}>{textData.value.noData}</Text>
     </View>
   );
 };
@@ -20,12 +19,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     alignSelf: "center",
-    backgroundColor: COLORS.darkColor,
+    backgroundColor: COLORS.dark,
   },
   value: {
     fontSize: 18,
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontFamily: "Lato",
     letterSpacing: 1.1,
   },

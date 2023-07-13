@@ -1,12 +1,13 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import Icon from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, Text, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { LineChart } from "react-native-gifted-charts";
 import { ScrollView } from "../../../components/Atoms/ScrollView";
-import { ChartProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { ChartProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const Chart = (props: ChartProps): JSX => {
   return (
@@ -15,13 +16,13 @@ export const Chart = (props: ChartProps): JSX => {
         <View style={styles.periodWithAverageValuesContainer}>
           <Icon
             size={26}
-            color={COLORS.yellowColor}
+            color={COLORS.yellow}
             name="update"
             onPress={props.onPress}
           />
 
           <Text style={styles.periodValue}>{props.periodValue}</Text>
-          <Text style={styles.averageTitle}>Average:</Text>
+          <Text style={styles.averageTitle}>{textData.value.averageTitle}</Text>
           <Text style={styles.averageValue}>{props.averageValue}</Text>
         </View>
         <View style={styles.chartAreaContainer}>
@@ -35,7 +36,7 @@ export const Chart = (props: ChartProps): JSX => {
             animateOnDataChange={false}
             animationDuration={1000}
             onDataChangeAnimationDuration={300}
-            dataPointsColor={COLORS.yellowColor}
+            dataPointsColor={COLORS.yellow}
             areaChart
             data={props.data}
             startOpacity={0.9}
@@ -43,20 +44,20 @@ export const Chart = (props: ChartProps): JSX => {
             spacing={60}
             hideRules
             initialSpacing={40}
-            color={COLORS.chartLimeColor}
-            startFillColor={COLORS.chartFillGreenColor}
-            endFillColor={COLORS.chartFillLightGreenColor}
+            color={COLORS.chartLime}
+            startFillColor={COLORS.chartFillGreen}
+            endFillColor={COLORS.chartFillLightGreen}
             rulesType="solid"
-            rulesColor={COLORS.grayColor}
-            yAxisColor={COLORS.whiteColor}
+            rulesColor={COLORS.gray}
+            yAxisColor={COLORS.white}
             yAxisThickness={0}
-            yAxisTextStyle={{ color: COLORS.grayColor }}
-            xAxisColor={COLORS.blankColor}
+            yAxisTextStyle={{ color: COLORS.gray }}
+            xAxisColor={COLORS.blank}
             pointerConfig={{
               pointerStripHeight: 160,
-              pointerStripColor: COLORS.lightGrayColor,
+              pointerStripColor: COLORS.lightGray,
               pointerStripWidth: 2,
-              pointerColor: COLORS.lightGrayColor,
+              pointerColor: COLORS.lightGray,
               radius: 6,
               pointerLabelWidth: 100,
               pointerLabelHeight: 90,
@@ -83,7 +84,7 @@ const styles = StyleSheet.create({
   chartContainer: {
     width: screenWidth,
     padding: 20,
-    backgroundColor: COLORS.darkColor,
+    backgroundColor: COLORS.dark,
   },
   periodWithAverageValuesContainer: {
     flexDirection: "row",
@@ -93,17 +94,17 @@ const styles = StyleSheet.create({
   periodValue: {
     left: 10,
     flex: 1,
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontSize: 16,
     fontFamily: "Lato",
   },
   averageTitle: {
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontSize: 16,
     fontFamily: "Lato",
   },
   averageValue: {
-    color: COLORS.yellowColor,
+    color: COLORS.yellow,
     fontSize: 16,
     fontWeight: "bold",
     left: 5,
@@ -126,10 +127,10 @@ const styles = StyleSheet.create({
     paddingHorizontal: 14,
     paddingVertical: 6,
     borderRadius: 16,
-    backgroundColor: COLORS.blankColor,
+    backgroundColor: COLORS.blank,
   },
   labelValue: {
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontWeight: "bold",
     textAlign: "center",
   },

@@ -1,11 +1,11 @@
 import React, { Fragment } from "react";
-import { JSX, FactsData } from "../../../types";
 import { NoContent } from "../../../components/Atoms/NoContent";
 import { Product } from "../../../components/Atoms/Product";
 import { InterestingFacts } from "../../../components/Atoms/InterestingFacts";
-import { Products } from "../../../enums";
 import { symbolDataMap, productDataMap } from "../../Data/MapsData";
+import { Products } from "../../../enums";
 import { ContentSwitcherProps } from "../../../interfaces";
+import { JSX, FactsData } from "../../../types";
 
 export const ContentSwitcher = (props: ContentSwitcherProps): JSX => {
   const data: FactsData[] = symbolDataMap[props.symbol];

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { COLORS } from "../../../colors";
+import { JSX } from "../../../types";
 
 export const label = (titleOfLabel: string): JSX => {
   return (
@@ -15,6 +15,6 @@ const styles = StyleSheet.create({
   label: {
     alignSelf: "center",
     fontFamily: "Lato",
-    color: COLORS.lightGrayColor,
+    color: COLORS.lightGray,
   },
 });

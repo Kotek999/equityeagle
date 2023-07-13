@@ -1,9 +1,9 @@
 import * as React from "react";
-import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
-import { ScrollView as ScrollContainer } from "react-native";
-import { JSX, ChildProps } from "../../../types";
-import { screenWidth } from "../../../helpers/dimensions";
 import isIOS from "../../../helpers/rulesOfDevice/isIOS";
+import { ScrollView as ScrollContainer } from "react-native";
+import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
+import { screenWidth } from "../../../helpers/dimensions";
+import { JSX, ChildProps } from "../../../types";
 
 export const ScrollView = (props: ChildProps): JSX => {
   const insets: EdgeInsets = useSafeAreaInsets();
@@ -18,6 +18,7 @@ export const ScrollView = (props: ChildProps): JSX => {
         paddingBottom: insets.bottom,
         width: screenWidth,
       }}
+      showsVerticalScrollIndicator={false}
     >
       {props.children}
     </ScrollContainer>

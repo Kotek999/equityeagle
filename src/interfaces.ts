@@ -1,6 +1,15 @@
-import { Symbols, Products } from "./enums";
-import { OnPress, JSX, OpenType, FactsData, ItemType } from "./types";
+import { Dispatch, SetStateAction } from "react";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
+import { Symbols, Products } from "./enums";
+import {
+  OnPress,
+  JSX,
+  OpenType,
+  FactsData,
+  ItemType,
+  SliderDataType,
+  DataValue,
+} from "./types";
 
 export interface ChildProps {
   children: React.ReactNode;
@@ -62,7 +71,7 @@ export interface StockDataProps {
 
 export interface ModalStatusProps {
   isVisible: boolean;
-  onBackdropPress: OnPress
+  onBackdropPress: OnPress;
 }
 
 export interface ContentSwitcherProps {
@@ -79,7 +88,7 @@ export interface ChartWithContentProps {
   trendValue: string;
   valuesOfData: number;
   onChangePeriod: Function;
-  children: React.ReactNode
+  children: React.ReactNode;
 }
 
 export interface StockItemsProps {
@@ -100,13 +109,13 @@ export interface StockContainerProps {
 
 export interface StatusItemProps {
   status: number;
-  onPress: OnPress
+  onPress: OnPress;
 }
 
 export interface ModalNavbarProps {
   openModalWithChart: OnPress;
   children: React.ReactNode;
-  closeModal: OnPress
+  closeModal: OnPress;
 }
 
 export interface ModalContainerProps {
@@ -120,7 +129,7 @@ export interface InterestingFactsDataProps {
 }
 
 export interface FetchedDataAreaProps {
-  trendValue: string;
+  trendValue: React.ReactNode;
   placeValue: number;
   isInfoIcon: boolean;
   onPress?: OnPress;
@@ -152,4 +161,68 @@ export interface BoxOfCurrentCompanyProps {
   symbolValue: string;
   maxOpenValue: number;
   trendValue: string;
+}
+
+export interface DateValueType {
+  (
+    subFirst: number,
+    subSecond: number,
+    maxLength?: number,
+    fill?: string
+  ): string;
+}
+
+export interface NewsSliderProps {
+  isNewsLoading: boolean;
+  fetchError: unknown;
+  data: SliderDataType[];
+}
+
+export interface ArticleData {
+  authors: string[];
+  banner_image: string;
+  category_within_source: string;
+  overall_sentiment_label: string;
+  overall_sentiment_score: number;
+  source: string;
+  source_domain: string;
+  summary: string;
+  ticker_sentiment: TickerSentiment[];
+  time_published: string;
+  title: string;
+  topics: Topic[];
+  url: string;
+  feed: ArticleData[];
+}
+
+interface TickerSentiment {
+  relevance_score: string;
+  ticker: string;
+  ticker_sentiment_label: string;
+  ticker_sentiment_score: string;
+}
+
+interface Topic {
+  relevance_score: string;
+  topic: string;
+}
+
+export interface FetchNewsData {
+  setArticles: Dispatch<SetStateAction<ArticleData[] | undefined>>;
+  setIsNewsLoading: Dispatch<SetStateAction<boolean>>;
+  setFetchError: Dispatch<unknown>;
+}
+
+export interface FetchStockDataProps {
+  stockData: Data;
+  stockSymbol: Symbols;
+  setStatus: Dispatch<SetStateAction<number>>;
+  setMaxOpen: Dispatch<SetStateAction<OpenType>>;
+  setTrend: Dispatch<SetStateAction<JSX>>;
+  setData: DataValue;
+  setRefreshData: DataValue;
+  openForDate: OpenType[];
+  setOpenForDate: Dispatch<SetStateAction<OpenType[]>>;
+  setIsDataLoading: Dispatch<SetStateAction<boolean>>;
+  setFetchError: Dispatch<unknown>;
 }

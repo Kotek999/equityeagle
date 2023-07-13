@@ -1,9 +1,9 @@
 import * as React from "react";
 import { View, Text } from "react-native";
-import { JSX } from "../../../types";
 import { Modal } from "../../../components/Organisms/Modal";
-import { ModalContentProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { ModalContentProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const ModalContent = (props: ModalContentProps): JSX => {
   const maxOpenRefValue: string =
@@ -20,9 +20,7 @@ export const ModalContent = (props: ModalContentProps): JSX => {
   const MaxOpenWithTrend = (): JSX => {
     return (
       <View>
-        <Text
-          style={{ color: COLORS.whiteColor, fontSize: 16, fontWeight: "bold" }}
-        >
+        <Text style={{ color: COLORS.white, fontSize: 16, fontWeight: "bold" }}>
           {maxOpenValue()} {trendValue()}
         </Text>
       </View>

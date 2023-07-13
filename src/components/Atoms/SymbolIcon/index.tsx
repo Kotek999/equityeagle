@@ -1,8 +1,8 @@
 import * as React from "react";
 import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 import { View, Image, StyleSheet } from "react-native";
-import { JSX, SourceType, SymbolProps } from "../../../types";
 import { companySymbolIconDataMap } from "../../Data/MapsData";
+import { JSX, SourceType, SymbolProps } from "../../../types";
 
 export const SymbolIcon = (props: SymbolProps): JSX => {
   const iconSource: SourceType = companySymbolIconDataMap[props.symbol];

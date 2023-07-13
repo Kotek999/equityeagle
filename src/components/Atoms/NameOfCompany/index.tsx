@@ -1,10 +1,10 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { JSX, SymbolProps } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Badge } from "@react-native-material/core";
 import { FullNameOfCompany } from "../../../components/Atoms/FullNameOfCompany";
 import { COLORS } from "../../../colors";
+import { JSX, SymbolProps } from "../../../types";
 
 export const NameOfCompany = (props: SymbolProps): JSX => {
   return (
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
     width: screenWidth / 2,
     height: 50,
     borderRadius: 10,
-    backgroundColor: COLORS.opacityDarkColor,
+    backgroundColor: COLORS.opacityDark,
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",

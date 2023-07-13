@@ -1,5 +1,3 @@
-import { FactsData } from "../../../types";
-import { Symbols, Products } from "../../../enums";
 import {
   AAPL_DATA,
   CAT_DATA,
@@ -12,12 +10,10 @@ import {
   SPCE_DATA,
   TSLA_DATA,
 } from "../../../components/Data/MainScreenData/data";
-import { SourceType } from "../../../types";
-import { themes } from "../../../helpers/imageRequirements";
-import { icons } from "../../../helpers/imageRequirements";
-import { products } from "../../../helpers/imageRequirements";
-import { FullNameOfCompanies } from "../../../enums";
+import { themes, icons, products } from "../../../helpers/imageRequirements";
 import { COLORS } from "../../../colors";
+import { Symbols, Products, FullNameOfCompanies } from "../../../enums";
+import { FactsData, SourceType } from "../../../types";
 
 const symbolDataMap: Record<Symbols, FactsData[]> = {
   [Symbols.AAPL]: AAPL_DATA,
@@ -98,11 +94,11 @@ const companyNameDataMap: Record<Symbols, FullNameOfCompanies> = {
 };
 
 const statusIconDataMap: { [key: number]: { name: string; color: string } } = {
-  100: { name: "information-variant", color: COLORS.lightGrayColor },
-  200: { name: "check", color: COLORS.limeColor },
-  300: { name: "swap-horizontal", color: COLORS.goldColor },
-  400: { name: "account-off", color: COLORS.iconRedColor },
-  500: { name: "server-network-off", color: COLORS.iconLightRedColor },
+  100: { name: "information-variant", color: COLORS.lightGray },
+  200: { name: "check", color: COLORS.lime },
+  300: { name: "swap-horizontal", color: COLORS.gold },
+  400: { name: "account-off", color: COLORS.iconRed },
+  500: { name: "server-network-off", color: COLORS.iconLightRed },
 };
 
 export {

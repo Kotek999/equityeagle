@@ -1,24 +1,27 @@
 import * as React from "react";
 import Toast from "react-native-toast-message";
 import { View, StyleSheet } from "react-native";
-import { NavigationScreenProps } from "../../../../rootTypeList";
-import { JSX } from "../../../types";
 import { Header } from "../../Atoms/Header";
 import { CategoryBox } from "../../Atoms/CategoryBox";
 import { BadgeWithIcon } from "../../Atoms/BadgeWithIcon";
 import { StockItems } from "../../Atoms/StockItems";
 import { Footer } from "../Footer";
-import { SCREEN } from "../../../../routes";
 import { DataProvider } from "../../Atoms/Context";
 import { COLORS } from "../../../colors";
+import { JSX, OnPress } from "../../../types";
+import { SCREEN } from "../../../../routes";
+import { NavigationScreenProps } from "../../../../rootTypeList";
 
 export const StockContent = ({
   navigation,
   onModalOpened,
 }: NavigationScreenProps<SCREEN.About>): JSX => {
+  const onClickGoToAboutScreen: OnPress = (): void =>
+    navigation.push(SCREEN.About);
+
   return (
     <View style={styles.contentContainer}>
-      <Header navigation={navigation} />
+      <Header isCogIconSelected={false} onPress={onClickGoToAboutScreen} />
       <CategoryBox />
       <Toast position="top" visibilityTime={2000} />
       <BadgeWithIcon />
@@ -27,7 +30,7 @@ export const StockContent = ({
           isStatusExist={false}
           onModalOpened={onModalOpened as Function}
         />
-        <Footer />
+        <Footer isAboutScreen={false} />
       </DataProvider>
     </View>
   );
@@ -42,6 +45,6 @@ const styles = StyleSheet.create({
     right: 0,
     paddingTop: 0,
     width: "100%",
-    backgroundColor: COLORS.mainGrayColor,
+    backgroundColor: COLORS.mainGray,
   },
 });

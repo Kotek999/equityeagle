@@ -2,9 +2,9 @@ import * as React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Box } from "@react-native-material/core";
-import { JSX } from "../../../types";
 import { categories } from "../../Data/CategoryData/data";
 import { COLORS } from "../../../colors";
+import { JSX } from "../../../types";
 
 export const CategoryBox = (): JSX => {
   return (
@@ -12,7 +12,7 @@ export const CategoryBox = (): JSX => {
       <Box
         w={screenWidth - 20}
         h={50}
-        m={4}
+        m={10}
         radius={14}
         style={styles.boxContainer}
       >
@@ -32,7 +32,7 @@ export const CategoryBox = (): JSX => {
 
 const styles = StyleSheet.create({
   boxContainer: {
-    backgroundColor: COLORS.darkColor,
+    backgroundColor: COLORS.dark,
     justifyContent: "center",
     marginBottom: 10,
   },
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   category: {
     flex: 1,
     textAlign: "center",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     textTransform: "uppercase",
     fontWeight: "bold",
   },

@@ -1,5 +1,5 @@
-import { CodesType } from "../../../types";
 import { COLORS } from "../../../colors";
+import { CodesType } from "../../../types";
 
 export const codes: CodesType[] = [
   {
@@ -7,7 +7,7 @@ export const codes: CodesType[] = [
     description: "Informational",
     icon: {
       name: "information-variant",
-      color: COLORS.lightGrayColor,
+      color: COLORS.lightGray,
     },
   },
   {
@@ -15,7 +15,7 @@ export const codes: CodesType[] = [
     description: "Success",
     icon: {
       name: "check",
-      color: COLORS.limeColor,
+      color: COLORS.lime,
     },
   },
   {
@@ -23,7 +23,7 @@ export const codes: CodesType[] = [
     description: "Redirection",
     icon: {
       name: "swap-horizontal",
-      color: COLORS.goldColor,
+      color: COLORS.gold,
     },
   },
   {
@@ -31,7 +31,7 @@ export const codes: CodesType[] = [
     description: "Client Error",
     icon: {
       name: "account-off",
-      color: COLORS.iconRedColor,
+      color: COLORS.iconRed,
     },
   },
   {
@@ -39,7 +39,7 @@ export const codes: CodesType[] = [
     description: "Server Error",
     icon: {
       name: "server-network-off",
-      color: COLORS.iconLightRedColor,
+      color: COLORS.iconLightRed,
     },
   },
 ];

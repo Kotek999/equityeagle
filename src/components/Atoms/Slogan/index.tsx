@@ -1,21 +1,20 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import Animated, { FadeInDown } from "react-native-reanimated";
 import { StyleSheet } from "react-native";
 import { Text } from "@react-native-material/core";
-import { JSX } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { COLORS } from "../../../colors";
+import { JSX } from "../../../types";
 
 export const Slogan = (): JSX => {
-  const slogan: string = "Maximize your profits with our stock analysis tools!";
-
   return (
     <Animated.Text
       style={{ textAlign: "center" }}
       entering={FadeInDown.duration(3000).springify()}
     >
       <Text style={styles.sloganTitle} variant="h5">
-        {slogan}
+        {textData.value.slogan}
       </Text>
     </Animated.Text>
   );
@@ -28,6 +27,6 @@ const styles = StyleSheet.create({
     justifyContent: "flex-start",
     fontWeight: "600",
     fontFamily: "Lato",
-    color: COLORS.whiteColor,
+    color: COLORS.white,
   },
 });

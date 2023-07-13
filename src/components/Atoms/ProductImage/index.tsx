@@ -1,11 +1,12 @@
 import * as React from "react";
+import textData from "../../../../textData.json";
 import { View, Text, ImageBackground, StyleSheet } from "react-native";
 import { screenWidth } from "../../../helpers/dimensions";
-import { SourceType, JSX, SymbolProps } from "../../../types";
 import { ContentSwitcher } from "../../../components/Molecules/ContentSwitcher";
 import { productImageDataMap } from "../../Data/MapsData";
-import { COLORS } from "../../../colors";
 import Animated, { FadeInDown } from "react-native-reanimated";
+import { COLORS } from "../../../colors";
+import { SourceType, JSX, SymbolProps } from "../../../types";
 
 export const ProductImage = (props: SymbolProps): JSX => {
   const productSource: SourceType = productImageDataMap[props.symbol];
@@ -23,7 +24,9 @@ export const ProductImage = (props: SymbolProps): JSX => {
             >
               <View style={styles.imageWithContentContainer}>
                 <View style={styles.valueWithContentContainer}>
-                  <Text style={styles.value}>Most popular product:</Text>
+                  <Text style={styles.value}>
+                    {textData.value.popularProduct}
+                  </Text>
                   <Text style={styles.content}>
                     <ContentSwitcher symbol={props.symbol} isName={true} />
                   </Text>
@@ -66,7 +69,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
     alignItems: "center",
     alignContent: "center",
-    backgroundColor: COLORS.opacityDarkColor,
+    backgroundColor: COLORS.opacityDark,
   },
   valueWithContentContainer: {
     width: "90%",
@@ -76,14 +79,14 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   value: {
-    color: COLORS.whiteColor,
+    color: COLORS.white,
     fontSize: 18,
     fontFamily: "Lato",
     justifyContent: "center",
     marginRight: 20,
   },
   content: {
-    color: COLORS.yellowColor,
+    color: COLORS.yellow,
     fontSize: 18,
     fontWeight: "bold",
     alignSelf: "flex-end",

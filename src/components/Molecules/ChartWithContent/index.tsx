@@ -4,9 +4,9 @@ import { ChartModalNavbar } from "../../../components/Atoms/ChartModalNavbar";
 import { BoxOfCurrentCompany } from "../../../components/Atoms/BoxOfCurrentCompany";
 import { NoDataForChart } from "../../../components/Atoms/NoDataForChart";
 import { DaysWithChart } from "../../Atoms/DaysWithChart";
-import { JSX } from "../../../types";
 import { ChartSpinner } from "../../Atoms/ChartSpinner";
 import { ChartWithContentProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const ChartWithContent = (props: ChartWithContentProps): JSX => {
   const [isChartLoading, setIsChartLoading] = useState<boolean>(true);

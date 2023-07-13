@@ -1,9 +1,9 @@
-import React, { Fragment } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import React, { Fragment } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { codes } from "../../Data/CodesData/data";
 import { COLORS } from "../../../colors";
+import { JSX } from "../../../types";
 
 export const Codes = (): JSX => {
   return (
@@ -14,7 +14,7 @@ export const Codes = (): JSX => {
             <Text
               style={{
                 ...styles.codeValue,
-                color: COLORS.whiteColor,
+                color: COLORS.white,
               }}
             >
               {code.value}
@@ -22,7 +22,7 @@ export const Codes = (): JSX => {
             <Text
               style={{
                 ...styles.codeValue,
-                color: COLORS.textGrayColor,
+                color: COLORS.textGray,
               }}
             >
               {code.description}

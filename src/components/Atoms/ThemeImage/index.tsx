@@ -1,12 +1,12 @@
 import * as React from "react";
 import { View, ImageBackground, StyleSheet } from "react-native";
 import { screenHeight, screenWidth } from "../../../helpers/dimensions";
-import { JSX, SymbolProps } from "../../../types";
 import { SymbolIcon } from "../../../components/Atoms/SymbolIcon";
 import { NameOfCompany } from "../../../components/Atoms/NameOfCompany";
 import { themeImageDataMap } from "../../Data/MapsData";
-import { COLORS } from "../../../colors";
 import Animated, { FadeInUp } from "react-native-reanimated";
+import { COLORS } from "../../../colors";
+import { JSX, SymbolProps } from "../../../types";
 
 export const ThemeImage = (props: SymbolProps): JSX => {
   const themeSource = themeImageDataMap[props.symbol];
@@ -62,7 +62,7 @@ const styles = StyleSheet.create({
     width: screenWidth / 6,
     height: 50,
     borderRadius: 10,
-    backgroundColor: COLORS.mainGrayColor,
+    backgroundColor: COLORS.mainGray,
     flexDirection: "row",
     alignItems: "center",
     alignContent: "center",

@@ -1,12 +1,12 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
-import { JSX } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { Box } from "@react-native-material/core";
 import { Divider } from "../../../components/Atoms/Divider";
 import { FetchedDataArea } from "../FetchedDataArea";
-import { BoxOfCurrentCompanyProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { BoxOfCurrentCompanyProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const BoxOfCurrentCompany = (props: BoxOfCurrentCompanyProps): JSX => {
   return (
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   boxAreaContainer: {
-    backgroundColor: COLORS.boxGraylightGrayColor,
+    backgroundColor: COLORS.boxGraylightGray,
     justifyContent: "center",
   },
 });

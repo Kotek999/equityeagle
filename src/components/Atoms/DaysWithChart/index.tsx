@@ -1,11 +1,11 @@
 import * as React from "react";
 import { View, StyleSheet } from "react-native";
 import { Chip } from "@react-native-material/core";
-import { JSX } from "../../../types";
 import { getDate } from "../../../helpers/functions/getDate";
 import { chipData } from "../../Data/ModalChartData/data";
-import { DaysWithChartProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { DaysWithChartProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const DaysWithChart = (props: DaysWithChartProps): JSX => {
   return (
@@ -18,7 +18,7 @@ export const DaysWithChart = (props: DaysWithChartProps): JSX => {
               style={styles.chip}
               labelStyle={styles.chipLabel}
               label={chip.label}
-              color={COLORS.whiteColor}
+              color={COLORS.white}
               onPress={() => props.onChangePeriod(getDate(chip.day))}
             />
           );
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   chip: {
     alignSelf: "center",
-    backgroundColor: COLORS.boxGraylightGrayColor,
+    backgroundColor: COLORS.boxGraylightGray,
   },
   chipLabel: {
     fontFamily: "Lato",

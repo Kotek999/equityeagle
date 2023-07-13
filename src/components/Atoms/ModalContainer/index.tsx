@@ -1,10 +1,10 @@
 import * as React from "react";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import { SafeAreaView } from "react-native";
-import { JSX } from "../../../types";
 import { screenHeight } from "../../../helpers/dimensions";
-import { ModalContainerProps } from "../../../interfaces";
 import { COLORS } from "../../../colors";
+import { ModalContainerProps } from "../../../interfaces";
+import { JSX } from "../../../types";
 
 export const ModalContainer = (props: ModalContainerProps): JSX => {
   return (
@@ -23,7 +23,7 @@ export const ModalContainer = (props: ModalContainerProps): JSX => {
         index={0}
         snapPoints={[screenHeight, "80%"]}
         handleComponent={null}
-        backgroundStyle={{ backgroundColor: COLORS.darkColor }}
+        backgroundStyle={{ backgroundColor: COLORS.dark }}
         enableDismissOnClose={true}
       >
         {props.children}
