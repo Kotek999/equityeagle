@@ -13,8 +13,7 @@ import {
 import { themes, icons, products } from "../../../helpers/imageRequirements";
 import { COLORS } from "../../../colors";
 import { Symbols, Products, FullNameOfCompanies } from "../../../enums";
-import { FactsData, SourceType, ScreenType } from "../../../types";
-import { SCREEN } from "../../../../routes";
+import { FactsData, SourceType } from "../../../types";
 
 const symbolDataMap: Record<Symbols, FactsData[]> = {
   [Symbols.AAPL]: AAPL_DATA,
@@ -102,18 +101,6 @@ const statusIconDataMap: { [key: number]: { name: string; color: string } } = {
   500: { name: "server-network-off", color: COLORS.iconLightRed },
 };
 
-const screenDataMap: { [key: number]: ScreenType } = {
-  1: {
-    screenNav: (navigation) => navigation.navigate(SCREEN.FirstArticleScreen),
-  },
-  2: {
-    screenNav: (navigation) => navigation.navigate(SCREEN.SecondArticleScreen),
-  },
-  3: {
-    screenNav: (navigation) => navigation.navigate(SCREEN.ThirdArticleScreen),
-  },
-};
-
 export {
   symbolDataMap,
   productDataMap,
@@ -122,5 +109,4 @@ export {
   productImageDataMap,
   companyNameDataMap,
   statusIconDataMap,
-  screenDataMap,
 };

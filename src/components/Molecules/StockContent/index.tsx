@@ -15,7 +15,7 @@ import { NavigationScreenProps } from "../../../../rootTypeList";
 export const StockContent = ({
   navigation,
   onModalOpened,
-}: NavigationScreenProps<SCREEN.About>): JSX => {
+}: NavigationScreenProps<SCREEN.Main>): JSX => {
   const onClickGoToAboutScreen: OnPress = (): void =>
     navigation.push(SCREEN.About);
 

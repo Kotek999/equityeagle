@@ -14,7 +14,8 @@ import { SCREEN } from "../../../../routes";
 
 export const Stock = ({
   navigation,
-}: NavigationScreenProps<SCREEN.About>): JSX => {
+  route,
+}: NavigationScreenProps<SCREEN.Main>): JSX => {
   const placeRef: React.MutableRefObject<number> = useRef(0);
   const symbolRef: React.MutableRefObject<string> = useRef("");
   const maxOpenRef: React.MutableRefObject<number> = useRef(0);
@@ -127,7 +128,11 @@ export const Stock = ({
 
   return (
     <Fragment>
-      <StockContent navigation={navigation} onModalOpened={onModalOpened} />
+      <StockContent
+        route={route}
+        navigation={navigation}
+        onModalOpened={onModalOpened}
+      />
       <BottomSheetModalProvider>
         <ModalContainer methodRef={bottomSheetModalRef}>
           <ModalSheet />

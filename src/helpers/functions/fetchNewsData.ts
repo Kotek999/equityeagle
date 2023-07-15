@@ -1,6 +1,7 @@
 import textData from "../../../textData.json";
 import { getNewsAPI } from "./getAPI";
 import { ArticleData, FetchNewsData } from "../../interfaces";
+import { setArticleData } from "./articleDataService";
 
 export const fetchNewsData = async (props: FetchNewsData): Promise<void> => {
   const newsAPI: string = getNewsAPI();
@@ -8,7 +9,10 @@ export const fetchNewsData = async (props: FetchNewsData): Promise<void> => {
     const response: Response = await fetch(newsAPI);
     const newsData: ArticleData = await response.json();
 
-    props.setArticles(newsData.feed.slice(0, 3));
+    let articleData: ArticleData[] = newsData.feed.slice(0, 3);
+
+    props.setArticles(articleData);
+    setArticleData(articleData);
 
     if (newsData) {
       props.setIsNewsLoading(false);

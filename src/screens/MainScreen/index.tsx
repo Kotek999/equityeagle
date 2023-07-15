@@ -6,6 +6,7 @@ import { Stock } from "../../components/Organisms/Stock";
 
 export const MainScreen = ({
   navigation,
-}: NavigationScreenProps<SCREEN.About>): JSX => {
-  return <Stock navigation={navigation} />;
+  route
+}: NavigationScreenProps<SCREEN.Main>): JSX => {
+  return <Stock route={route} navigation={navigation} />;
 };

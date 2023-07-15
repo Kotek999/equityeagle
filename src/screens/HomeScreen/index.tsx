@@ -8,11 +8,12 @@ import { SCREEN } from "../../../routes";
 
 export const HomeScreen = ({
   navigation,
+  route,
 }: NavigationScreenProps<SCREEN.Home>): JSX => {
   return (
     <Screen>
       <Gradient>
-        <Home navigation={navigation} />
+        <Home route={route} navigation={navigation} />
       </Gradient>
     </Screen>
   );

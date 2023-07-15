@@ -1,10 +1,7 @@
 import { Dispatch, SetStateAction } from "react";
 import { ImageSourcePropType } from "react-native";
-import { NativeStackNavigationProp } from "@react-navigation/native-stack/lib/typescript/src/types";
 import { Products, Symbols } from "./enums";
-import { Data } from "./interfaces";
-import { RootStackParamList } from "../rootTypeList";
-import { SCREEN } from "../routes";
+import { Data, ArticleData } from "./interfaces";
 
 export type JSX = JSX.Element;
 
@@ -227,11 +224,4 @@ export type QuotesType = {
 
 export type DataValue = Dispatch<SetStateAction<Data | undefined>>;
 
-export type ScreenNavigationType = NativeStackNavigationProp<
-  RootStackParamList,
-  SCREEN.About
->;
-
-export type ScreenType = {
-  screenNav: (navigation: ScreenNavigationType) => void;
-};
+export type ArticleDataType = ArticleData[] | undefined;

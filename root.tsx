@@ -6,9 +6,7 @@ import { COLORS } from "./src/colors";
 import { HomeScreen } from "./src/screens/HomeScreen";
 import { MainScreen } from "./src/screens/MainScreen";
 import { AboutScreen } from "./src/screens/AboutScreen";
-import { FirstArticleScreen } from "./src/screens/ArticleScreens/FirstArticleScreen";
-import { SecondArticleScreen } from "./src/screens/ArticleScreens/SecondArticleScreen";
-import { ThirdArticleScreen } from "./src/screens/ArticleScreens/ThirdArticleScreen";
+import { ArticleScreen } from "./src/screens/ArticleScreen";
 import { RootStackParamList } from "./rootTypeList";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -18,9 +16,17 @@ export const RootStack = (): JSX => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={SCREEN.Home}
+        initialRouteName={SCREEN.About}
         screenOptions={{ contentStyle: { backgroundColor: COLORS.white } }}
       >
+        <Stack.Screen
+          name={SCREEN.About}
+          options={{
+            title: SCREEN.About,
+            headerShown: false,
+          }}
+          component={AboutScreen}
+        />
         <Stack.Screen
           name={SCREEN.Home}
           options={{
@@ -39,37 +45,21 @@ export const RootStack = (): JSX => {
           }}
           component={MainScreen}
         />
-        <Stack.Screen
+        {/* <Stack.Screen
           name={SCREEN.About}
           options={{
             title: SCREEN.About,
             headerShown: false,
           }}
           component={AboutScreen}
-        />
+        /> */}
         <Stack.Screen
-          name={SCREEN.FirstArticleScreen}
+          name={SCREEN.Article}
           options={{
-            title: SCREEN.FirstArticleScreen,
+            title: SCREEN.Article,
             headerShown: true,
           }}
-          component={FirstArticleScreen}
-        />
-        <Stack.Screen
-          name={SCREEN.SecondArticleScreen}
-          options={{
-            title: SCREEN.SecondArticleScreen,
-            headerShown: true,
-          }}
-          component={SecondArticleScreen}
-        />
-        <Stack.Screen
-          name={SCREEN.ThirdArticleScreen}
-          options={{
-            title: SCREEN.ThirdArticleScreen,
-            headerShown: true,
-          }}
-          component={ThirdArticleScreen}
+          component={ArticleScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

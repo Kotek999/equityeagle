@@ -3,18 +3,17 @@ import { View } from "react-native";
 import { Header } from "../../components/Atoms/Header";
 import { NavigationScreenProps } from "../../../rootTypeList";
 import { SCREEN } from "../../../routes";
-import { JSX, OnPress, SliderDataType } from "../../types";
+import { JSX, OnPress, SliderDataType, ArticleDataType } from "../../types";
 import { Footer } from "../../components/Molecules/Footer";
 import { NewsContent } from "../../components/Organisms/NewsContent";
-import { ArticleData } from "../../interfaces";
 import { fetchNewsData } from "../../helpers/functions/fetchNewsData";
-import { screenChecker } from "../../helpers/functions/screenChecker";
+import { getSliderData } from "../../helpers/functions/getSliderData";
 
 export const AboutScreen = ({
   navigation,
 }: NavigationScreenProps<SCREEN.About>): JSX => {
   const [isNewsLoading, setIsNewsLoading] = useState<boolean>(true);
-  const [articles, setArticles] = useState<ArticleData[] | undefined>();
+  const [articles, setArticles] = useState<ArticleDataType>();
   const [fetchError, setFetchError] = useState<unknown>();
 
   const onClickGoToMainScreen: OnPress = (): void =>
@@ -24,17 +23,7 @@ export const AboutScreen = ({
     fetchNewsData({ setArticles, setIsNewsLoading, setFetchError });
   }, []);
 
-  const sliderData: SliderDataType[] = (articles || []).map(
-    (article: ArticleData, i: number) => ({
-      article: {
-        id: String(i + 1),
-        time: article.time_published,
-        title: article.title,
-        image: { uri: article.banner_image },
-        onPress: () => screenChecker(i + 1, navigation),
-      },
-    })
-  );
+  const data: SliderDataType[] = getSliderData(articles || [], navigation);
 
   return (
     <View style={{ flex: 1 }}>
@@ -42,7 +31,7 @@ export const AboutScreen = ({
       <NewsContent
         isNewsLoading={isNewsLoading}
         fetchError={fetchError}
-        data={sliderData}
+        data={data}
       />
       <Footer isAboutScreen />
     </View>
