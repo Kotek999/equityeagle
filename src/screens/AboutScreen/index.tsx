@@ -27,7 +27,12 @@ export const AboutScreen = ({
 
   return (
     <View style={{ flex: 1 }}>
-      <Header isCogIconSelected onPress={onClickGoToMainScreen} />
+      <Header
+        isCogIcon
+        isCogIconSelected
+        isArticleScreen={false}
+        onPress={onClickGoToMainScreen}
+      />
       <NewsContent
         isNewsLoading={isNewsLoading}
         fetchError={fetchError}

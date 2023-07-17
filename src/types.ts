@@ -172,14 +172,16 @@ export type ApiType = {
   key: string;
 };
 
-export type SettingsCogIconProps = {
+export type IconProps = {
   name: string;
   onPress: OnPress;
 };
 
 export type HeaderProps = {
   onPress: OnPress;
-  isCogIconSelected: boolean;
+  isCogIconSelected?: boolean;
+  isArticleScreen: boolean;
+  isCogIcon: boolean;
 };
 
 export type FooterProps = {

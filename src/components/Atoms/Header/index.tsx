@@ -1,10 +1,13 @@
-import * as React from "react";
+import { Fragment } from "react";
 import { View, Image, StyleSheet } from "react-native";
 import { screenWidth } from "../../../helpers/dimensions";
 import { useSafeAreaInsets, EdgeInsets } from "react-native-safe-area-context";
 import { AppBar } from "@react-native-material/core";
 import { logoTitle } from "../../../helpers/imageRequirements";
-import { SettingCogIcon } from "../SettingsCogIcon";
+import {
+  SettingCogIcon,
+  SettingCogIcon as BackArrowIcon,
+} from "../SettingsCogIcon";
 import { COLORS } from "../../../colors";
 import { JSX, HeaderProps } from "../../../types";
 
@@ -16,22 +19,30 @@ export const Header = (props: HeaderProps): JSX => {
         <AppBar
           style={styles.appBar}
           leading={() => (
-            <View style={styles.headerOptions}>
-              <Image
-                resizeMode="contain"
-                resizeMethod="scale"
-                style={{ width: "75%", height: 50 }}
-                source={logoTitle}
-                alt="titleOfLogo"
-              />
-            </View>
+            <Fragment>
+              {props.isArticleScreen ? (
+                <BackArrowIcon name="arrow-left" onPress={props.onPress} />
+              ) : (
+                <View style={styles.headerOptions}>
+                  <Image
+                    resizeMode="contain"
+                    resizeMethod="scale"
+                    style={{ width: "75%", height: 50 }}
+                    source={logoTitle}
+                    alt="titleOfLogo"
+                  />
+                </View>
+              )}
+            </Fragment>
           )}
           trailing={() => (
             <View style={styles.headerOptions}>
               {props.isCogIconSelected ? (
                 <SettingCogIcon name="cog" onPress={props.onPress} />
               ) : (
-                <SettingCogIcon name="cog-outline" onPress={props.onPress} />
+                props.isCogIcon && (
+                  <SettingCogIcon name="cog-outline" onPress={props.onPress} />
+                )
               )}
             </View>
           )}

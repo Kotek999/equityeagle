@@ -1,9 +1,9 @@
 import * as React from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { COLORS } from "../../../colors";
-import { JSX, SettingsCogIconProps } from "../../../types";
+import { JSX, IconProps } from "../../../types";
 
-export const SettingCogIcon = (props: SettingsCogIconProps): JSX => (
+export const SettingCogIcon = (props: IconProps): JSX => (
   <MaterialCommunityIcons
     name={props.name as any}
     size={28}

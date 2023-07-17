@@ -1,28 +1,40 @@
 import { Text, View } from "react-native";
-import { JSX, ArticleDataType } from "../../types";
+import { JSX, ArticleDataType, OnPress } from "../../types";
 import { getArticleData } from "../../helpers/functions/articleDataService";
 import { NavigationScreenProps } from "../../../rootTypeList";
 import { SCREEN } from "../../../routes";
+import { Header } from "../../components/Atoms/Header";
 
 export const ArticleScreen = ({
   route,
+  navigation,
 }: NavigationScreenProps<SCREEN.Article>): JSX => {
   const data: ArticleDataType = getArticleData();
   const index: number = route.params.index;
   const title: string | undefined = data && data[index].title;
 
+  const onClickGoToAboutScreen: OnPress = (): void =>
+    navigation.navigate(SCREEN.About);
+
   return (
-    <View
-      style={{
-        padding: 20,
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        alignContent: "center",
-      }}
-    >
-      <Text>Article nr: {index}</Text>
-      <Text style={{ color: "lime", fontSize: 20 }}>{title}</Text>
+    <View style={{ flex: 1 }}>
+      <Header
+        isArticleScreen
+        isCogIcon={false}
+        onPress={onClickGoToAboutScreen}
+      />
+      <View
+        style={{
+          padding: 20,
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          alignContent: "center",
+        }}
+      >
+        <Text>Article nr: {index}</Text>
+        <Text style={{ color: "lime", fontSize: 20 }}>{title}</Text>
+      </View>
     </View>
   );
 };

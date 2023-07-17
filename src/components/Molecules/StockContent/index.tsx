@@ -21,7 +21,12 @@ export const StockContent = ({
 
   return (
     <View style={styles.contentContainer}>
-      <Header isCogIconSelected={false} onPress={onClickGoToAboutScreen} />
+      <Header
+        isCogIcon
+        isArticleScreen={false}
+        isCogIconSelected={false}
+        onPress={onClickGoToAboutScreen}
+      />
       <CategoryBox />
       <Toast position="top" visibilityTime={2000} />
       <BadgeWithIcon />

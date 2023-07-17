@@ -57,7 +57,7 @@ export const RootStack = (): JSX => {
           name={SCREEN.Article}
           options={{
             title: SCREEN.Article,
-            headerShown: true,
+            headerShown: false,
           }}
           component={ArticleScreen}
         />
