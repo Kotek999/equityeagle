@@ -165,6 +165,7 @@ export interface BoxOfCurrentCompanyProps {
 
 export interface DateValueType {
   (
+    time: string | undefined,
     subFirst: number,
     subSecond: number,
     maxLength?: number,
@@ -202,7 +203,7 @@ interface TickerSentiment {
   ticker_sentiment_score: string;
 }
 
-interface Topic {
+export interface Topic {
   relevance_score: string;
   topic: string;
 }

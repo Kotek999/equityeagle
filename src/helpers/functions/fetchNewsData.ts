@@ -9,7 +9,7 @@ export const fetchNewsData = async (props: FetchNewsData): Promise<void> => {
     const response: Response = await fetch(newsAPI);
     const newsData: ArticleData = await response.json();
 
-    let articleData: ArticleData[] = newsData.feed.slice(0, 3);
+    let articleData: ArticleData[] = newsData.feed.slice(1, 7);
 
     props.setArticles(articleData);
     setArticleData(articleData);

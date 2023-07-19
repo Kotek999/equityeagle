@@ -188,15 +188,18 @@ export type FooterProps = {
   isAboutScreen: boolean;
 };
 
-export type PublishedValueType = {
+export type TimeValuesType = {
+  time: {
+    hour: string;
+    minutes: string;
+  };
+};
+
+export type DateValuesType = TimeValuesType & {
   date: {
     year: string;
     month: string;
     day: string;
-  };
-  time: {
-    hour: string;
-    minutes: string;
   };
 };
 
