@@ -10,6 +10,7 @@ import {
 } from "../SettingsCogIcon";
 import { COLORS } from "../../../colors";
 import { JSX, HeaderProps } from "../../../types";
+import { ArticleTopic } from "../ArticleTopic";
 
 export const Header = (props: HeaderProps): JSX => {
   const insets: EdgeInsets = useSafeAreaInsets();
@@ -39,10 +40,10 @@ export const Header = (props: HeaderProps): JSX => {
             <View style={styles.headerOptions}>
               {props.isCogIconSelected ? (
                 <SettingCogIcon name="cog" onPress={props.onPress} />
+              ) : props.isCogIcon ? (
+                <SettingCogIcon name="cog-outline" onPress={props.onPress} />
               ) : (
-                props.isCogIcon && (
-                  <SettingCogIcon name="cog-outline" onPress={props.onPress} />
-                )
+                <ArticleTopic topic={props.topic} source={props.source} />
               )}
             </View>
           )}

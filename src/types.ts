@@ -1,9 +1,11 @@
-import { Dispatch, SetStateAction } from "react";
+import { ReactNode, Dispatch, SetStateAction } from "react";
 import { ImageSourcePropType } from "react-native";
 import { Products, Symbols } from "./enums";
-import { Data, ArticleData } from "./interfaces";
+import { Data, ArticleData, Topic, ArticleTopicProps } from "./interfaces";
 
 export type JSX = JSX.Element;
+
+export type ChildType = ReactNode;
 
 export type OnPress = () => void;
 
@@ -13,7 +15,7 @@ export type ButtonProps = {
 };
 
 export type ChildProps = {
-  children: React.ReactNode;
+  children: ChildType;
   isMarginExist?: boolean;
 };
 
@@ -91,7 +93,7 @@ export type ChartDataProps = {
 
 export type ContextType = {
   status: number;
-  setStatus: React.Dispatch<React.SetStateAction<number>>;
+  setStatus: Dispatch<SetStateAction<number>>;
 };
 
 export type CodesType = {
@@ -125,7 +127,7 @@ export type CurrentStatusProps = {
 };
 
 export type DataProviderProps = {
-  children: React.ReactNode;
+  children: ChildType;
 };
 
 export type ColorsType = {
@@ -177,7 +179,7 @@ export type IconProps = {
   onPress: OnPress;
 };
 
-export type HeaderProps = {
+export type HeaderProps = ArticleTopicProps & {
   onPress: OnPress;
   isCogIconSelected?: boolean;
   isArticleScreen: boolean;
@@ -218,7 +220,7 @@ export type RenderArticleImageProps = {
 };
 
 export type NewsScrollViewProps = {
-  children: React.ReactNode;
+  children: ChildType;
 };
 
 export type QuotesType = {
@@ -230,3 +232,47 @@ export type QuotesType = {
 export type DataValue = Dispatch<SetStateAction<Data | undefined>>;
 
 export type ArticleDataType = ArticleData[] | undefined;
+
+export type FieldType = string | undefined;
+
+export type TopicsType = Topic[] | undefined;
+
+export type ArticleNewsType = {
+  time: FieldType;
+  authors: string[] | undefined;
+  source: FieldType;
+  topics: TopicsType;
+  image: { uri: FieldType };
+  title: FieldType;
+  summary: FieldType;
+};
+
+export type ArticlesType = {
+  field: ArticleNewsType;
+};
+
+export type ArticleDateProps = {
+  time: FieldType;
+};
+
+export type ArticleSourceType =
+  | {
+      uri: FieldType;
+    }
+  | ImageSourcePropType;
+
+export type ArticleNewsTitleProps = {
+  title: ArticleNewsType | undefined | string;
+};
+
+export type ArticleNewsSummaryProps = {
+  summary: FieldType;
+};
+
+export type ArticleNewsImageWithDateProps = ArticleDateProps & {
+  source: ArticleSourceType;
+};
+
+export type ArticleNewsAuthorsProps = {
+  authors: ArticleNewsType | undefined | string[];
+};

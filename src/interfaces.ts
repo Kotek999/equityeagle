@@ -9,6 +9,11 @@ import {
   ItemType,
   SliderDataType,
   DataValue,
+  ArticlesType,
+  FieldType,
+  TopicsType,
+  ArticleNewsType,
+  ArticleSourceType,
 } from "./types";
 
 export interface ChildProps {
@@ -226,4 +231,22 @@ export interface FetchStockDataProps {
   setOpenForDate: Dispatch<SetStateAction<OpenType[]>>;
   setIsDataLoading: Dispatch<SetStateAction<boolean>>;
   setFetchError: Dispatch<unknown>;
+}
+
+export interface ArticleIconProps {
+  name: string;
+  color: string;
+}
+
+export interface ArticleTopicProps {
+  topic?: TopicsType | Topic[] | string;
+  source?: ArticlesType | FieldType;
+}
+
+export interface ArticleContentProps {
+  title: FieldType;
+  authors: ArticleNewsType | string[] | undefined;
+  source: ArticleSourceType;
+  time: FieldType;
+  summary: FieldType;
 }
