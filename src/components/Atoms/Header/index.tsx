@@ -11,11 +11,12 @@ import {
 import { COLORS } from "../../../colors";
 import { JSX, HeaderProps } from "../../../types";
 import { ArticleTopic } from "../ArticleTopic";
+import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 
 export const Header = (props: HeaderProps): JSX => {
   const insets: EdgeInsets = useSafeAreaInsets();
   return (
-    <View style={{ paddingTop: insets.top }}>
+    <View style={{ paddingTop: isIOS() ? 0 : insets.top }}>
       <View style={styles.headerContainer}>
         <AppBar
           style={styles.appBar}

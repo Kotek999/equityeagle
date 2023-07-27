@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "flex-start",
     backgroundColor: COLORS.dark,
-    marginBottom: isIOS() ? 20 : 0,
+    marginBottom: 0,
   },
   itemsContainer: {
     flexDirection: "row",
