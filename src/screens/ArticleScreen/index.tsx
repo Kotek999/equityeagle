@@ -16,6 +16,7 @@ import { Header } from "../../components/Atoms/Header";
 import { ArticleData } from "../../interfaces";
 import { COLORS } from "../../colors";
 import { ArticleContent } from "../../components/Organisms/ArticleContent";
+import { Screen } from "../../components/Atoms/Screen";
 
 export const ArticleScreen = ({
   route,
@@ -67,21 +68,23 @@ export const ArticleScreen = ({
     navigation.navigate(SCREEN.About);
 
   return (
-    <View style={{ flex: 1, backgroundColor: COLORS.mainGray }}>
-      <Header
-        isArticleScreen
-        isCogIcon={false}
-        topic={topic}
-        source={articleNews.source}
-        onPress={onClickGoToAboutScreen}
-      />
-      <ArticleContent
-        title={articleNews.title}
-        authors={articleNews.authors}
-        source={source}
-        time={articleNews.time}
-        summary={articleNews.summary}
-      />
-    </View>
+    <Screen isHeaderExist>
+      <View style={{ flex: 1, backgroundColor: COLORS.mainGray }}>
+        <Header
+          isArticleScreen
+          isCogIcon={false}
+          topic={topic}
+          source={articleNews.source}
+          onPress={onClickGoToAboutScreen}
+        />
+        <ArticleContent
+          title={articleNews.title}
+          authors={articleNews.authors}
+          source={source}
+          time={articleNews.time}
+          summary={articleNews.summary}
+        />
+      </View>
+    </Screen>
   );
 };

@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
   },
   value: {
     textAlign: "left",
-    color: COLORS.white,
+    color: COLORS.textGray,
     fontFamily: "Lato",
   },
 });

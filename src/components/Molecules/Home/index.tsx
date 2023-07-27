@@ -1,20 +1,21 @@
-import * as React from "react";
-import textData from "../../../../textData.json";
+import React, { useEffect } from "react";
 import { View, StyleSheet } from "react-native";
 import { Stack } from "@react-native-material/core";
 import { screenWidth, screenHeight } from "../../../helpers/dimensions";
 import { Slogan } from "../../Atoms/Slogan";
 import { Logo } from "../../Atoms/Logo";
-import { CustomButton } from "../../Atoms/Button";
-import { JSX, OnPress } from "../../../types";
+import { JSX } from "../../../types";
 import { SCREEN } from "../../../../routes";
 import { NavigationScreenProps } from "../../../../rootTypeList";
 
 export const Home = ({
   navigation,
 }: NavigationScreenProps<SCREEN.Home>): JSX => {
-  const onClickGoToMainScreen: OnPress = (): void =>
-    navigation.replace(SCREEN.Main);
+  useEffect(() => {
+    setTimeout(() => {
+      navigation.replace(SCREEN.Main);
+    }, 1000);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -24,22 +25,14 @@ export const Home = ({
           <Slogan />
         </View>
       </Stack>
-      <View style={styles.buttonContainer}>
-        <CustomButton
-          title={textData.value.button}
-          onPress={onClickGoToMainScreen}
-        />
-      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: "space-around",
     width: screenWidth,
-    height: screenHeight,
+    height: screenHeight / 1.5,
   },
   imgWithSloganContainer: {
     flexDirection: "column",

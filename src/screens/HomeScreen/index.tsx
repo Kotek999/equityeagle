@@ -11,7 +11,7 @@ export const HomeScreen = ({
   route,
 }: NavigationScreenProps<SCREEN.Home>): JSX => {
   return (
-    <Screen>
+    <Screen isHeaderExist={false}>
       <Gradient>
         <Home route={route} navigation={navigation} />
       </Gradient>

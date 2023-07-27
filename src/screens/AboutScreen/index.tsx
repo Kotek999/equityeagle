@@ -8,6 +8,7 @@ import { Footer } from "../../components/Molecules/Footer";
 import { NewsContent } from "../../components/Organisms/NewsContent";
 import { fetchNewsData } from "../../helpers/functions/fetchNewsData";
 import { getSliderData } from "../../helpers/functions/getSliderData";
+import { Screen } from "../../components/Atoms/Screen";
 
 export const AboutScreen = ({
   navigation,
@@ -26,19 +27,21 @@ export const AboutScreen = ({
   const data: SliderDataType[] = getSliderData(articles || [], navigation);
 
   return (
-    <View style={{ flex: 1 }}>
-      <Header
-        isCogIcon
-        isCogIconSelected
-        isArticleScreen={false}
-        onPress={onClickGoToMainScreen}
-      />
-      <NewsContent
-        isNewsLoading={isNewsLoading}
-        fetchError={fetchError}
-        data={data}
-      />
-      <Footer isAboutScreen />
-    </View>
+    <Screen isHeaderExist>
+      <View style={{ flex: 1 }}>
+        <Header
+          isCogIcon
+          isCogIconSelected
+          isArticleScreen={false}
+          onPress={onClickGoToMainScreen}
+        />
+        <NewsContent
+          isNewsLoading={isNewsLoading}
+          fetchError={fetchError}
+          data={data}
+        />
+        <Footer isAboutScreen />
+      </View>
+    </Screen>
   );
 };

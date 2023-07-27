@@ -14,9 +14,10 @@ export type ButtonProps = {
   title: string;
 };
 
-export type ChildProps = {
+export type ScreenProps = {
   children: ChildType;
   isMarginExist?: boolean;
+  isHeaderExist?: boolean;
 };
 
 export type NoContentProps = {

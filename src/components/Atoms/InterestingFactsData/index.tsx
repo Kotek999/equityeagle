@@ -45,7 +45,8 @@ const styles = StyleSheet.create({
     top: 10,
   },
   labelContainer: {
-    top: 10,
+    top: 20,
+    marginBottom: 10,
   },
   labelValue: {
     textAlign: "center",
@@ -57,7 +58,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     top: 20,
-    marginBottom: 40,
+    marginBottom: 20,
     height: 100,
     flex: 1,
     flexDirection: "row",

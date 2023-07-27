@@ -3,10 +3,15 @@ import { JSX } from "../../types";
 import { SCREEN } from "../../../routes";
 import { NavigationScreenProps } from "../../../rootTypeList";
 import { Stock } from "../../components/Organisms/Stock";
+import { Screen } from "../../components/Atoms/Screen";
 
 export const MainScreen = ({
   navigation,
-  route
+  route,
 }: NavigationScreenProps<SCREEN.Main>): JSX => {
-  return <Stock route={route} navigation={navigation} />;
+  return (
+    <Screen isHeaderExist>
+      <Stock route={route} navigation={navigation} />
+    </Screen>
+  );
 };

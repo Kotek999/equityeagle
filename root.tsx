@@ -16,17 +16,9 @@ export const RootStack = (): JSX => {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName={SCREEN.About}
+        initialRouteName={SCREEN.Home}
         screenOptions={{ contentStyle: { backgroundColor: COLORS.white } }}
       >
-        <Stack.Screen
-          name={SCREEN.About}
-          options={{
-            title: SCREEN.About,
-            headerShown: false,
-          }}
-          component={AboutScreen}
-        />
         <Stack.Screen
           name={SCREEN.Home}
           options={{
@@ -45,14 +37,14 @@ export const RootStack = (): JSX => {
           }}
           component={MainScreen}
         />
-        {/* <Stack.Screen
+        <Stack.Screen
           name={SCREEN.About}
           options={{
             title: SCREEN.About,
             headerShown: false,
           }}
           component={AboutScreen}
-        /> */}
+        />
         <Stack.Screen
           name={SCREEN.Article}
           options={{
