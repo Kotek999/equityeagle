@@ -1,4 +1,5 @@
 import { Dispatch, SetStateAction } from "react";
+import { ListRenderItem } from "react-native";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { Symbols, Products } from "./enums";
 import {
@@ -182,6 +183,7 @@ export interface NewsSliderProps {
   isNewsLoading: boolean;
   fetchError: unknown;
   data: SliderDataType[];
+  renderItem: ListRenderItem<unknown> | null | undefined;
 }
 
 export interface ArticleData {

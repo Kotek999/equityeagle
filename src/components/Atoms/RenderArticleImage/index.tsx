@@ -3,11 +3,9 @@ import { screenWidth } from "../../../helpers/dimensions";
 import { LikeHeartIcon } from "../../../components/Atoms/LikeHeartIcon";
 import { getPublishedTimeForArticle } from "../../../helpers/functions/getPublishedTimeForArticle";
 import { COLORS } from "../../../colors";
-import { JSX, RenderArticleImageProps } from "../../../types";
+import { JSX, ItemArticleProps } from "../../../types";
 
-export const RenderArticleImage: Function = (
-  props: RenderArticleImageProps
-): JSX => {
+export const RenderArticleImage = (props: ItemArticleProps): JSX => {
   return (
     <TouchableOpacity onPress={props.item.article.onPress}>
       <View style={styles.container}>

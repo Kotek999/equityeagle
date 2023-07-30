@@ -13,6 +13,7 @@ export const NewsContent = (props: NewsContentProps): JSX => {
         isNewsLoading={props.isNewsLoading}
         fetchError={props.fetchError}
         data={props.data}
+        renderItem={props.renderItem}
       />
       <NewsQuotes />
     </NewsScrollView>

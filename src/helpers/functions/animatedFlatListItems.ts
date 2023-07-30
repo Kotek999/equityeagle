@@ -1,6 +1,6 @@
 import { FlatList, Animated, ListRenderItem } from "react-native";
 import { RenderArticleImage } from "../../components/Atoms/RenderArticleImage";
-import { SliderDataType } from "../../types";
+import { RenderArticleImageProps, SliderDataType } from "../../types";
 
 const AnimatedFlatList: Animated.AnimatedComponent<typeof FlatList> =
   Animated.createAnimatedComponent(FlatList);
@@ -19,7 +19,4 @@ const keyExtractorItem: (item: SliderDataType) => string = (
 const keyExtractor: (item: unknown, index: number) => string =
   keyExtractorItem as (item: unknown, index: number) => string;
 
-const renderItem: ListRenderItem<unknown> | null | undefined =
-  RenderArticleImage as ListRenderItem<unknown> | null | undefined;
-
-export { AnimatedFlatList, onScroll, keyExtractor, renderItem };
+export { AnimatedFlatList, onScroll, keyExtractor };

@@ -5,7 +5,6 @@ import { AnimateArrowRightIcon } from "../../../components/Atoms/AnimateArrowRig
 import {
   AnimatedFlatList,
   keyExtractor,
-  renderItem,
   onScroll,
 } from "../../../helpers/functions/animatedFlatListItems";
 import { NewsSpinner } from "../../Atoms/NewsSpinner";
@@ -28,7 +27,7 @@ export const NewsSlider = (props: NewsSliderProps): JSX => {
               horizontal
               data={props.data}
               keyExtractor={keyExtractor}
-              renderItem={renderItem}
+              renderItem={props.renderItem}
               pagingEnabled
               showsHorizontalScrollIndicator={false}
               onScroll={onScroll}

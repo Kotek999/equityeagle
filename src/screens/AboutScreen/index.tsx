@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, ListRenderItem } from "react-native";
 import { Header } from "../../components/Atoms/Header";
 import { NavigationScreenProps } from "../../../rootTypeList";
 import { SCREEN } from "../../../routes";
-import { JSX, OnPress, SliderDataType, ArticleDataType } from "../../types";
+import {
+  JSX,
+  OnPress,
+  SliderDataType,
+  ArticleDataType,
+  ItemArticleProps,
+} from "../../types";
 import { Footer } from "../../components/Molecules/Footer";
 import { NewsContent } from "../../components/Organisms/NewsContent";
 import { fetchNewsData } from "../../helpers/functions/fetchNewsData";
 import { getSliderData } from "../../helpers/functions/getSliderData";
 import { Screen } from "../../components/Atoms/Screen";
+import { RenderArticleImage } from "../../components/Atoms/RenderArticleImage";
 
 export const AboutScreen = ({
   navigation,
@@ -26,6 +33,13 @@ export const AboutScreen = ({
 
   const data: SliderDataType[] = getSliderData(articles || [], navigation);
 
+  const renderItem: ListRenderItem<unknown> | null | undefined = (({
+    item,
+  }: ItemArticleProps) => <RenderArticleImage item={item} />) as
+    | ListRenderItem<unknown>
+    | null
+    | undefined;
+
   return (
     <Screen isHeaderExist>
       <View style={{ flex: 1 }}>
@@ -39,6 +53,7 @@ export const AboutScreen = ({
           isNewsLoading={isNewsLoading}
           fetchError={fetchError}
           data={data}
+          renderItem={renderItem}
         />
         <Footer isAboutScreen />
       </View>

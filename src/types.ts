@@ -212,11 +212,11 @@ export type SliderDataType = {
     time: string | undefined;
     title: string | undefined;
     image: ImageSourcePropType;
-    onPress: () => void;
+    onPress: () => void | undefined;
   };
 };
 
-export type RenderArticleImageProps = {
+export type ItemArticleProps = {
   item: SliderDataType;
 };
 
