@@ -29,9 +29,9 @@ export type SourceType = {
   uri: string;
 };
 
-export type Chech<T> = Record<string, T>;
+export type Check<T> = Record<string, T>;
 
-export type ChechProps<T> = {
+export type CheckProps<T> = {
   source: T;
 };
 //

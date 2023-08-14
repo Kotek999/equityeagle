@@ -15,6 +15,7 @@ import {
   TopicsType,
   ArticleNewsType,
   ArticleSourceType,
+  ChildType,
 } from "./types";
 
 export interface ChildProps {
@@ -251,4 +252,9 @@ export interface ArticleContentProps {
   source: ArticleSourceType;
   time: FieldType;
   summary: FieldType;
+}
+
+export interface ScrollViewProps {
+  isMarginExist: boolean;
+  children: ChildType;
 }

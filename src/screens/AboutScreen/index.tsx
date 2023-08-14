@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo } from "react";
 import { View, ListRenderItem } from "react-native";
 import { Header } from "../../components/Atoms/Header";
 import { NavigationScreenProps } from "../../../rootTypeList";
@@ -33,12 +33,13 @@ export const AboutScreen = ({
 
   const data: SliderDataType[] = getSliderData(articles || [], navigation);
 
-  const renderItem: ListRenderItem<unknown> | null | undefined = (({
-    item,
-  }: ItemArticleProps) => <RenderArticleImage item={item} />) as
-    | ListRenderItem<unknown>
-    | null
-    | undefined;
+  const renderItem = useMemo(() => {
+    const MemoizedRenderItem = (({ item }: ItemArticleProps) => (
+      <RenderArticleImage item={item} />
+    )) as ListRenderItem<unknown> | null | undefined;
+
+    return MemoizedRenderItem;
+  }, []);
 
   return (
     <Screen isHeaderExist>

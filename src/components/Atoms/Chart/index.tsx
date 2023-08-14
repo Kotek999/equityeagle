@@ -11,7 +11,7 @@ import { JSX } from "../../../types";
 
 export const Chart = (props: ChartProps): JSX => {
   return (
-    <ScrollView>
+    <ScrollView isMarginExist>
       <View style={styles.chartContainer}>
         <View style={styles.periodWithAverageValuesContainer}>
           <Icon

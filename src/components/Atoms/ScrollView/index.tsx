@@ -3,9 +3,10 @@ import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 import { ScrollView as ScrollContainer } from "react-native";
 import { EdgeInsets, useSafeAreaInsets } from "react-native-safe-area-context";
 import { screenWidth } from "../../../helpers/dimensions";
-import { JSX, ChildProps } from "../../../types";
+import { JSX } from "../../../types";
+import { ScrollViewProps } from "../../../interfaces";
 
-export const ScrollView = (props: ChildProps): JSX => {
+export const ScrollView = (props: ScrollViewProps): JSX => {
   const insets: EdgeInsets = useSafeAreaInsets();
   return (
     <ScrollContainer
