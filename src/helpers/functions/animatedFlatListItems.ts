@@ -1,6 +1,5 @@
-import { FlatList, Animated, ListRenderItem } from "react-native";
-import { RenderArticleImage } from "../../components/Atoms/RenderArticleImage";
-import { RenderArticleImageProps, SliderDataType } from "../../types";
+import { FlatList, Animated } from "react-native";
+import { SliderDataType } from "../../types";
 
 const AnimatedFlatList: Animated.AnimatedComponent<typeof FlatList> =
   Animated.createAnimatedComponent(FlatList);

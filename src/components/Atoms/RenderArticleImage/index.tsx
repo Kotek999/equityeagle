@@ -1,18 +1,33 @@
-import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  TouchableOpacity,
+  StyleSheet,
+  ImageSourcePropType,
+} from "react-native";
 import { screenWidth } from "../../../helpers/dimensions";
 import { LikeHeartIcon } from "../../../components/Atoms/LikeHeartIcon";
 import { getPublishedTimeForArticle } from "../../../helpers/functions/getPublishedTimeForArticle";
 import { COLORS } from "../../../colors";
-import { JSX, ItemArticleProps } from "../../../types";
+import { JSX, ItemArticleProps, SourceType } from "../../../types";
+import { imageNotExist as newsImageNotExist } from "../../../helpers/imageRequirements";
 
 export const RenderArticleImage = (props: ItemArticleProps): JSX => {
+  const imageURI: string = props.item.article.image.uri;
+
+  const source: ImageSourcePropType | SourceType =
+    imageURI === null || imageURI === ""
+      ? newsImageNotExist
+      : props.item.article.image;
+
   return (
     <TouchableOpacity onPress={props.item.article.onPress}>
       <View style={styles.container}>
         <Image
           resizeMode="contain"
           resizeMethod="auto"
-          source={props.item.article.image}
+          source={source}
           style={styles.image}
         />
         <View style={styles.timeContainer}>

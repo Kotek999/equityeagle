@@ -1,3 +1,4 @@
+import textData from "../../../../textData.json";
 import { View, StyleSheet, Text } from "react-native";
 import { JSX, DateValuesType, ArticleDateProps } from "../../../types";
 import { getDateValue } from "../../../helpers/functions/getDateValue";
@@ -22,6 +23,8 @@ export const ArticleDate = (props: ArticleDateProps): JSX => {
 
   return (
     <View style={styles.container}>
+      <Text style={styles.value}>{textData.value.articleDateTitle}</Text>
+      <ArticleIcon name="circle-small" color={COLORS.textGray} />
       <Text style={styles.value}>{articleDate}</Text>
       <ArticleIcon name="circle-small" color={COLORS.textGray} />
       <Text style={styles.value}>{articleTime}</Text>

@@ -6,6 +6,7 @@ import {
   TopicsType,
   ArticlesType,
   FieldType,
+  AuthorsType,
   ArticleNewsType,
   ArticleSourceType,
 } from "../../types";
@@ -17,6 +18,7 @@ import { ArticleData } from "../../interfaces";
 import { COLORS } from "../../colors";
 import { ArticleContent } from "../../components/Organisms/ArticleContent";
 import { Screen } from "../../components/Atoms/Screen";
+import { imageNotExist as articleImageNotExist } from "../../helpers/imageRequirements";
 
 export const ArticleScreen = ({
   route,
@@ -54,15 +56,17 @@ export const ArticleScreen = ({
 
   const articleTopic: TopicsType = articleNews.topics;
 
-  // find or create by SD image
-  const articleImageNotExist: ImageSourcePropType = require("../../assets/content.png");
-
   const articleSource: ImageSourcePropType | undefined | FieldType =
     articleNews.image.uri;
 
   const source: ArticleSourceType =
-    articleSource === null ? articleImageNotExist : articleNews.image;
+    articleSource === null || articleSource === ""
+      ? articleImageNotExist
+      : articleNews.image;
   const topic: string | TopicsType = articleTopic && articleTopic[0].topic;
+
+  const authors: AuthorsType =
+    articleNews.authors?.length === 0 ? "unknown" : articleNews.authors;
 
   const onClickGoToAboutScreen: OnPress = (): void =>
     navigation.navigate(SCREEN.About);
@@ -79,7 +83,7 @@ export const ArticleScreen = ({
         />
         <ArticleContent
           title={articleNews.title}
-          authors={articleNews.authors}
+          authors={authors}
           source={source}
           time={articleNews.time}
           summary={articleNews.summary}

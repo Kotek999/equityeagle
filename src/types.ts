@@ -1,5 +1,5 @@
 import { ReactNode, Dispatch, SetStateAction } from "react";
-import { ImageSourcePropType } from "react-native";
+import { ImageSourcePropType, ListRenderItem } from "react-native";
 import { Products, Symbols } from "./enums";
 import { Data, ArticleData, Topic, ArticleTopicProps } from "./interfaces";
 
@@ -211,7 +211,7 @@ export type SliderDataType = {
     id: string;
     time: string | undefined;
     title: string | undefined;
-    image: ImageSourcePropType;
+    image: SourceType;
     onPress: () => void | undefined;
   };
 };
@@ -274,6 +274,10 @@ export type ArticleNewsImageWithDateProps = ArticleDateProps & {
   source: ArticleSourceType;
 };
 
+export type AuthorsType = string[] | "unknown" | undefined;
+
 export type ArticleNewsAuthorsProps = {
-  authors: ArticleNewsType | undefined | string[];
+  authors: AuthorsType;
 };
+
+export type RenderItemType = ListRenderItem<unknown> | null | undefined;

@@ -16,6 +16,7 @@ import {
   ArticleNewsType,
   ArticleSourceType,
   ChildType,
+  RenderItemType,
 } from "./types";
 
 export interface ChildProps {
@@ -184,7 +185,7 @@ export interface NewsSliderProps {
   isNewsLoading: boolean;
   fetchError: unknown;
   data: SliderDataType[];
-  renderItem: ListRenderItem<unknown> | null | undefined;
+  renderItem: RenderItemType;
 }
 
 export interface ArticleData {
@@ -248,7 +249,7 @@ export interface ArticleTopicProps {
 
 export interface ArticleContentProps {
   title: FieldType;
-  authors: ArticleNewsType | string[] | undefined;
+  authors: string[] | "unknown" | undefined;
   source: ArticleSourceType;
   time: FieldType;
   summary: FieldType;

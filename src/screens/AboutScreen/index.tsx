@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { View, ListRenderItem } from "react-native";
+import { View } from "react-native";
 import { Header } from "../../components/Atoms/Header";
 import { NavigationScreenProps } from "../../../rootTypeList";
 import { SCREEN } from "../../../routes";
@@ -9,6 +9,7 @@ import {
   SliderDataType,
   ArticleDataType,
   ItemArticleProps,
+  RenderItemType,
 } from "../../types";
 import { Footer } from "../../components/Molecules/Footer";
 import { NewsContent } from "../../components/Organisms/NewsContent";
@@ -33,10 +34,10 @@ export const AboutScreen = ({
 
   const data: SliderDataType[] = getSliderData(articles || [], navigation);
 
-  const renderItem = useMemo(() => {
+  const renderItem: RenderItemType = useMemo(() => {
     const MemoizedRenderItem = (({ item }: ItemArticleProps) => (
       <RenderArticleImage item={item} />
-    )) as ListRenderItem<unknown> | null | undefined;
+    )) as RenderItemType;
 
     return MemoizedRenderItem;
   }, []);

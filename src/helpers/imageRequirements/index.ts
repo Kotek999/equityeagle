@@ -4,6 +4,9 @@ import { SourceType } from "../../types";
 export const logo: ImageSourcePropType = require("../../../src/assets/logo/eelogo.png");
 export const logoTitle: ImageSourcePropType = require("../../../src/assets/logo/eeTitle.png");
 
+// find or create by SD image
+export const imageNotExist: ImageSourcePropType = require("../../assets/content.png");
+
 const iconAAPL: SourceType = require("../../assets/icons/AAPL.png");
 const iconMSFT: SourceType = require("../../assets/icons/MSFT.png");
 const iconLMT: SourceType = require("../../assets/icons/LMT.png");
