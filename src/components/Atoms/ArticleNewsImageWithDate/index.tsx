@@ -2,20 +2,20 @@ import { View, Image, StyleSheet } from "react-native";
 import { JSX, ArticleNewsImageWithDateProps } from "../../../types";
 import { screenWidth } from "../../../helpers/dimensions";
 import { ArticleDate } from "../../../components/Atoms/ArticleDate";
-import { Divider } from "../Divider";
+import { COLORS } from "../../../colors";
 
 export const ArticleNewsImageWithDate = (
   props: ArticleNewsImageWithDateProps
 ): JSX => {
   return (
-    <View style={{ flexDirection: "column" }}>
+    <View style={styles.container}>
       <Image
         resizeMode="cover"
         resizeMethod="auto"
         source={props.source}
         style={styles.image}
       />
-      <Divider />
+
       <View style={styles.dateContainer}>
         <ArticleDate time={props.time} />
       </View>
@@ -24,7 +24,12 @@ export const ArticleNewsImageWithDate = (
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: "column",
+    backgroundColor: COLORS.newsBoxGray,
+  },
   image: {
+    backgroundColor: COLORS.mainGray,
     marginTop: 0,
     marginBottom: 0,
     justifyContent: "center",

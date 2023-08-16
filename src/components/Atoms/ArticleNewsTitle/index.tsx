@@ -18,7 +18,7 @@ const styles = StyleSheet.create({
     alignContent: "center",
     alignSelf: "center",
     width: screenWidth,
-    backgroundColor: COLORS.boxGraylightGray,
+    backgroundColor: COLORS.mainGray,
   },
   value: {
     textAlign: "left",

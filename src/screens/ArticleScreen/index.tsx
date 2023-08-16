@@ -15,10 +15,10 @@ import { NavigationScreenProps } from "../../../rootTypeList";
 import { SCREEN } from "../../../routes";
 import { Header } from "../../components/Atoms/Header";
 import { ArticleData } from "../../interfaces";
-import { COLORS } from "../../colors";
 import { ArticleContent } from "../../components/Organisms/ArticleContent";
 import { Screen } from "../../components/Atoms/Screen";
 import { imageNotExist as articleImageNotExist } from "../../helpers/imageRequirements";
+import { Footer } from "../../components/Molecules/Footer";
 
 export const ArticleScreen = ({
   route,
@@ -39,6 +39,7 @@ export const ArticleScreen = ({
       image: { uri: article?.banner_image },
       title: article?.title,
       summary: article?.summary,
+      url: article?.url,
     },
   };
 
@@ -52,6 +53,7 @@ export const ArticleScreen = ({
     image: field.image,
     title: field.title,
     summary: field.summary,
+    url: field.url,
   };
 
   const articleTopic: TopicsType = articleNews.topics;
@@ -73,7 +75,7 @@ export const ArticleScreen = ({
 
   return (
     <Screen isHeaderExist>
-      <View style={{ flex: 1, backgroundColor: COLORS.mainGray }}>
+      <View style={{ flex: 1 }}>
         <Header
           isArticleScreen
           isCogIcon={false}
@@ -87,7 +89,9 @@ export const ArticleScreen = ({
           source={source}
           time={articleNews.time}
           summary={articleNews.summary}
+          url={articleNews.url}
         />
+        <Footer isAboutScreen />
       </View>
     </Screen>
   );

@@ -16,6 +16,7 @@ export const ArticleNewsAuthors = (props: ArticleNewsAuthorsProps): JSX => {
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: COLORS.newsBoxGray,
     flexDirection: "row",
     justifyContent: "flex-start",
     padding: 10,

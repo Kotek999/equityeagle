@@ -14,7 +14,7 @@ export const ArticleNewsSummary = (props: ArticleNewsSummaryProps): JSX => {
 const styles = StyleSheet.create({
   container: {
     width: screenWidth,
-    backgroundColor: COLORS.boxGraylightGray,
+    backgroundColor: COLORS.mainGray,
   },
   value: {
     alignSelf: "flex-start",
@@ -23,6 +23,6 @@ const styles = StyleSheet.create({
     color: COLORS.white,
     fontSize: 16,
     fontFamily: "Lato",
-    letterSpacing: 1.1,
+    letterSpacing: 1.3,
   },
 });

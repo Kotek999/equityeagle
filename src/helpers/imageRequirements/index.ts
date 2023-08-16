@@ -5,7 +5,7 @@ export const logo: ImageSourcePropType = require("../../../src/assets/logo/eelog
 export const logoTitle: ImageSourcePropType = require("../../../src/assets/logo/eeTitle.png");
 
 // find or create by SD image
-export const imageNotExist: ImageSourcePropType = require("../../assets/content.png");
+export const imageNotExist: ImageSourcePropType = require("../../assets/imageNotExist.png");
 
 const iconAAPL: SourceType = require("../../assets/icons/AAPL.png");
 const iconMSFT: SourceType = require("../../assets/icons/MSFT.png");

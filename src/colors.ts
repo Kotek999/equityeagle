@@ -27,4 +27,5 @@ export const COLORS: ColorsType = {
   chartFillGreen: "rgba(20,105,81,0.3)",
   chartFillLightGreen: "rgba(20,105,81,0.3)",
   blank: "transparent",
+  newsBoxGray: "#454c5f",
 };

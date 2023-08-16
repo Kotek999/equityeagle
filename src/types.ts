@@ -158,6 +158,7 @@ export type ColorsType = {
   chartFillGreen: string;
   chartFillLightGreen: string;
   blank: string;
+  newsBoxGray: string;
 };
 
 export type TrendIconProps = {
@@ -246,6 +247,7 @@ export type ArticleNewsType = {
   image: { uri: FieldType };
   title: FieldType;
   summary: FieldType;
+  url: FieldType;
 };
 
 export type ArticlesType = {
@@ -281,3 +283,7 @@ export type ArticleNewsAuthorsProps = {
 };
 
 export type RenderItemType = ListRenderItem<unknown> | null | undefined;
+
+export type ArticleNewsLinkProps = {
+  url: FieldType;
+};

@@ -253,6 +253,7 @@ export interface ArticleContentProps {
   source: ArticleSourceType;
   time: FieldType;
   summary: FieldType;
+  url: FieldType;
 }
 
 export interface ScrollViewProps {

@@ -1,4 +1,3 @@
-import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 import appJSON from "../../../../app.json";
 import React, { useState, useContext, Fragment } from "react";
 import { View, StyleSheet, Text } from "react-native";
