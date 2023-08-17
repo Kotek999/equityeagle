@@ -9,7 +9,7 @@ export const ArticleNewsLink = (props: ArticleNewsLinkProps): JSX => {
     try {
       await Linking.openURL(url);
     } catch (error) {
-      console.error(textData.value.errorWithLink, error);
+      throw new Error(`${textData.value.errorWithLink}${error}`);
     }
   };
 

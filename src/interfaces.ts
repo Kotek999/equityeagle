@@ -1,5 +1,4 @@
 import { Dispatch, SetStateAction } from "react";
-import { ListRenderItem } from "react-native";
 import { BottomSheetModalMethods } from "@gorhom/bottom-sheet/lib/typescript/types";
 import { Symbols, Products } from "./enums";
 import {
@@ -13,10 +12,10 @@ import {
   ArticlesType,
   FieldType,
   TopicsType,
-  ArticleNewsType,
   ArticleSourceType,
   ChildType,
   RenderItemType,
+  AuthorsType,
 } from "./types";
 
 export interface ChildProps {
@@ -249,7 +248,7 @@ export interface ArticleTopicProps {
 
 export interface ArticleContentProps {
   title: FieldType;
-  authors: string[] | "unknown" | undefined;
+  authors: AuthorsType;
   source: ArticleSourceType;
   time: FieldType;
   summary: FieldType;

@@ -1,3 +1,4 @@
+import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 import {
   View,
   Text,
@@ -10,7 +11,7 @@ import { screenWidth } from "../../../helpers/dimensions";
 import { LikeHeartIcon } from "../../../components/Atoms/LikeHeartIcon";
 import { getPublishedTimeForArticle } from "../../../helpers/functions/getPublishedTimeForArticle";
 import { COLORS } from "../../../colors";
-import { JSX, ItemArticleProps, SourceType } from "../../../types";
+import { JSX, ItemArticleProps, SourceType, MarginType } from "../../../types";
 import { imageNotExist as newsImageNotExist } from "../../../helpers/imageRequirements";
 
 export const RenderArticleImage = (props: ItemArticleProps): JSX => {
@@ -46,6 +47,10 @@ export const RenderArticleImage = (props: ItemArticleProps): JSX => {
   );
 };
 
+export let marginValues: number = 0 | 10;
+
+const margin: MarginType = isIOS() ? 0 : 10;
+
 const styles = StyleSheet.create({
   container: {
     width: screenWidth - 40,
@@ -64,7 +69,7 @@ const styles = StyleSheet.create({
   timeContainer: {
     position: "absolute",
     top: 10,
-    left: 10,
+    left: margin,
     backgroundColor: COLORS.badgeDark,
     paddingHorizontal: 10,
     paddingVertical: 5,
@@ -101,7 +106,7 @@ const styles = StyleSheet.create({
   iconContainer: {
     position: "absolute",
     top: 10,
-    right: 10,
+    right: margin,
     backgroundColor: COLORS.badgeDark,
     paddingHorizontal: 10,
     paddingVertical: 5,

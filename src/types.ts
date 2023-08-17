@@ -2,6 +2,7 @@ import { ReactNode, Dispatch, SetStateAction } from "react";
 import { ImageSourcePropType, ListRenderItem } from "react-native";
 import { Products, Symbols } from "./enums";
 import { Data, ArticleData, Topic, ArticleTopicProps } from "./interfaces";
+import { marginValues } from "./components/Atoms/RenderArticleImage";
 
 export type JSX = JSX.Element;
 
@@ -287,3 +288,5 @@ export type RenderItemType = ListRenderItem<unknown> | null | undefined;
 export type ArticleNewsLinkProps = {
   url: FieldType;
 };
+
+export type MarginType = typeof marginValues;
