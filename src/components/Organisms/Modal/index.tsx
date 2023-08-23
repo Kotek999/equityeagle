@@ -1,4 +1,5 @@
 import * as React from "react";
+import isIOS from "../../../helpers/rulesOfDevice/isIOS";
 import { View, StyleSheet } from "react-native";
 import { useSafeAreaInsets, EdgeInsets } from "react-native-safe-area-context";
 import { screenHeight, screenWidth } from "../../../helpers/dimensions";
@@ -10,6 +11,7 @@ import { Divider } from "../../Atoms/Divider";
 import { ScrollView } from "../../Atoms/ScrollView";
 import { ModalProps } from "../../../interfaces";
 import { JSX } from "../../../types";
+import { StatusBar } from "expo-status-bar";
 
 export const Modal = (props: ModalProps): JSX => {
   const insets: EdgeInsets = useSafeAreaInsets();
@@ -38,6 +40,7 @@ export const Modal = (props: ModalProps): JSX => {
           </View>
         </View>
       </ScrollView>
+      <StatusBar style={isIOS() ? "light" : "dark"} />
     </View>
   );
 };
