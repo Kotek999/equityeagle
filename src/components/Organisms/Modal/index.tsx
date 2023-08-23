@@ -40,7 +40,7 @@ export const Modal = (props: ModalProps): JSX => {
           </View>
         </View>
       </ScrollView>
-      <StatusBar style={isIOS() ? "light" : "dark"} />
+      <StatusBar style={"light"} />
     </View>
   );
 };
