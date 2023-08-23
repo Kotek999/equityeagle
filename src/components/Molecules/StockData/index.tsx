@@ -1,3 +1,4 @@
+import textData from "../../../../textData.json";
 import Toast from "react-native-toast-message";
 import React, {
   Fragment,
@@ -63,25 +64,25 @@ const StockData = (props: StockDataProps): JSX => {
   };
 
   useEffect(() => {
-    fetchStockData(dataItems);
-
-    // if (!mountedRef.current) {
-    //   mountedRef.current = true;
-    //   fetchData(data as Data);
-    //   let interval = setInterval(() => {
-    //     setRefreshData(data);
-    //     fetchData(data as Data);
-    //     console.log("data refreshed");
-    //     showToast();
-    //     setIsDataLoading(false);
-    //   }, 30000);
-    //   return () => clearInterval(interval);
-    // }
+    if (!mountedRef.current) {
+      mountedRef.current = true;
+      fetchStockData(dataItems);
+      let timeOut: number = 1800000;
+      let interval = setInterval(() => {
+        setRefreshData(data);
+        fetchStockData(dataItems);
+        showToast();
+        setIsDataLoading(false);
+      }, timeOut);
+      return () => clearInterval(interval);
+    }
   }, [props.symbol]);
 
   return (
     <Fragment>
-      {props.isStatusExist ? <Text>Status: {status} </Text> : null}
+      {props.isStatusExist && (
+        <Text>{`${textData.value.statusTitle}${status}`}</Text>
+      )}
       <StockContainer
         isDataLoading={isDataLoading}
         data={data}

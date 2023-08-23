@@ -4,9 +4,9 @@ import { View, Text, ImageBackground, StyleSheet } from "react-native";
 import { screenWidth } from "../../../helpers/dimensions";
 import { ContentSwitcher } from "../../../components/Molecules/ContentSwitcher";
 import { productImageDataMap } from "../../Data/MapsData";
-import Animated, { FadeInDown } from "react-native-reanimated";
 import { COLORS } from "../../../colors";
 import { SourceType, JSX, SymbolProps } from "../../../types";
+import { AnimateView } from "../AnimateView";
 
 export const ProductImage = (props: SymbolProps): JSX => {
   const productSource: SourceType = productImageDataMap[props.symbol];
@@ -15,7 +15,7 @@ export const ProductImage = (props: SymbolProps): JSX => {
     <View style={{ flex: 1 }}>
       <View style={styles.productContainer}>
         <View style={styles.imageContainer}>
-          <Animated.View entering={FadeInDown.delay(100)}>
+          <AnimateView up={false}>
             <ImageBackground
               source={productSource}
               resizeMode="cover"
@@ -33,7 +33,7 @@ export const ProductImage = (props: SymbolProps): JSX => {
                 </View>
               </View>
             </ImageBackground>
-          </Animated.View>
+          </AnimateView>
         </View>
       </View>
     </View>
@@ -49,8 +49,8 @@ const styles = StyleSheet.create({
     width: screenWidth,
   },
   imageContainer: {
-    marginTop: 30,
-    marginBottom: 30,
+    marginTop: 0,
+    marginBottom: 0,
     flex: 1,
     flexDirection: "row",
     justifyContent: "center",

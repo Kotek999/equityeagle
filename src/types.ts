@@ -1,5 +1,11 @@
+import Animated from "react-native-reanimated";
 import { ReactNode, Dispatch, SetStateAction } from "react";
-import { ImageSourcePropType, ListRenderItem } from "react-native";
+import {
+  ImageSourcePropType,
+  ListRenderItem,
+  StyleProp,
+  TextStyle,
+} from "react-native";
 import { Products, Symbols } from "./enums";
 import { Data, ArticleData, Topic, ArticleTopicProps } from "./interfaces";
 import { marginValues } from "./components/Atoms/RenderArticleImage";
@@ -290,3 +296,18 @@ export type ArticleNewsLinkProps = {
 };
 
 export type MarginType = typeof marginValues;
+
+type StyleType = StyleProp<Animated.AnimateStyle<StyleProp<TextStyle>>>;
+
+type StyleOptions = {
+  style?: StyleType;
+  children: ChildType;
+};
+
+export type AnimateTextProps = StyleOptions & {
+  left: boolean;
+};
+
+export type AnimateViewProps = StyleOptions & {
+  up: boolean;
+};

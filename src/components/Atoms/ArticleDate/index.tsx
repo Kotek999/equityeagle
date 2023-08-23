@@ -4,6 +4,7 @@ import { JSX, DateValuesType, ArticleDateProps } from "../../../types";
 import { getDateValue } from "../../../helpers/functions/getDateValue";
 import { ArticleIcon } from "../ArticleIcon";
 import { COLORS } from "../../../colors";
+import { AnimateText } from "../AnimateText";
 
 export const ArticleDate = (props: ArticleDateProps): JSX => {
   const dateValues: DateValuesType = {
@@ -23,11 +24,13 @@ export const ArticleDate = (props: ArticleDateProps): JSX => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.value}>{textData.value.articleDateTitle}</Text>
-      <ArticleIcon name="circle-small" color={COLORS.textGray} />
-      <Text style={styles.value}>{articleDate}</Text>
-      <ArticleIcon name="circle-small" color={COLORS.textGray} />
-      <Text style={styles.value}>{articleTime}</Text>
+      <AnimateText left={false} style={styles.value}>
+        <Text>{textData.value.articleDateTitle}</Text>
+        <ArticleIcon name="circle-small" color={COLORS.textGray} />
+        <Text>{articleDate}</Text>
+        <ArticleIcon name="circle-small" color={COLORS.textGray} />
+        <Text>{articleTime}</Text>
+      </AnimateText>
     </View>
   );
 };

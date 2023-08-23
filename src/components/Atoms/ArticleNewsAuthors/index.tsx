@@ -3,13 +3,16 @@ import { Text, View, StyleSheet } from "react-native";
 import { JSX, ArticleNewsAuthorsProps } from "../../../types";
 import { COLORS } from "../../../colors";
 import { ArticleIcon } from "../ArticleIcon";
+import { AnimateText } from "../AnimateText";
 
 export const ArticleNewsAuthors = (props: ArticleNewsAuthorsProps): JSX => {
   return (
     <View style={styles.container}>
-      <Text style={styles.value}>{textData.value.authorOfNewsTitle}</Text>
-      <ArticleIcon name="circle-small" color={COLORS.textGray} />
-      <Text style={styles.value}>{props.authors}</Text>
+      <AnimateText left style={styles.value}>
+        <Text>{textData.value.authorOfNewsTitle}</Text>
+        <ArticleIcon name="circle-small" color={COLORS.textGray} />
+        <Text>{props.authors}</Text>
+      </AnimateText>
     </View>
   );
 };

@@ -3,19 +3,25 @@ import { View, Text, StyleSheet } from "react-native";
 import { quotes } from "../../Data/QuotesData/data";
 import { COLORS } from "../../../colors";
 import { JSX } from "../../../types";
+import { AnimateText } from "../AnimateText";
+import { AnimateView } from "../AnimateView";
 
 export const NewsQuotes = (): JSX => {
   return (
     <View style={styles.container}>
-      <Text style={styles.titleValue}>{textData.value.quotesTitle}</Text>
+      <AnimateText left style={styles.titleValue}>
+        {textData.value.quotesTitle}
+      </AnimateText>
       <View style={{ top: 10 }}>
         {quotes.map((quote, i) => (
           <View key={`quoteView-${i}`} style={styles.quoteContainer}>
-            <Text style={styles.quoteValue}>{quote.title}</Text>
-            <View style={styles.authorContainer}>
+            <AnimateText left={false} style={styles.quoteValue}>
+              {quote.title}
+            </AnimateText>
+            <AnimateView up={false} style={styles.authorContainer}>
               <Text style={styles.authorValue}>{quote.author}</Text>
               <Text style={styles.positionOfAuthorValue}>{quote.position}</Text>
-            </View>
+            </AnimateView>
           </View>
         ))}
       </View>

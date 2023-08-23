@@ -3,6 +3,7 @@ import textData from "../../../../textData.json";
 import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../../colors";
 import { JSX } from "../../../types";
+import { screenHeight } from "../../../helpers/dimensions";
 
 export const NoDataForChart = (): JSX => {
   return (
@@ -15,6 +16,7 @@ export const NoDataForChart = (): JSX => {
 const styles = StyleSheet.create({
   noDataContainer: {
     width: "90%",
+    height: screenHeight / 2,
     padding: 20,
     justifyContent: "center",
     alignItems: "center",

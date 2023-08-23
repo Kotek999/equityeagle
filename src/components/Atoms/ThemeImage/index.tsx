@@ -4,16 +4,16 @@ import { screenHeight, screenWidth } from "../../../helpers/dimensions";
 import { SymbolIcon } from "../../../components/Atoms/SymbolIcon";
 import { NameOfCompany } from "../../../components/Atoms/NameOfCompany";
 import { themeImageDataMap } from "../../Data/MapsData";
-import Animated, { FadeInUp } from "react-native-reanimated";
 import { COLORS } from "../../../colors";
 import { JSX, SymbolProps } from "../../../types";
+import { AnimateView } from "../AnimateView";
 
 export const ThemeImage = (props: SymbolProps): JSX => {
   const themeSource = themeImageDataMap[props.symbol];
 
   return (
     <View style={styles.themeContainer}>
-      <Animated.View entering={FadeInUp.delay(100)}>
+      <AnimateView up>
         <ImageBackground
           resizeMode="cover"
           resizeMethod="auto"
@@ -30,7 +30,7 @@ export const ThemeImage = (props: SymbolProps): JSX => {
             </View>
           </View>
         </ImageBackground>
-      </Animated.View>
+      </AnimateView>
     </View>
   );
 };

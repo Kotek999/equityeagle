@@ -2,11 +2,14 @@ import { Text, View, StyleSheet } from "react-native";
 import { JSX, ArticleNewsSummaryProps } from "../../../types";
 import { COLORS } from "../../../colors";
 import { screenWidth } from "../../../helpers/dimensions";
+import { AnimateView } from "../AnimateView";
 
 export const ArticleNewsSummary = (props: ArticleNewsSummaryProps): JSX => {
   return (
     <View style={styles.container}>
-      <Text style={styles.value}>{String(props.summary)}</Text>
+      <AnimateView up={false}>
+        <Text style={styles.value}>{String(props.summary)}</Text>
+      </AnimateView>
     </View>
   );
 };

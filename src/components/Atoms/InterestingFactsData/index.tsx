@@ -1,9 +1,9 @@
 import * as React from "react";
-import Animated, { FadeInLeft, FadeInRight } from "react-native-reanimated";
 import { View, Text, StyleSheet } from "react-native";
 import { COLORS } from "../../../colors";
 import { InterestingFactsDataProps } from "../../../interfaces";
 import { JSX, FactsData } from "../../../types";
+import { AnimateText } from "../AnimateText";
 
 export const InterestingFactsData = (props: InterestingFactsDataProps): JSX => {
   if (!props.data || !props.data.length) {
@@ -16,20 +16,14 @@ export const InterestingFactsData = (props: InterestingFactsDataProps): JSX => {
   return (
     <View style={styles.factsContainer}>
       <View style={styles.labelContainer}>
-        <Animated.Text
-          entering={FadeInLeft.duration(1000)}
-          style={styles.labelValue}
-        >
+        <AnimateText left style={styles.labelValue}>
           {label}
-        </Animated.Text>
+        </AnimateText>
       </View>
       <View style={styles.contentContainer}>
-        <Animated.Text
-          entering={FadeInRight.duration(1000)}
-          style={styles.contentValue}
-        >
+        <AnimateText left={false} style={styles.contentValue}>
           {content}
-        </Animated.Text>
+        </AnimateText>
       </View>
     </View>
   );

@@ -3,6 +3,7 @@ import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Text, StyleSheet, Linking, TouchableOpacity } from "react-native";
 import { JSX, ArticleNewsLinkProps } from "../../../types";
 import { COLORS } from "../../../colors";
+import { AnimateText } from "../AnimateText";
 
 export const ArticleNewsLink = (props: ArticleNewsLinkProps): JSX => {
   const openUrl = async (url: string): Promise<void> => {
@@ -19,12 +20,14 @@ export const ArticleNewsLink = (props: ArticleNewsLinkProps): JSX => {
 
   return (
     <TouchableOpacity style={styles.container} onPress={onClickGoToLink}>
-      <Text style={styles.value}>Read more</Text>
-      <MaterialCommunityIcons
+      <AnimateText left={false} style={styles.value}>
+        <Text>Read more</Text>
+        <MaterialCommunityIcons
         name="arrow-right"
         size={14}
         color={COLORS.yellow}
       />
+      </AnimateText>
     </TouchableOpacity>
   );
 };

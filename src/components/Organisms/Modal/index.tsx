@@ -32,7 +32,6 @@ export const Modal = (props: ModalProps): JSX => {
             >
               <ContentSwitcher symbol={props.symbol} isName={false} />
             </View>
-            <Divider />
             <View style={{ flex: 1 }}>
               <ProductImage symbol={props.symbol} />
             </View>

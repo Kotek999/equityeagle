@@ -32,7 +32,7 @@ export const DaysWithChart = (props: DaysWithChartProps): JSX => {
 const styles = StyleSheet.create({
   chipContainer: {
     width: "100%",
-    marginTop: 20,
+    marginTop: 30,
     marginBottom: 12,
     flexDirection: "row",
     justifyContent: "space-around",

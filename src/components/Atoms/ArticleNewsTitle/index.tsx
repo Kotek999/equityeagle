@@ -2,11 +2,14 @@ import { Text, View, StyleSheet } from "react-native";
 import { JSX, ArticleNewsTitleProps } from "../../../types";
 import { COLORS } from "../../../colors";
 import { screenWidth } from "../../../helpers/dimensions";
+import { AnimateView } from "../AnimateView";
 
 export const ArticleNewsTitle = (props: ArticleNewsTitleProps): JSX => {
   return (
     <View style={styles.container}>
-      <Text style={styles.value}>{String(props.title)}</Text>
+      <AnimateView up>
+        <Text style={styles.value}>{String(props.title)}</Text>
+      </AnimateView>
     </View>
   );
 };

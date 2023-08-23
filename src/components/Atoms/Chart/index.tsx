@@ -7,7 +7,7 @@ import { LineChart } from "react-native-gifted-charts";
 import { ScrollView } from "../../../components/Atoms/ScrollView";
 import { COLORS } from "../../../colors";
 import { ChartProps } from "../../../interfaces";
-import { JSX } from "../../../types";
+import { JSX, ItemType } from "../../../types";
 
 export const Chart = (props: ChartProps): JSX => {
   return (
@@ -20,7 +20,6 @@ export const Chart = (props: ChartProps): JSX => {
             name="update"
             onPress={props.onPress}
           />
-
           <Text style={styles.periodValue}>{props.periodValue}</Text>
           <Text style={styles.averageTitle}>{textData.value.averageTitle}</Text>
           <Text style={styles.averageValue}>{props.averageValue}</Text>
@@ -46,7 +45,7 @@ export const Chart = (props: ChartProps): JSX => {
             initialSpacing={40}
             color={COLORS.chartLime}
             startFillColor={COLORS.chartFillGreen}
-            endFillColor={COLORS.chartFillLightGreen}
+            endFillColor={COLORS.dark}
             rulesType="solid"
             rulesColor={COLORS.gray}
             yAxisColor={COLORS.white}
@@ -63,7 +62,7 @@ export const Chart = (props: ChartProps): JSX => {
               pointerLabelHeight: 90,
               activatePointersOnLongPress: true,
               autoAdjustPointerLabelPosition: false,
-              pointerLabelComponent: (item: any): JSX => {
+              pointerLabelComponent: (item: ItemType[]): JSX => {
                 return (
                   <View style={styles.pointerLabelContainer}>
                     <View style={styles.labelContainer}>
@@ -120,7 +119,7 @@ const styles = StyleSheet.create({
     height: 90,
     width: 80,
     justifyContent: "center",
-    marginTop: -20,
+    marginTop: -30,
     marginLeft: -30,
   },
   labelContainer: {

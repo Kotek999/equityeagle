@@ -5,17 +5,20 @@ import { Avatar } from "@react-native-material/core";
 import { logo } from "../../../helpers/imageRequirements";
 import { COLORS } from "../../../colors";
 import { JSX } from "../../../types";
+import { AnimateView } from "../AnimateView";
 
 export const InfoOfApp = (): JSX => {
   return (
     <View style={styles.container}>
-      <View style={styles.mainContainer}>
-        <Avatar image={logo} color={COLORS.mainGray} size={80} />
-        <View>
-          <Text style={styles.titleValue}>{textData.value.authorTitle}</Text>
-          <Text style={styles.authorValue}>{config.author}</Text>
+      <AnimateView up>
+        <View style={styles.mainContainer}>
+          <Avatar image={logo} color={COLORS.mainGray} size={80} />
+          <View>
+            <Text style={styles.titleValue}>{textData.value.authorTitle}</Text>
+            <Text style={styles.authorValue}>{config.author}</Text>
+          </View>
         </View>
-      </View>
+      </AnimateView>
     </View>
   );
 };
