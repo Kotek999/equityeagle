@@ -1,5 +1,4 @@
 import textData from "../../../../textData.json";
-import Toast from "react-native-toast-message";
 import React, {
   Fragment,
   useState,
@@ -18,6 +17,8 @@ import {
   FetchStockDataProps as DataItemsProps,
 } from "../../../interfaces";
 import { JSX, OpenType, ContextType } from "../../../types";
+import { ToastMessage as showToast } from "../../Atoms/ToastMessage";
+import { useInterval } from "../../../helpers/functions/useInterval";
 
 const StockData = (props: StockDataProps): JSX => {
   const { status, setStatus }: ContextType =
@@ -38,13 +39,6 @@ const StockData = (props: StockDataProps): JSX => {
   const [data, setData] = useState<Data>();
   const [refreshData, setRefreshData] = useState<Data>();
   const [fetchError, setFetchError] = useState<unknown>();
-
-  const showToast = () => {
-    Toast.show({
-      type: "success",
-      text1: "Data refreshed",
-    });
-  };
 
   const stockData: Data = data as Data;
   const stockSymbol: Symbols = props.symbol;
@@ -67,14 +61,15 @@ const StockData = (props: StockDataProps): JSX => {
     if (!mountedRef.current) {
       mountedRef.current = true;
       fetchStockData(dataItems);
-      let timeOut: number = 1800000;
-      let interval = setInterval(() => {
+
+      const contentInter = useInterval(() => {
         setRefreshData(data);
         fetchStockData(dataItems);
         showToast();
         setIsDataLoading(false);
-      }, timeOut);
-      return () => clearInterval(interval);
+      }, 1800000);
+
+      return contentInter;
     }
   }, [props.symbol]);
 

@@ -1,14 +1,27 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { View, Text, StyleSheet } from "react-native";
 import { getTime } from "../../../helpers/functions/getTime";
 import { COLORS } from "../../../colors";
-import { JSX } from "../../../types";
+import { JSX, FieldType } from "../../../types";
+import { useInterval } from "../../../helpers/functions/useInterval";
 
 export const LastRefreshedItem = (): JSX => {
+  const [refreshedTime, setRefreshedTime] = useState<FieldType>();
+
+  useEffect(() => {
+    setRefreshedTime(getTime(30));
+
+    const timeInter = useInterval(() => {
+      setRefreshedTime(getTime(0));
+    }, 1800000);
+
+    return timeInter;
+  }, []);
+
   return (
     <View style={styles.container}>
-      <Text style={styles.time}>{getTime()}</Text>
+      <Text style={styles.time}>{refreshedTime}</Text>
       <MaterialCommunityIcons
         style={{ marginHorizontal: 8, margin: 10 }}
         name="clock-check"
