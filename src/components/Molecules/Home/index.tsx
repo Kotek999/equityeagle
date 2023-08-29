@@ -14,7 +14,7 @@ export const Home = ({
   useEffect(() => {
     setTimeout(() => {
       navigation.replace(SCREEN.Main);
-    }, 1000);
+    }, 1500);
   }, []);
 
   return (

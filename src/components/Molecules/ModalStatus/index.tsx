@@ -18,6 +18,8 @@ export const ModalStatus = (props: ModalStatusProps): JSX => {
       backdropColor={COLORS.dark}
       isVisible={props.isVisible}
       onBackdropPress={props.onBackdropPress}
+      coverScreen={true}
+      hideModalContentWhileAnimating
     >
       <View style={{ height: screenHeight / 2, backgroundColor: COLORS.dark }}>
         <View style={styles.container}>
