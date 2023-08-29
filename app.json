@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Equity Eagle",
-    "slug": "EquityEagle",
+    "slug": "equityeagle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./src/assets/splash/icon.png",
