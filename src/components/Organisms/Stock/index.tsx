@@ -9,7 +9,7 @@ import { ModalContent } from "../ModalContent";
 import { StockContent } from "../../Molecules/StockContent";
 import { ModalContentWithChart } from "../ModalChart";
 import { Symbols } from "../../../enums";
-import { JSX, OnPress } from "../../../types";
+import { JSX, OnPress, OpenType } from "../../../types";
 import { SCREEN } from "../../../../routes";
 
 export const Stock = ({
@@ -97,11 +97,11 @@ export const Stock = ({
     (
       symbol: Symbols,
       place: number,
-      maxOpen: number | null,
-      openForDateOneWeek: number | null,
-      openForDateTwoWeek: number | null,
-      openForDateThreeWeek: number | null,
-      openForDateFourWeek: number | null,
+      maxOpen: OpenType,
+      openForDateOneWeek: OpenType,
+      openForDateTwoWeek: OpenType,
+      openForDateThreeWeek: OpenType,
+      openForDateFourWeek: OpenType,
       trend: string
     ): void => {
       placeRef.current = place;

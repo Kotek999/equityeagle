@@ -179,7 +179,6 @@ export type ApiType = {
     part2: string;
     news: string;
   };
-  testKey: string;
   key: string;
 };
 

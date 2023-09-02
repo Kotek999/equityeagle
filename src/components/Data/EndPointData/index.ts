@@ -7,6 +7,5 @@ export const API: ApiType = {
     part2: config.apiUrlV2,
     news: config.apiUrl,
   },
-  testKey: config.apiKeyTest,
   key: config.apiKey,
 };

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, memo } from "react";
 import { View } from "react-native";
 import { Header } from "../../components/Atoms/Header";
 import { NavigationScreenProps } from "../../../rootTypeList";
@@ -34,9 +34,11 @@ export const AboutScreen = ({
 
   const data: SliderDataType[] = getSliderData(articles || [], navigation);
 
+  const RenderMemoizedArticleImage = memo(RenderArticleImage);
+
   const renderItem: RenderItemType = useMemo(() => {
     const MemoizedRenderItem = (({ item }: ItemArticleProps) => (
-      <RenderArticleImage item={item} />
+      <RenderMemoizedArticleImage item={item} />
     )) as RenderItemType;
 
     return MemoizedRenderItem;
